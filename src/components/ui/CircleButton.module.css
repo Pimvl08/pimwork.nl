@@ -1,0 +1,50 @@
+.circle {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: 999px;
+  border: 1px solid var(--rule-strong);
+  color: var(--ink);
+  background: transparent;
+  text-decoration: none;
+  transition:
+    border-color var(--dur-2) var(--ease-paper),
+    background-color var(--dur-2) var(--ease-paper),
+    color var(--dur-2) var(--ease-paper),
+    transform var(--dur-2) var(--ease-paper);
+  -webkit-tap-highlight-color: transparent;
+}
+.sm {
+  width: 2.25rem;
+  height: 2.25rem;
+}
+.lg {
+  width: 3.75rem;
+  height: 3.75rem;
+}
+.circle svg {
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+@media (hover: hover) {
+  .circle:hover {
+    border-color: var(--ink);
+    background: color-mix(in oklab, var(--ink) 7%, transparent);
+  }
+  .circle:hover svg {
+    transform: rotate(-8deg) scale(1.06);
+  }
+}
+.circle[aria-pressed="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
+}
+.circle:active {
+  transform: scale(0.94);
+}
+.circle:disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}

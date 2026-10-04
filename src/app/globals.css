@@ -1,0 +1,324 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   Gevouwen Schaal: graphite paper by night (default), cotton paper by day.
+   One crease ink marks the live element. Graphite shading only on curves.
+   ========================================================================= */
+
+:root,
+[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #121211;
+  --paper-raised: #1a1917;
+  --paper-sunk: #0c0c0b;
+  --ink: #ece6da;
+  --ink-soft: #cfc8bb;
+  --ink-mute: #9a958c;
+  --ink-faint: #6e6a63;
+  --rule: #34322e;
+  --rule-strong: #4a4742;
+  --shade-1: #2a2926;
+  --shade-2: #5c5953;
+  --shade-3: #8e8a82;
+  --highlight: #f7f2e8;
+  --on-ink: #121211;
+  --grain-opacity: 0.07;
+  --shadow-color: 0 0% 0%;
+  /* WebGL shell colours, read by the canvas renderer (r g b 0..1). */
+  --gl-paper: 0.071 0.071 0.067;
+  --gl-sheet: 0.86 0.83 0.78;
+  --gl-ink: 0.925 0.902 0.855;
+}
+
+[data-theme="light"] {
+  color-scheme: light;
+  --paper: #f2efe6;
+  --paper-raised: #fbfaf6;
+  --paper-sunk: #e8e4d9;
+  --ink: #1c1c1c;
+  --ink-soft: #33322f;
+  --ink-mute: #5e5b55;
+  --ink-faint: #85817a;
+  --rule: #d3cfc4;
+  --rule-strong: #b9b4a8;
+  --shade-1: #d6d6d6;
+  --shade-2: #a8a8a8;
+  --shade-3: #6a6a6a;
+  --highlight: #fbfaf6;
+  --on-ink: #f2efe6;
+  --grain-opacity: 0.09;
+  --shadow-color: 30 10% 20%;
+  --gl-paper: 0.949 0.937 0.902;
+  --gl-sheet: 0.965 0.955 0.93;
+  --gl-ink: 0.11 0.11 0.11;
+}
+
+@theme inline {
+  --color-paper: var(--paper);
+  --color-raised: var(--paper-raised);
+  --color-sunk: var(--paper-sunk);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-mute: var(--ink-mute);
+  --color-ink-faint: var(--ink-faint);
+  --color-rule: var(--rule);
+  --color-rule-strong: var(--rule-strong);
+  --color-shade-1: var(--shade-1);
+  --color-shade-2: var(--shade-2);
+  --color-shade-3: var(--shade-3);
+  --color-on-ink: var(--on-ink);
+
+  --font-serif: var(--font-bodoni), "Bodoni 72", "Didot", Georgia, serif;
+  --font-mono: var(--font-fragment), ui-monospace, "SF Mono", Menlo, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-paper: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-crease: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+:root {
+  /* Spacing rhythm: one scale for the whole site. */
+  --gutter: clamp(1rem, 4vw, 3.5rem);
+  --rail: clamp(0rem, 6vw, 5.5rem);
+  --section-y: clamp(6rem, 13vw, 12rem);
+  --measure: 66ch;
+
+  /* Type scale (Bodoni Moda, optical size follows font-size automatically). */
+  --step--1: clamp(0.82rem, 0.78rem + 0.2vw, 0.9rem);
+  --step-0: clamp(1.02rem, 0.96rem + 0.3vw, 1.18rem);
+  --step-1: clamp(1.25rem, 1.12rem + 0.6vw, 1.55rem);
+  --step-2: clamp(1.6rem, 1.3rem + 1.4vw, 2.4rem);
+  --step-3: clamp(2.1rem, 1.5rem + 2.8vw, 3.8rem);
+  --step-4: clamp(2.8rem, 1.8rem + 4.6vw, 6rem);
+  --step-name: clamp(5.5rem, 3rem + 15vw, 15rem);
+
+  --dur-1: 160ms;
+  --dur-2: 260ms;
+  --dur-3: 420ms;
+  --dur-4: 700ms;
+  --dur-5: 1100ms;
+
+  --radius-arch: 999px;
+}
+
+/* ------------------------------------------------------------------ base */
+
+html {
+  background: var(--paper);
+  color: var(--ink-soft);
+  -webkit-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  scrollbar-color: var(--shade-2) var(--paper);
+  scrollbar-width: thin;
+  hanging-punctuation: first last;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: clip;
+}
+
+body {
+  min-height: 100svh;
+  background: var(--paper);
+  font-family: var(--font-serif);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  font-optical-sizing: auto;
+  font-kerning: normal;
+  font-variant-numeric: oldstyle-nums proportional-nums;
+  overflow-x: clip;
+  transition:
+    background-color var(--dur-3) var(--ease-paper),
+    color var(--dur-3) var(--ease-paper);
+}
+
+/* Cotton or graphite fibre: a static grain layer, painted once. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 0 0.5 0 0 0 1.4 -0.2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: var(--ink);
+  font-weight: 400;
+  line-height: 1.04;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.22em;
+  text-decoration-color: var(--rule-strong);
+  transition: text-decoration-color var(--dur-2) var(--ease-paper);
+}
+a:hover {
+  text-decoration-color: currentColor;
+}
+
+::selection {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+
+:where(input, textarea, [contenteditable]) {
+  caret-color: var(--ink);
+}
+
+:focus-visible {
+  outline: 1.5px solid var(--ink);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--shade-2);
+  border-radius: 999px;
+  border: 3px solid var(--paper);
+}
+
+/* ------------------------------------------------------------- utilities */
+
+@layer components {
+  /* Geometer's label: inclined capitals, tracked. Not an eyebrow. */
+  .label {
+    font-style: italic;
+    font-size: var(--step--1);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-variant-numeric: lining-nums;
+  }
+  .numeral {
+    font-style: italic;
+    font-variant-numeric: lining-nums tabular-nums;
+    letter-spacing: 0;
+  }
+  .data {
+    font-family: var(--font-mono);
+    font-size: 0.86em;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0;
+  }
+  .measure {
+    max-width: var(--measure);
+  }
+  .plate {
+    position: relative;
+    padding-block: var(--section-y);
+    padding-inline: var(--gutter);
+    padding-left: calc(var(--rail) + var(--gutter));
+    scroll-margin-top: 4rem;
+  }
+}
+
+/* ------------------------------------------------- scroll-driven motion */
+/* Content is visible by default. Where the browser supports scroll-driven
+   animations, plates unfold from their crease as they enter the viewport. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .unfold {
+      animation: unfold-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 55%;
+      transform-origin: 50% 0%;
+    }
+    .arc-draw {
+      stroke-dasharray: 1;
+      stroke-dashoffset: 1;
+      animation: arc-draw linear both;
+      animation-timeline: view();
+      animation-range: entry 10% cover 45%;
+    }
+  }
+}
+@keyframes unfold-in {
+  from {
+    opacity: 0;
+    transform: perspective(900px) rotateX(-14deg) translateY(2.5rem);
+    clip-path: inset(0 0 35% 0 round 40% 40% 0 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    clip-path: inset(0 0 0 0 round 0);
+  }
+}
+@keyframes arc-draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+/* Theme change uses a View Transition: the new paper unfolds from the toggle. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  animation: unfold var(--dur-4) var(--ease-crease);
+}
+@keyframes unfold {
+  from {
+    clip-path: circle(0 at var(--vt-x, 100%) var(--vt-y, 0%));
+  }
+  to {
+    clip-path: circle(150vmax at var(--vt-x, 100%) var(--vt-y, 0%));
+  }
+}
+
+/* Native custom cursor is replaced only on fine pointers, see Cursor.tsx. */
+html[data-cursor="custom"],
+html[data-cursor="custom"] * {
+  cursor: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+@media print {
+  body::before {
+    display: none;
+  }
+}

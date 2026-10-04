@@ -1,0 +1,104 @@
+.arch {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 3.25rem;
+  padding: 0.95rem 2.1rem 0.7rem;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-1);
+  line-height: 1;
+  text-decoration: none;
+  color: var(--ink);
+  isolation: isolate;
+  border: 0;
+  background: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: transform var(--dur-2) var(--ease-paper);
+}
+
+.lg {
+  min-height: 3.9rem;
+  padding: 1.15rem 2.8rem 0.85rem;
+  font-size: var(--step-2);
+}
+
+.shape {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  overflow: visible;
+}
+
+.body {
+  transition:
+    fill var(--dur-2) var(--ease-paper),
+    stroke var(--dur-2) var(--ease-paper);
+}
+
+.lift {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity var(--dur-2) var(--ease-paper),
+    transform var(--dur-3) var(--ease-out-expo);
+}
+
+.primary {
+  color: var(--on-ink);
+}
+.primary .body {
+  fill: var(--ink);
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.secondary .body {
+  fill: transparent;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+
+.label {
+  position: relative;
+  white-space: nowrap;
+}
+
+.icon {
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+
+@media (hover: hover) {
+  .arch:hover .lift {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .secondary:hover .body {
+    stroke: var(--ink);
+    fill: color-mix(in oklab, var(--ink) 6%, transparent);
+  }
+  .arch:hover .icon {
+    transform: translate(2px, -2px);
+  }
+}
+
+.arch:active {
+  transform: scale(0.975);
+}
+
+.arch:focus-visible {
+  outline-offset: 6px;
+}
+
+.arch[aria-disabled="true"],
+.arch:disabled {
+  opacity: 0.45;
+  pointer-events: none;
+}
