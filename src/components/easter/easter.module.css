@@ -1,6 +1,6 @@
-/* Origami: every plate folds once along a diagonal crease and opens again.
-   The class sits on <html> for 2.4 s; reduced motion never gets it. */
-.origami :global(.plate) {
+/* Origami: every section of the page folds once along a diagonal crease and
+   opens again. The class sits on <html> for 2.4 s; reduced motion never gets it. */
+.origami :global(#main > *) {
   transform-origin: 50% 50%;
   animation: fold 2.4s var(--ease-paper) both;
   will-change: transform, clip-path;

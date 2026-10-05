@@ -170,7 +170,6 @@ export function Sheet({ open, onClose, labelledBy, variant, initialFocus, swipeT
         aria-labelledby={labelledBy}
         tabIndex={-1}
         data-state={state}
-        data-lenis-prevent=""
         className={cn(variant === "full" ? styles.sheet : styles.card, className)}
         onKeyDown={trapTab}
         onTransitionEnd={(event) => {

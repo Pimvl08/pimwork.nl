@@ -1,29 +1,32 @@
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { Fragment, useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
+import { Icon } from "@/components/ui/Icon";
 import type { Locale } from "@/i18n/config";
-import { CircleButton } from "@/components/ui/CircleButton";
 import { useReducedMotion, useVisible } from "@/lib/hooks";
-import { useUI } from "@/lib/store";
 import { heroCopy, introPhrases, introSentence } from "./copy";
 import { nextIndex } from "./logic";
 import styles from "./hero.module.css";
 
 const EXPO = "cubic-bezier(0.16, 1, 0.3, 1)";
-const CYCLE_MS = 4000;
+const CYCLE_MS = 4200;
+
+const wordsOf = (face: HTMLElement | null) => (face ? Array.from(face.querySelectorAll<HTMLElement>("[data-word]")) : []);
 
 /**
- * "bouwt [werkende apps] met code en AI." The bracketed phrase is a button
- * that folds over a horizontal crease to the next real category. It also
- * turns slowly on its own while visible, paused on hover and focus, never
- * under reduced motion. Screen readers hear the change only on user action.
+ * "Ik bouw software die werk uit handen neemt, zoals [een trainingsapp ...]."
+ * The bracketed example is a button that folds over a horizontal crease to
+ * the next real project, word by word. It also turns slowly on its own while visible,
+ * paused on hover and focus, never under reduced motion. Invisible copies of
+ * every example reserve the height of the longest, so nothing below jumps.
+ * Screen readers hear the change only on user action.
  */
-export function IntroLine({ lang, name, projectNames }: { lang: Locale; name: string; projectNames: Record<string, string> }) {
+export function IntroLine({ lang, projectNames }: { lang: Locale; projectNames: Record<string, string> }) {
   const reduce = useReducedMotion();
-  const rootRef = useRef<HTMLParagraphElement>(null);
+  const rootRef = useRef<HTMLDivElement>(null);
   const faceRef = useRef<HTMLSpanElement>(null);
   const visible = useVisible(rootRef);
-  const introPlaying = useUI((s) => s.introState === "playing");
   const [index, setIndex] = useState(0);
   const [announcement, setAnnouncement] = useState("");
   const [hovered, setHovered] = useState(false);
@@ -43,51 +46,55 @@ export function IntroLine({ lang, name, projectNames }: { lang: Locale; name: st
       const commit = () => {
         unfoldNext.current = !reduce;
         setIndex(next);
-        if (fromUser) setAnnouncement(introSentence(name, introPhrases[next], lang));
+        if (fromUser) setAnnouncement(introSentence(introPhrases[next], lang));
       };
-      const face = faceRef.current;
-      if (reduce || !face || typeof face.animate !== "function") {
+      const words = wordsOf(faceRef.current);
+      if (reduce || !words.length || typeof words[0].animate !== "function") {
         commit();
         return;
       }
       busy.current = true;
-      // First half of the fold: the phrase turns away over its crease.
-      const away = face.animate(
-        [
-          { transform: "rotateX(0deg)", opacity: 1 },
-          { transform: "rotateX(86deg)", opacity: 0.2 },
-        ],
-        { duration: 190, easing: EXPO, fill: "forwards" },
+      // First half of the fold: the words turn away over their crease, left to right.
+      const animations = words.map((word, i) =>
+        word.animate(
+          [
+            { transform: "perspective(420px) rotateX(0deg)", opacity: 1 },
+            { transform: "perspective(420px) rotateX(86deg)", opacity: 0.15 },
+          ],
+          { duration: 200, delay: i * 22, easing: EXPO, fill: "forwards" },
+        ),
       );
-      away.onfinish = commit;
-      away.oncancel = () => {
+      const last = animations[animations.length - 1];
+      last.onfinish = commit;
+      last.oncancel = () => {
         busy.current = false;
       };
     },
-    [index, lang, name, reduce],
+    [index, lang, reduce],
   );
 
-  // Second half: the new phrase unfolds from behind the crease.
+  // Second half: the new words unfold from behind the crease.
   useLayoutEffect(() => {
-    const face = faceRef.current;
-    if (!unfoldNext.current || !face) {
+    const words = wordsOf(faceRef.current);
+    if (!unfoldNext.current || !words.length) {
       busy.current = false;
       return;
     }
     unfoldNext.current = false;
-    face.getAnimations().forEach((animation) => animation.cancel());
-    const back = face.animate(
-      [
-        { transform: "rotateX(-86deg)", opacity: 0.2 },
-        { transform: "rotateX(0deg)", opacity: 1 },
-      ],
-      { duration: 620, easing: EXPO },
+    const animations = words.map((word, i) =>
+      word.animate(
+        [
+          { transform: "perspective(420px) rotateX(-86deg)", opacity: 0.15 },
+          { transform: "perspective(420px) rotateX(0deg)", opacity: 1 },
+        ],
+        { duration: 620, delay: i * 26, easing: EXPO, fill: "backwards" },
+      ),
     );
     const done = () => {
       busy.current = false;
     };
-    back.onfinish = done;
-    back.oncancel = done;
+    animations[animations.length - 1].onfinish = done;
+    animations[animations.length - 1].oncancel = done;
   }, [index]);
 
   useEffect(() => {
@@ -98,15 +105,24 @@ export function IntroLine({ lang, name, projectNames }: { lang: Locale; name: st
 
   // Slow automatic turn while the line is on screen.
   useEffect(() => {
-    if (reduce || !visible || hovered || focused || !pageShown || introPlaying) return;
+    if (reduce || !visible || hovered || focused || !pageShown) return;
     const timer = window.setTimeout(() => advance(false), CYCLE_MS);
     return () => window.clearTimeout(timer);
-  }, [advance, reduce, visible, hovered, focused, pageShown, introPlaying, index]);
+  }, [advance, reduce, visible, hovered, focused, pageShown, index]);
+
+  const onKeyDown = (event: KeyboardEvent<HTMLSpanElement>) => {
+    if (event.key === "Enter" || event.key === " ") {
+      event.preventDefault();
+      advance(true);
+    }
+  };
+
+  const words = phrase.label[lang].split(" ");
 
   return (
-    <p
+    <div
       ref={rootRef}
-      className={styles.introLine}
+      className={styles.intro}
       onPointerEnter={(event) => event.pointerType === "mouse" && setHovered(true)}
       onPointerLeave={() => setHovered(false)}
       onFocus={() => setFocused(true)}
@@ -114,27 +130,43 @@ export function IntroLine({ lang, name, projectNames }: { lang: Locale; name: st
         if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setFocused(false);
       }}
     >
-      <span>{heroCopy.lead[lang]} </span>
-      <button
-        type="button"
-        className={styles.phrase}
-        onClick={() => advance(true)}
-        aria-describedby={hintId}
-        data-cursor="link"
-      >
-        <span ref={faceRef} className={styles.phraseFace}>
-          {phrase.label[lang]}
+      <p className={styles.introLine}>
+        {introPhrases.map((p) => (
+          <span key={p.slug} className={styles.ghost} aria-hidden="true">
+            {heroCopy.lead[lang]} {heroCopy.like[lang]} <span className={styles.ghostPhrase}>{p.label[lang]}</span>.
+          </span>
+        ))}
+        <span>
+          <span className={styles.introLead}>{heroCopy.lead[lang]}</span> {heroCopy.like[lang]}{" "}
+          {/* An inline span (not a <button>) so the example wraps like the rest of the sentence. */}
+          <span
+            ref={faceRef}
+            role="button"
+            tabIndex={0}
+            className={styles.phrase}
+            onClick={() => advance(true)}
+            onKeyDown={onKeyDown}
+            aria-describedby={hintId}
+          >
+            {words.map((word, i) => (
+              <Fragment key={`${index}-${i}`}>
+                {i > 0 ? " " : null}
+                <span className={styles.word} data-word="">
+                  {word}
+                </span>
+              </Fragment>
+            ))}
+          </span>
+          .
         </span>
-      </button>
-      <span> {heroCopy.tail[lang]}</span>
+      </p>
       {projectName ? (
-        <CircleButton
-          href={`/${lang}/werk/${phrase.slug}`}
-          icon="arrowNE"
-          size="md"
-          label={`${heroCopy.projectLink[lang]}: ${projectName}`}
-          className={styles.phraseLink}
-        />
+        <Link href={`/${lang}/werk/${phrase.slug}`} className={styles.phraseLink}>
+          <span>
+            {heroCopy.projectLink[lang]} {projectName}
+          </span>
+          <Icon name="arrowNE" size={16} />
+        </Link>
       ) : null}
       <span id={hintId} className="sr-only">
         {heroCopy.phraseHint[lang]}
@@ -142,6 +174,6 @@ export function IntroLine({ lang, name, projectNames }: { lang: Locale; name: st
       <span className="sr-only" aria-live="polite">
         {announcement}
       </span>
-    </p>
+    </div>
   );
 }

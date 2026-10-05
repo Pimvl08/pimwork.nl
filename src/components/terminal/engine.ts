@@ -2,13 +2,12 @@
  * The terminal's command engine. Pure TypeScript: input in, typed lines and
  * typed actions out. It never produces HTML, so whatever a visitor types is
  * only ever rendered as text (XSS-safe by construction). The UI executes the
- * actions (theme, language, scrolling, navigation).
+ * actions (theme, language, navigation).
  */
 import type { Locale } from "@/i18n/config";
-import { facts, interests, person } from "@/content/person";
-import { projects, statusLabel } from "@/content/projects";
-import { sections } from "@/content/sections";
-import { labCopy } from "@/components/lab/copy";
+import { about, facts, person, services } from "@/content/person";
+import { projects } from "@/content/projects";
+import { pageHref, pages, type PageDef } from "@/content/sections";
 import { COMMANDS, commandHelp, termCopy, type CommandName } from "./copy";
 
 export const MAX_INPUT = 200;
@@ -24,21 +23,18 @@ export type Line =
 export type Action =
   | { type: "theme"; theme: "dark" | "light" | "toggle" }
   | { type: "lang"; lang: Locale }
-  | { type: "goto"; id: string }
+  | { type: "goto"; href: string }
   | { type: "open"; slug: string }
   | { type: "clear" }
   | { type: "matrix" }
   | { type: "secret" }
-  | { type: "sound"; on: boolean }
   | { type: "egg"; id: string };
 
 export interface CommandContext {
   lang: Locale;
   theme: "dark" | "light";
-  soundOn: boolean;
   /** Earlier inputs, oldest first. */
   history: string[];
-  now?: Date;
 }
 
 export interface CommandResult {
@@ -48,21 +44,7 @@ export interface CommandResult {
   actions: Action[];
 }
 
-export const VIRTUAL_FILES = ["about.txt", "projects.md", "colofon.md"] as const;
-
-/** Technologies this site itself is built with (from package.json). */
-export const SITE_STACK = [
-  "Next.js 16.3 (App Router)",
-  "React 19.2",
-  "TypeScript (strict)",
-  "Tailwind CSS 4",
-  "motion",
-  "Lenis",
-  "three.js",
-  "zod",
-  "Anthropic SDK",
-  "Bodoni Moda + Fragment Mono",
-];
+export const VIRTUAL_FILES = ["over.txt", "projecten.md", "diensten.md"] as const;
 
 /* ------------------------------------------------------------------ */
 /* Parsing helpers                                                     */
@@ -135,94 +117,48 @@ export function findProject(arg: string) {
   );
 }
 
-export function findSection(arg: string) {
-  const key = arg.trim().toLowerCase().replace(/^#/, "");
-  if (!key) return undefined;
-  if (/^\d{1,2}$/.test(key)) return sections.find((s) => Number(s.numeral) === Number(key));
-  return sections.find((s) => s.id === key || s.label.nl.toLowerCase() === key || s.label.en.toLowerCase() === key);
-}
+/** Extra words a page answers to, besides its id and labels. */
+const PAGE_ALIASES: Record<PageDef["id"], string[]> = {
+  home: ["home", "start", "/"],
+  work: ["werk", "work", "projecten", "projects"],
+  about: ["over", "about", "overmij", "me"],
+  lab: ["lab", "experimenten", "experiments"],
+  contact: ["contact", "mail"],
+};
 
-/** Normalises a stack entry into one or more technology names. */
-export function normaliseTech(entry: string, lang: Locale): string[] {
-  return entry
-    .split(/\s+\+\s+/)
-    .map((part) =>
-      part
-        .replace(/\s*\([^)]*\)\s*/g, " ")
-        .replace(/\s+strict$/i, "")
-        .replace(/\s+v?\d+(\.\d+)*$/i, "")
-        .replace(/^Supabase Auth$/i, "Supabase")
-        .replace(/^Chrome-extensie$/i, lang === "en" ? "Chrome extension" : "Chrome-extensie")
-        .trim(),
-    )
-    .filter(Boolean);
-}
-
-/** Every technology in Pim's projects, counted per project, most used first. */
-export function countSkills(lang: Locale): { name: string; count: number }[] {
-  const counts = new Map<string, number>();
-  for (const project of projects) {
-    const seen = new Set<string>();
-    for (const entry of project.stack) for (const tech of normaliseTech(entry, lang)) seen.add(tech);
-    for (const tech of seen) counts.set(tech, (counts.get(tech) ?? 0) + 1);
-  }
-  return [...counts.entries()]
-    .map(([name, count]) => ({ name, count }))
-    .sort((a, b) => b.count - a.count || a.name.localeCompare(b.name));
+export function findPage(arg: string): PageDef | undefined {
+  const key = arg.trim().toLowerCase().replace(/^\//, "").replace(/\s+/g, "");
+  if (!key) return pages.find((p) => p.id === "home");
+  return pages.find(
+    (p) =>
+      p.key === key ||
+      p.id === key ||
+      p.path.slice(1) === key ||
+      p.label.nl.toLowerCase().replace(/\s+/g, "") === key ||
+      p.label.en.toLowerCase().replace(/\s+/g, "") === key ||
+      PAGE_ALIASES[p.id].includes(key),
+  );
 }
 
 function virtualFile(file: string, lang: Locale): string[] | null {
   const t = termCopy[lang];
-  if (file === "about.txt") {
+  if (file === "over.txt") {
     return [
-      `${person.name}`,
-      t.aboutIntro,
-      ...facts.map((f) => `  ${f.label[lang]}: ${f.value ? f.value[lang] : t.open}`),
+      `# ${t.files.about}`,
       "",
-      t.interests,
-      ...interests.map((i) => `  ${i.title[lang]}: ${i.body[lang]}`),
+      ...about.intro[lang],
+      "",
+      ...facts.filter((f) => f.value).map((f) => `${f.label[lang]}: ${f.value![lang]}`),
+      `GitHub: ${person.github.href}`,
     ];
   }
-  if (file === "projects.md") {
-    return [
-      lang === "nl" ? "# Projecten" : "# Projects",
-      "",
-      ...projects.map((p, i) => `${pad(i + 1)}. ${p.name} (${statusLabel[p.status][lang]}, ${p.period.from.slice(0, 4)}): ${p.short[lang]}`),
-    ];
+  if (file === "projecten.md") {
+    return [`# ${t.files.projects}`, "", ...projects.map((p, i) => `${pad(i + 1)}. ${p.name}: ${p.tagline[lang]}`)];
   }
-  if (file === "colofon.md") {
-    return lang === "nl"
-      ? [
-          "# Colofon",
-          "",
-          "Wereld: Gevouwen Schaal. Eén lijn maakt de vorm.",
-          "Letters: Bodoni Moda (tekst) en Fragment Mono (code en data).",
-          `Gebouwd met: ${SITE_STACK.slice(0, 9).join(", ")}.`,
-          "Gemaakt door Pim, met Claude Code als dagelijks gereedschap.",
-          `Broncode en ander werk: ${person.github.href}`,
-        ]
-      : [
-          "# Colophon",
-          "",
-          "World: Folded Shell. One line makes the form.",
-          "Type: Bodoni Moda (text) and Fragment Mono (code and data).",
-          `Built with: ${SITE_STACK.slice(0, 9).join(", ")}.`,
-          "Made by Pim, with Claude Code as his daily tool.",
-          `Source and other work: ${person.github.href}`,
-        ];
+  if (file === "diensten.md") {
+    return [`# ${t.files.services}`, "", ...services.flatMap((s) => [`## ${s.title[lang]}`, s.body[lang], ""])].slice(0, -1);
   }
   return null;
-}
-
-function formatDate(now: Date, lang: Locale): string {
-  return new Intl.DateTimeFormat(lang === "nl" ? "nl-NL" : "en-GB", {
-    weekday: "long",
-    day: "numeric",
-    month: "long",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
-  }).format(now);
 }
 
 /* ------------------------------------------------------------------ */
@@ -263,24 +199,20 @@ export function runCommand(raw: string, ctx: CommandContext): CommandResult {
       ]);
     }
 
-    case "about":
-      return out(name, [
-        { kind: "text", text: t.aboutIntro },
-        { kind: "table", rows: facts.map((f) => [f.label[lang], f.value ? f.value[lang] : t.open]) },
-        { kind: "muted", text: t.interests },
-        { kind: "list", items: interests.map((i) => i.title[lang]) },
-      ]);
-
     case "projects":
       return out(name, [
-        { kind: "table", rows: projects.map((p, i) => [pad(i + 1), p.name, p.category[lang], statusLabel[p.status][lang]]) },
-        { kind: "muted", text: t.projectsHint },
+        { kind: "table", rows: projects.map((p, i) => [pad(i + 1), p.name, p.kind[lang]]) },
+        { kind: "muted", text: t.projectsHint(projects.length) },
       ]);
 
     case "open": {
       if (!arg) return out(name, [{ kind: "muted", text: t.openUsage }]);
       const project = findProject(args.join(" "));
-      if (!project) return out(name, [{ kind: "error", text: t.openUnknown(arg.slice(0, 40)) }, { kind: "muted", text: t.projectsHint }]);
+      if (!project)
+        return out(name, [
+          { kind: "error", text: t.openUnknown(arg.slice(0, 40)) },
+          { kind: "muted", text: t.projectsHint(projects.length) },
+        ]);
       return out(
         name,
         [
@@ -291,39 +223,21 @@ export function runCommand(raw: string, ctx: CommandContext): CommandResult {
       );
     }
 
-    case "experiments": {
-      const list = labCopy.experiments[lang];
-      return out(name, [
-        { kind: "table", rows: list.map((e, i) => [pad(i + 1), e.name, e.kind]) },
-        { kind: "muted", text: t.experimentsHint },
-      ]);
+    case "goto": {
+      const list: Line = { kind: "table", rows: pages.map((p) => [p.key, p.path ? p.path.slice(1) : "home", p.label[lang]]) };
+      if (!arg) return out(name, [{ kind: "muted", text: t.gotoUsage }, list]);
+      const page = findPage(args.join(""));
+      if (!page) return out(name, [{ kind: "error", text: t.gotoUnknown(arg.slice(0, 40)) }, { kind: "muted", text: t.gotoUsage }, list]);
+      return out(name, [{ kind: "text", text: t.going(page.label[lang]) }], [{ type: "goto", href: pageHref(lang, page) }]);
     }
-
-    case "skills": {
-      const skills = countSkills(lang);
-      return out(name, [
-        { kind: "muted", text: t.skillsIntro(skills.length, projects.length) },
-        { kind: "table", head: t.skillsCol, rows: skills.map((s) => [s.name, String(s.count)]) },
-      ]);
-    }
-
-    case "stack":
-      return out(name, [{ kind: "muted", text: t.stackIntro }, { kind: "list", items: SITE_STACK }, { kind: "muted", text: t.stackNote }]);
 
     case "contact":
       return out(name, [
         { kind: "text", text: t.contactIntro },
+        { kind: "link", text: `/${lang}/contact`, href: `/${lang}/contact` },
+        { kind: "muted", text: t.contactGithub },
         { kind: "link", text: `github.com/${person.github.handle}`, href: person.github.href, external: true },
-        { kind: "muted", text: t.contactPlate },
       ]);
-
-    case "goto": {
-      const plates: Line = { kind: "table", rows: sections.map((s) => [s.numeral, s.id, s.label[lang]]) };
-      if (!arg) return out(name, [{ kind: "muted", text: t.gotoUsage }, plates]);
-      const section = findSection(arg);
-      if (!section) return out(name, [{ kind: "error", text: t.gotoUnknown(arg.slice(0, 40)) }, { kind: "muted", text: t.gotoUsage }, plates]);
-      return out(name, [{ kind: "text", text: t.going(`${section.numeral} ${section.label[lang]}`) }], [{ type: "goto", id: section.id }]);
-    }
 
     case "theme": {
       if (!arg) return out(name, [{ kind: "muted", text: t.themeNow(ctx.theme) }]);
@@ -338,16 +252,6 @@ export function runCommand(raw: string, ctx: CommandContext): CommandResult {
       if (arg === lang) return out(name, [{ kind: "muted", text: t.langSet(arg) }]);
       return out(name, [{ kind: "text", text: t.langSet(arg) }], [{ type: "lang", lang: arg }]);
     }
-
-    case "sound": {
-      if (!arg) return out(name, [{ kind: "muted", text: t.soundNow(ctx.soundOn) }]);
-      if (arg !== "on" && arg !== "off" && arg !== "aan" && arg !== "uit") return out(name, [{ kind: "error", text: t.soundBad }]);
-      const on = arg === "on" || arg === "aan";
-      return out(name, [{ kind: "text", text: t.soundSet(on) }], [{ type: "sound", on }]);
-    }
-
-    case "clear":
-      return out(name, [], [{ type: "clear" }]);
 
     case "whoami":
       return out(name, [{ kind: "text", text: t.whoami[0] }, { kind: "muted", text: t.whoami[1] }]);
@@ -367,24 +271,21 @@ export function runCommand(raw: string, ctx: CommandContext): CommandResult {
       return out(name, [{ kind: "text", text: body.join("\n") }]);
     }
 
-    case "date":
-      return out(name, [{ kind: "text", text: formatDate(ctx.now ?? new Date(), lang) }]);
-
-    case "echo":
-      return out(name, [{ kind: "text", text: rest.length ? rest : t.echoEmpty }]);
+    case "clear":
+      return out(name, [], [{ type: "clear" }]);
 
     case "history":
       if (!ctx.history.length) return out(name, [{ kind: "muted", text: t.historyEmpty }]);
       return out(name, [{ kind: "table", rows: ctx.history.map((h, i) => [String(i + 1).padStart(3, " "), h]) }]);
+
+    case "echo":
+      return out(name, [{ kind: "text", text: rest.length ? rest : t.echoEmpty }]);
 
     case "matrix":
       return out(name, [{ kind: "muted", text: t.matrix }], [{ type: "matrix" }, { type: "egg", id: "rain" }]);
 
     case "secret":
       return out(name, [{ kind: "text", text: t.secret }], [{ type: "secret" }]);
-
-    case "konami":
-      return out(name, [{ kind: "muted", text: t.konami }]);
 
     case "sudo":
       return out(name, [{ kind: "error", text: t.sudo }], [{ type: "egg", id: "sudo" }]);
@@ -400,13 +301,11 @@ function argOptions(cmd: string): string[] {
     case "open":
       return projects.map((p) => p.slug);
     case "goto":
-      return sections.map((s) => s.id);
+      return pages.map((p) => (p.path ? p.path.slice(1) : "home"));
     case "theme":
       return ["dark", "light", "toggle"];
     case "lang":
       return ["nl", "en"];
-    case "sound":
-      return ["on", "off"];
     case "cat":
       return [...VIRTUAL_FILES];
     case "help":
@@ -453,7 +352,7 @@ export function complete(input: string): { value: string; options: string[] } {
 
 export interface PaletteItem {
   id: string;
-  group: "command" | "plate" | "project";
+  group: "command" | "page" | "project";
   label: string;
   hint: string;
   /** The terminal command this item runs. */
@@ -463,6 +362,25 @@ export interface PaletteItem {
 }
 
 export function paletteItems(lang: Locale): PaletteItem[] {
+  const pageItems: PaletteItem[] = pages.map((p) => {
+    const target = p.path ? p.path.slice(1) : "home";
+    return {
+      id: `page-${p.id}`,
+      group: "page",
+      label: p.label[lang],
+      hint: `/${lang}${p.path}`,
+      command: `goto ${target}`,
+      keywords: `${target} ${p.id} ${p.label.nl} ${p.label.en}`,
+    };
+  });
+  const work: PaletteItem[] = projects.map((p, i) => ({
+    id: `project-${p.slug}`,
+    group: "project",
+    label: p.name,
+    hint: p.kind[lang],
+    command: `open ${p.slug}`,
+    keywords: `${pad(i + 1)} ${p.slug} ${p.stack.join(" ")}`,
+  }));
   const commands: PaletteItem[] = COMMANDS.filter((c) => c !== "sudo").map((c) => ({
     id: `cmd-${c}`,
     group: "command",
@@ -471,23 +389,7 @@ export function paletteItems(lang: Locale): PaletteItem[] {
     command: c,
     keywords: c,
   }));
-  const plates: PaletteItem[] = sections.map((s) => ({
-    id: `plate-${s.id}`,
-    group: "plate",
-    label: `${s.numeral} ${s.label[lang]}`,
-    hint: `goto ${s.id}`,
-    command: `goto ${s.id}`,
-    keywords: `${s.id} ${s.label.nl} ${s.label.en}`,
-  }));
-  const work: PaletteItem[] = projects.map((p, i) => ({
-    id: `project-${p.slug}`,
-    group: "project",
-    label: p.name,
-    hint: p.category[lang],
-    command: `open ${p.slug}`,
-    keywords: `${pad(i + 1)} ${p.slug} ${p.stack.join(" ")}`,
-  }));
-  return [...plates, ...work, ...commands];
+  return [...pageItems, ...work, ...commands];
 }
 
 /**

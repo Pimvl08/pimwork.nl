@@ -27,14 +27,14 @@ const fragment = Fragment_Mono({
 
 const meta = {
   nl: {
-    title: "Pim | Vorm uit één lijn",
+    title: "Pim | Software die werk uit handen neemt",
     description:
-      "De digitale wereld van Pim: acht echte projecten, gebouwd met code en AI, als genummerde platen. Met een lab vol experimenten, een terminal en data van zijn eigen schijf.",
+      "Ik bouw web-apps, desktopsoftware en slimme tools die werk uit handen nemen. Bekijk mijn werk en neem contact op.",
   },
   en: {
-    title: "Pim | Form from a single line",
+    title: "Pim | Software that takes work off your hands",
     description:
-      "Pim's digital world: eight real projects, built with code and AI, as numbered plates. With a lab of experiments, a terminal and data from his own disk.",
+      "I build web apps, desktop software and smart tools that take work off your hands. See my work and get in touch.",
   },
 } satisfies Record<Locale, { title: string; description: string }>;
 

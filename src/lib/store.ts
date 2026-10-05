@@ -14,8 +14,6 @@ export interface UIState {
   /** A command the terminal runs as soon as it opens (from buttons elsewhere). */
   terminalSeed: string | null;
   shortcutsOpen: boolean;
-  soundOn: boolean;
-  introState: "idle" | "playing" | "done";
   theme: Theme;
   /** Easter eggs the visitor found, by id. */
   eggs: string[];
@@ -25,8 +23,6 @@ const initialState: UIState = {
   terminalOpen: false,
   terminalSeed: null,
   shortcutsOpen: false,
-  soundOn: false,
-  introState: "idle",
   theme: "dark",
   eggs: [],
 };

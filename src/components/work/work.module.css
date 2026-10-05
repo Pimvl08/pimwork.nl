@@ -1,6 +1,6 @@
 /* =========================================================================
-   Plate 02: the editorial index, the project figure, the project plate and
-   the modal sheet. Index mode = fine pointer and enough width; everything
+   Work: the featured work on the home page, the editorial index, the
+   project figure, the project page and the modal sheet. Index mode = fine pointer and enough width; everything
    else gets stacked arched cards with the figure inline.
    ========================================================================= */
 
@@ -168,9 +168,6 @@
 }
 .more {
   display: contents;
-}
-.period {
-  font-style: italic;
 }
 .stack {
   flex-basis: 100%;
@@ -465,6 +462,14 @@
   color: var(--ink-faint);
 }
 
+.metaStatus {
+  font-style: normal;
+  font-size: var(--step--1);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+}
+
 .detailFigure {
   max-width: 52rem;
   margin-block: clamp(2.5rem, 6vw, 4.5rem);
@@ -487,9 +492,23 @@
   }
 }
 
+.sectionBody {
+  display: grid;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+  min-width: 0;
+}
+
 .sectionTitle {
   font-size: var(--step-2);
   font-style: italic;
+}
+
+.lede {
+  max-width: 58ch;
+  font-size: var(--step-1);
+  font-style: italic;
+  line-height: 1.4;
+  color: var(--ink);
 }
 
 .prose {
@@ -532,56 +551,19 @@
   line-height: 1.2;
   color: var(--ink-mute);
 }
+.benefitText {
+  max-width: 58ch;
+  font-size: var(--step-1);
+  line-height: 1.38;
+  color: var(--ink);
+}
+.craftFigure {
+  max-width: 40rem;
+  margin: 0;
+}
 .figureText {
   max-width: 64ch;
   color: var(--ink-soft);
-}
-
-.table {
-  width: 100%;
-  max-width: 44rem;
-  border-collapse: collapse;
-}
-.table caption {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  overflow: hidden;
-  clip-path: inset(50%);
-  white-space: nowrap;
-}
-.table th,
-.table td {
-  padding: 0.75rem 0;
-  border-bottom: 1px solid var(--rule);
-  vertical-align: baseline;
-}
-.table thead th {
-  padding-top: 0;
-  font-weight: 400;
-  font-style: italic;
-  font-size: var(--step--1);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--ink-mute);
-  border-bottom-color: var(--rule-strong);
-}
-.table tbody th {
-  font-weight: 400;
-  text-align: left;
-  padding-right: 1.5rem;
-  color: var(--ink-soft);
-}
-.table td,
-.table thead th:last-child {
-  text-align: right;
-}
-.table td {
-  font-family: var(--font-mono);
-  font-size: 0.92em;
-  font-variant-numeric: tabular-nums;
-  color: var(--ink);
-  white-space: nowrap;
 }
 
 .stackList {
@@ -673,6 +655,12 @@
   color: var(--ink-mute);
 }
 
+.pagerKind {
+  font-style: italic;
+  font-size: var(--step--1);
+  color: var(--ink-mute);
+}
+
 .backRow {
   margin-top: 2.5rem;
 }
@@ -754,5 +742,173 @@
   .sheetContent {
     padding-inline: clamp(2rem, 5vw, 5rem);
     margin-top: -1.5rem;
+  }
+}
+
+/* ---------------------------------------------------------- work page */
+
+.pageHead {
+  display: grid;
+  gap: 1.4rem;
+  max-width: 62rem;
+  padding-top: clamp(1rem, 4vw, 3rem);
+}
+.pageTitle,
+.featuredTitle {
+  font-size: var(--step-4);
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.pageLead,
+.featuredLead {
+  max-width: var(--measure);
+  font-size: var(--step-1);
+  line-height: 1.38;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------- featured work (home page) */
+
+.featuredHead {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 62rem;
+}
+
+.featureGrid {
+  display: grid;
+  gap: clamp(3.5rem, 9vw, 5rem);
+  margin: clamp(2.75rem, 6vw, 4.5rem) 0 0;
+  padding: 0;
+  list-style: none;
+}
+.feature {
+  min-width: 0;
+}
+.featureCard {
+  position: relative;
+  display: grid;
+  gap: 1.5rem;
+  transition: transform var(--dur-1) var(--ease-out-expo);
+}
+.featureCard:has(.featureLink:active) {
+  transform: scale(0.99);
+}
+
+.featureFigure .frame {
+  transition: border-color var(--dur-2) var(--ease-paper);
+}
+.featureFigure .frame > * {
+  transition: transform 1200ms var(--ease-out-expo);
+}
+
+.featureText {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: start;
+  min-width: 0;
+}
+.featureName {
+  font-size: var(--step-3);
+  font-style: italic;
+  line-height: 1;
+  letter-spacing: -0.015em;
+}
+.featureLink {
+  color: inherit;
+  text-decoration: none;
+  outline: none;
+}
+/* The whole card is the hit area; the name stays the accessible name. */
+.featureLink::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.featureCard:has(.featureLink:focus-visible) {
+  outline: 2px solid var(--ink);
+  outline-offset: 10px;
+  border-radius: 0.4rem;
+}
+.featureTagline {
+  max-width: 52ch;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+.featureMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.15rem 0.6rem;
+  font-style: italic;
+  font-size: var(--step--1);
+  color: var(--ink-mute);
+}
+.featureMeta > *:not(:last-child)::after {
+  content: "\00B7";
+  margin-left: 0.6rem;
+  color: var(--ink-faint);
+}
+.featureGo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.35rem;
+  font-style: italic;
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+.featureGo svg {
+  transition: transform var(--dur-2) var(--ease-out-expo);
+}
+@media (hover: hover) and (pointer: fine) {
+  .featureCard:hover .frame {
+    border-color: var(--ink);
+  }
+  .featureCard:hover .frame > * {
+    transform: scale(1.025);
+  }
+  .featureCard:hover .featureGo svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+.featuredFoot {
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+/* Wide screens: a large lead, then a narrow card and a wide card set lower. */
+@media (min-width: 56rem) {
+  .featureGrid {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    column-gap: clamp(1.5rem, 3vw, 3rem);
+    row-gap: clamp(4.5rem, 8vw, 7rem);
+  }
+  .featureLead {
+    grid-column: 1 / -1;
+  }
+  .featureLead .featureCard {
+    grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+    column-gap: clamp(2rem, 4vw, 4.5rem);
+    align-items: end;
+  }
+  .featureLead .frame {
+    aspect-ratio: 16 / 10;
+  }
+  .featureLead .featureName {
+    font-size: var(--step-4);
+  }
+  .featureNarrow {
+    grid-column: 1 / span 5;
+  }
+  .featureNarrow .frame {
+    aspect-ratio: 4 / 5;
+  }
+  .featureWide {
+    grid-column: 7 / -1;
+    margin-top: clamp(7rem, 16vw, 13rem);
   }
 }

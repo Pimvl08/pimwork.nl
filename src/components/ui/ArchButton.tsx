@@ -12,8 +12,6 @@ interface BaseProps {
   size?: "md" | "lg";
   children: ReactNode;
   className?: string;
-  /** Cursor label for the custom cursor, for example "Bekijk". */
-  cursor?: string;
 }
 
 type ButtonProps = BaseProps & Omit<ComponentPropsWithoutRef<"button">, keyof BaseProps> & { href?: undefined };
@@ -25,7 +23,7 @@ type LinkProps = BaseProps & Omit<ComponentPropsWithoutRef<"a">, keyof BaseProps
  * Hover lifts a second arc above the first, like a crease being pressed.
  */
 export function ArchButton(props: ButtonProps | LinkProps) {
-  const { variant = "primary", icon, size = "md", children, className, cursor, ...rest } = props;
+  const { variant = "primary", icon, size = "md", children, className, ...rest } = props;
   const classes = cn(styles.arch, styles[variant], styles[size], className);
   const inner = (
     <>
@@ -43,20 +41,20 @@ export function ArchButton(props: ButtonProps | LinkProps) {
     const external = /^https?:\/\//.test(href);
     if (external) {
       return (
-        <a href={href} className={classes} target="_blank" rel="noopener noreferrer" data-cursor={cursor ?? "link"} {...anchorRest}>
+        <a href={href} className={classes} target="_blank" rel="noopener noreferrer" {...anchorRest}>
           {inner}
         </a>
       );
     }
     return (
-      <Link href={href} className={classes} data-cursor={cursor ?? "link"} {...anchorRest}>
+      <Link href={href} className={classes} {...anchorRest}>
         {inner}
       </Link>
     );
   }
   const buttonRest = rest as Omit<ButtonProps, keyof BaseProps>;
   return (
-    <button type={buttonRest.type ?? "button"} className={classes} data-cursor={cursor ?? "link"} {...buttonRest}>
+    <button type={buttonRest.type ?? "button"} className={classes} {...buttonRest}>
       {inner}
     </button>
   );

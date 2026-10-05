@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ lang: str
   return { title: t.meta, robots: { index: false, follow: false } };
 }
 
-/** Plate 99: the hidden plate that lists the easter eggs. Not indexed. */
+/** The hidden page that lists the easter eggs (numbered 99, a wink at the old plates). Not indexed. */
 export default async function SecretPage({ params }: { params: Promise<{ lang: string }> }) {
   await connection();
   const { lang } = await params;

@@ -1,4 +1,4 @@
-/* Plate 01, "Wie". Tokens only; easings fall back to their literal curves
+/* The about page. Tokens only; easings fall back to their literal curves
    because Tailwind only emits theme variables it sees in utilities. */
 
 .root {
@@ -51,7 +51,7 @@
 
 .facts {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, 13.5rem), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
   column-gap: 2rem;
   border-top: 1px solid var(--rule);
 }
@@ -60,11 +60,9 @@
   position: relative;
   padding: 1rem 0 0.9rem 1.1rem;
   border-bottom: 1px solid var(--rule);
-  border-radius: 0;
-  outline-offset: -1px;
 }
 
-/* A figure point, like the swatches on the board. The active fact fills it. */
+/* A figure point, like the swatches on the board. */
 .fact::before {
   content: "";
   position: absolute;
@@ -74,482 +72,66 @@
   height: 6px;
   border: 1px solid var(--ink-mute);
   border-radius: 50%;
-  transition: background-color var(--dur-1) ease, border-color var(--dur-1) ease;
 }
 
-.fact[data-open]::before {
-  border-style: dashed;
-  border-color: var(--ink-faint);
+/* ---------------------------------------------------------------- page */
+
+/* Room for the fixed header above the first line. */
+.page {
+  padding-top: calc(var(--section-y) + 3rem);
 }
 
-/* In flow and wrapping, so a long path is never cut off; it only fades in,
-   so revealing it never moves the layout. */
-.source {
-  margin-top: 0.55rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  line-height: 1.35;
-  color: var(--ink-mute);
-  overflow-wrap: anywhere;
-  opacity: 0;
-  transform: translateY(-3px);
-  transition:
-    opacity var(--dur-1) ease-out,
-    transform var(--dur-2) var(--about-ease);
+/* The monogram that stands in the frame while there is no portrait. */
+.monogram {
+  display: grid;
+  place-items: center;
+  height: 100%;
+  background: var(--paper-sunk);
 }
 
-.fact:hover .source,
-.fact:focus-visible .source,
-.fact:focus-within .source {
-  opacity: 1;
-  transform: none;
+/* ---------------------------------------------------------- how I work */
+
+.how {
+  margin-top: clamp(5rem, 10vw, 9rem);
+  padding-top: clamp(3rem, 6vw, 4.5rem);
+  border-top: 1px solid var(--rule);
+  max-width: 72rem;
 }
 
-.fact:hover::before,
-.fact:focus-visible::before,
-.fact:focus-within::before {
-  background: var(--ink);
-  border-color: var(--ink);
+.principles {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2.75rem 3rem;
+  margin-top: 2.25rem;
 }
 
-/* Touch screens cannot hover: the sources are simply always shown. */
-@media (hover: none) {
-  .source {
-    opacity: 1;
-    transform: none;
+@media (min-width: 48rem) {
+  .principles {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 
-@media print {
-  .source {
-    opacity: 1;
-    transform: none;
-  }
+.principle {
+  position: relative;
+  padding-top: 1.9rem;
+  max-width: 34rem;
 }
 
-/* ----------------------------------------------------------- interests */
-
-.fan {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.slot,
-.nudge {
-  height: 100%;
-}
-
-.sheet {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  height: 100%;
-  padding: 1.2rem 1.25rem 1rem;
-  color: inherit;
-  text-decoration: none;
-  background: var(--paper-raised);
-  border: 1px solid var(--rule);
-  border-radius: 3px;
-  box-shadow: 0 1px 2px hsl(var(--shadow-color) / 0.08);
-  transition:
-    translate var(--dur-2) var(--about-ease),
-    rotate var(--dur-2) var(--about-ease),
-    transform 180ms ease-out,
-    scale var(--dur-1) ease-out,
-    box-shadow var(--dur-2) var(--about-ease),
-    border-color var(--dur-1) ease;
-  -webkit-tap-highlight-color: transparent;
-}
-
-.sheet:focus-visible {
-  outline-offset: 3px;
-}
-
-.sheet:active {
-  scale: 0.985;
-}
-
-.sheetTitle {
-  font-size: var(--step-1);
-  line-height: 1.15;
-  overflow-wrap: break-word;
-}
-
-.sheetArc {
-  display: block;
+/* Each principle stands under a shallow compass arc instead of a box. */
+.principleArc {
+  position: absolute;
+  inset: 0 0 auto 0;
   width: 100%;
   height: 1.1rem;
-  color: var(--rule-strong);
   overflow: visible;
-  transition: color var(--dur-1) ease;
+  color: var(--rule-strong);
+  pointer-events: none;
 }
 
-.evidence {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  padding-top: 0.7rem;
+/* ------------------------------------------------------------- closing */
+
+.closing {
+  margin-top: clamp(5rem, 10vw, 8rem);
+  padding-top: clamp(3rem, 6vw, 4.5rem);
   border-top: 1px solid var(--rule);
-  color: var(--ink-mute);
-  transition: color var(--dur-1) ease;
-}
-
-/* Phone, tablet and small laptops: a horizontal row that snaps, the centred
-   sheet lies straight. Six readable sheets only fit side by side from 80rem. */
-@media (max-width: 79.999rem) {
-  .fan {
-    display: flex;
-    gap: 1rem;
-    overflow-x: auto;
-    overscroll-behavior-x: contain;
-    scroll-snap-type: x mandatory;
-    scrollbar-width: none;
-    margin-left: calc(-1 * (var(--rail) + var(--gutter)));
-    margin-right: calc(-1 * var(--gutter));
-    padding: 1.5rem calc(var(--rail) + var(--gutter)) 2.25rem;
-    scroll-padding-inline: calc(var(--rail) + var(--gutter));
-  }
-  .fan::-webkit-scrollbar {
-    display: none;
-  }
-  .slot {
-    display: flex;
-    flex: 0 0 min(80vw, 18rem);
-    scroll-snap-align: center;
-    rotate: var(--rest);
-    translate: 0 0.4rem;
-    transition:
-      rotate var(--dur-3) var(--about-paper),
-      translate var(--dur-3) var(--about-paper);
-  }
-  .nudge {
-    display: flex;
-    flex: 1;
-    height: auto;
-  }
-  .sheet {
-    flex: 1;
-    height: auto;
-  }
-  .slot:nth-child(odd) {
-    --rest: -1.8deg;
-  }
-  .slot:nth-child(even) {
-    --rest: 1.5deg;
-  }
-  .slot[data-snapped] {
-    rotate: 0deg;
-    translate: 0 0;
-  }
-  .slot[data-snapped] .sheet {
-    border-color: var(--rule-strong);
-    box-shadow:
-      0 22px 36px -24px hsl(var(--shadow-color) / 0.5),
-      0 8px 14px -10px hsl(var(--shadow-color) / 0.25);
-  }
-  .slot[data-snapped] .sheetArc {
-    color: var(--ink);
-  }
-}
-
-/*
- * Desktop: six sheets fanned like papers on a desk. The step between sheets
- * follows the width of the fan (container units), so every title sits in the
- * strip of its sheet that the next sheet leaves uncovered; the title is held
- * to that strip and scales down a little when the strip is narrow.
- */
-@media (min-width: 80rem) {
-  .fan {
-    --sheet-w: 14.5rem;
-    --sheet-h: 19.5rem;
-    --tilt: 4deg;
-    position: relative;
-    height: calc(var(--sheet-h) + 7.5rem);
-    container-type: inline-size;
-  }
-  .slot {
-    --o: calc(var(--i) - 2.5);
-    --s: min(calc(var(--sheet-w) - 1.25rem), calc((100cqi - var(--sheet-w) - 3.5rem) / 5));
-    --fan: calc(var(--o) * var(--tilt));
-    position: absolute;
-    top: calc(2.75rem + var(--o) * var(--o) * 0.45rem);
-    left: calc(50% - var(--sheet-w) / 2 + var(--o) * var(--s));
-    width: var(--sheet-w);
-    height: var(--sheet-h);
-    rotate: var(--fan);
-    z-index: var(--z, auto);
-    /* Hold the raised stacking until the sheet has settled back down. */
-    transition: z-index 0s linear var(--dur-2);
-  }
-  .sheetTitle {
-    max-width: calc(var(--s) - 1.5rem);
-    font-size: min(var(--step-1), calc((var(--s) - 1.6rem) / 6.6));
-  }
-  .nudge {
-    transition: transform var(--dur-3) var(--about-paper);
-  }
-  .slot:is(:hover, :focus-within) {
-    z-index: 10;
-    transition-delay: 0s;
-  }
-  /* Neighbours lean away so the lifted sheet has room. */
-  .slot:is(:hover, :focus-within) ~ .slot .nudge {
-    transform: translateX(1.75rem) rotate(1.5deg);
-  }
-  .slot:has(~ .slot:is(:hover, :focus-within)) .nudge {
-    transform: translateX(-1.75rem) rotate(-1.5deg);
-  }
-  .slot:is(:hover, :focus-within) .sheet {
-    translate: 0 -2.25rem;
-    rotate: calc(var(--fan) * -1);
-    border-color: var(--ink);
-    box-shadow:
-      0 30px 50px -24px hsl(var(--shadow-color) / 0.6),
-      0 12px 20px -12px hsl(var(--shadow-color) / 0.3);
-  }
-  .slot:is(:hover, :focus-within) .sheetArc,
-  .slot:is(:hover, :focus-within) .evidence {
-    color: var(--ink);
-  }
-}
-
-/* The fan settles into place as it scrolls in (CSS only). Sheets keep their
-   spread and stay opaque, so no text ever shows through another sheet, and
-   the motion is finished once the whole fan is on screen. */
-@supports (animation-timeline: view()) {
-  @media (min-width: 80rem) and (prefers-reduced-motion: no-preference) {
-    .slot {
-      animation: fan-open linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 100%;
-    }
-  }
-}
-
-@keyframes fan-open {
-  from {
-    rotate: calc(var(--o) * 1.2deg);
-    translate: 0 2.5rem;
-  }
-}
-
-/* ------------------------------------------------------------ timeline */
-
-.compass {
-  display: block;
-  width: 100%;
-  height: auto;
-  overflow: visible;
-}
-
-.axis {
-  fill: none;
-  stroke: var(--rule-strong);
-  stroke-width: 1.25;
-}
-
-.lane {
-  fill: none;
-  stroke: var(--rule);
-  stroke-width: 1;
-  stroke-dasharray: 1 5;
-}
-
-.tick {
-  stroke: var(--rule-strong);
-  stroke-width: 1;
-}
-
-.monthLabel {
-  fill: var(--ink-mute);
-  font-style: italic;
-  font-size: 13px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.endLabel {
-  fill: var(--ink-mute);
-  font-family: var(--font-mono);
-  font-size: 12.5px;
-}
-
-.pivot {
-  fill: var(--ink);
-}
-
-.arm {
-  stroke: var(--ink);
-  stroke-width: 1;
-  transform-box: view-box;
-  transition:
-    transform var(--dur-3) var(--about-paper),
-    opacity var(--dur-2) ease;
-}
-
-.marker {
-  cursor: pointer;
-  outline: none;
-}
-
-.hit {
-  fill: transparent;
-}
-
-.seg {
-  fill: none;
-  stroke: var(--ink-mute);
-  stroke-width: 3.5;
-  stroke-linecap: round;
-  transition:
-    stroke var(--dur-1) ease,
-    stroke-width var(--dur-1) ease;
-}
-
-.dot {
-  fill: var(--ink-mute);
-  transition: fill var(--dur-1) ease;
-}
-
-.ring2 {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1;
-  opacity: 0;
-  transition: opacity var(--dur-1) ease;
-}
-
-.name {
-  fill: var(--ink-soft);
-  font-style: italic;
-  font-size: 17px;
-  transition: fill var(--dur-1) ease;
-}
-
-.marker[data-active] .seg {
-  stroke: var(--ink);
-  stroke-width: 5;
-}
-
-.marker[data-active] .dot {
-  fill: var(--ink);
-}
-
-.marker[data-active] .name {
-  fill: var(--ink);
-}
-
-.marker[data-active] .ring2 {
-  opacity: 1;
-}
-
-.marker:focus-visible .ring2 {
-  opacity: 1;
-  stroke-width: 1.5;
-}
-
-.marker:focus-visible .name {
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-}
-
-.readout {
-  min-height: 6.5rem;
-}
-
-/* Phone and tablet: the same eight projects along a curved rule. */
-.list {
-  position: relative;
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 3.25rem;
-}
-
-.listRule {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 40px;
-  height: 100%;
-  overflow: visible;
-  color: var(--rule-strong);
-}
-
-.listDot {
-  position: absolute;
-  top: 1.05rem;
-  left: var(--x, 20px);
-  width: 9px;
-  height: 9px;
-  margin-left: -4.5px;
-  border-radius: 50%;
-  background: var(--paper);
-  border: 1.5px solid var(--ink-mute);
-}
-
-.listDot[data-range] {
-  width: 9px;
-  height: 18px;
-  border-radius: 999px;
-}
-
-.listItem:hover .listDot,
-.listItem:focus-within .listDot {
-  background: var(--ink);
-  border-color: var(--ink);
-}
-
-/* ------------------------------------------------------------ measures */
-
-.table {
-  width: 100%;
-  border-collapse: collapse;
-  font-variant-numeric: lining-nums tabular-nums;
-}
-
-.table th {
-  font-weight: 400;
-  text-align: left;
-  padding: 0 0 0.75rem;
-  border-bottom: 1px solid var(--rule-strong);
-}
-
-.table th:first-child {
-  text-align: right;
-  padding-right: clamp(1.25rem, 4vw, 3.5rem);
-}
-
-.table td {
-  padding: 1.15rem 0 1.2rem;
-  border-bottom: 1px solid var(--rule);
-  vertical-align: baseline;
-}
-
-.table tbody tr:last-child td {
-  border-bottom-color: var(--rule-strong);
-}
-
-.table td.value {
-  font-style: italic;
-  font-variant-numeric: lining-nums tabular-nums;
-  font-size: var(--step-3);
-  line-height: 1;
-  color: var(--ink);
-  white-space: nowrap;
-  text-align: right;
-  padding-right: clamp(1.25rem, 4vw, 3.5rem);
-  width: 1%;
-}
-
-.table tbody tr {
-  transition: background-color var(--dur-1) ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .table tbody tr:hover {
-    background: var(--paper-raised);
-  }
 }

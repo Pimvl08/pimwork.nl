@@ -182,7 +182,6 @@ export default function MassLetters({ lang, active, reducedMotion }: ExperimentP
         onPointerCancel={reducedMotion ? undefined : leave}
         onBlur={leave}
         onKeyDown={reducedMotion ? undefined : onKey}
-        data-cursor="default"
       >
         <span ref={markRef} className={styles.vpointer} aria-hidden="true" />
         <p className={styles.phrase}>

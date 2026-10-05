@@ -5,62 +5,55 @@ import { ArcRule } from "@/components/ui/ArcRule";
 import { CreaseMark } from "@/components/ui/CreaseMark";
 import { Icon } from "@/components/ui/Icon";
 import { person } from "@/content/person";
+import { pageHref, pages } from "@/content/sections";
+import { pick } from "@/i18n/config";
 import { useCopy, useLang } from "@/i18n/LocaleProvider";
 import styles from "./chrome.module.css";
+import { useActivePage } from "./controls";
 import { chromeCopy } from "./copy";
-import { onPlateLinkClick } from "./plates";
 
-/** The close of every page: one line, how it was made, and the way back. */
+/** The close of every page: who, what in one line, the pages, GitHub and the year. */
 export function SiteFooter() {
   const lang = useLang();
+  const active = useActivePage();
   const t = useCopy(chromeCopy.footer);
   const year = new Date().getFullYear();
 
   return (
     <footer className={styles.footer}>
-      {/* Below lg the links stack under the statement, so the arc keeps to the top band there. */}
-      <ArcRule className="inset-x-0 top-0 h-[34%] w-full lg:h-full" d="M-40 700 A 1250 1250 0 0 1 1040 180" draw />
+      <ArcRule className="inset-x-0 top-0 h-full w-full opacity-70" d="M-40 760 A 1250 1250 0 0 1 1040 260" draw />
       <div className={styles.footerInner}>
-        <p className={styles.footerLine}>{t.line}</p>
-
-        <div className={styles.footerMeta}>
-          <p className={styles.colophon}>
-            <CreaseMark size={22} />
-            <span>{t.colophon}</span>
+        <div className={styles.footerBrand}>
+          <p className={styles.footerName}>
+            <CreaseMark size={30} />
+            <span>{person.name}</span>
           </p>
-          <nav aria-label={t.nav}>
-            <ul className={styles.footerLinks}>
-              <li>
-                <a href={person.github.href} className={styles.footerLink} target="_blank" rel="noopener noreferrer" data-cursor="link">
-                  <span>{t.github}</span>
-                  <Icon name="arrowNE" size={16} />
-                  <span className="sr-only"> ({t.githubNote})</span>
-                </a>
-              </li>
-              <li>
-                <Link href={`/${lang}/colofon`} className={styles.footerLink} data-cursor="link">
-                  <span>{t.colophonLink}</span>
-                  <Icon name="arrowRight" size={16} />
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href={`/${lang}#cover`}
-                  className={styles.footerLink}
-                  data-cursor="link"
-                  onClick={(event) => onPlateLinkClick(event, "cover")}
-                >
-                  <span>{t.back}</span>
-                  <Icon name="arrowDown" size={16} className={styles.footerUp} />
-                </Link>
-              </li>
-            </ul>
-          </nav>
+          <p className={styles.footerLine}>{t.line}</p>
         </div>
 
-        <p className={styles.footerYear}>
-          <span>{t.made}</span>
-          <span aria-hidden="true"> · </span>
+        <nav aria-label={t.nav} className={styles.footerNav}>
+          <ul className={styles.footerLinks}>
+            {pages.map((page) => (
+              <li key={page.id}>
+                <Link href={pageHref(lang, page)} className={styles.footerLink} aria-current={active === page.id ? "page" : undefined}>
+                  {pick(page.label, lang)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className={styles.footerLinks}>
+            <li>
+              <a href={person.github.href} className={styles.footerLink} target="_blank" rel="noopener noreferrer">
+                <span>{t.github}</span>
+                <Icon name="arrowNE" size={16} />
+                <span className="sr-only"> ({t.githubNote})</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        <p className={styles.footerBase}>
+          <span>{person.name}</span>
           <span className="data">{year}</span>
         </p>
       </div>

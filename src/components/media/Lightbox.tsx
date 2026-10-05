@@ -40,10 +40,12 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
     const dialog = dialogRef.current;
     if (!dialog) return;
     if (!dialog.open) dialog.showModal();
+    // Opened from inside the project sheet the page is already locked: leave it so.
+    const wasLocked = document.documentElement.style.overflow === "hidden";
     lockScroll(true);
     dialog.querySelector<HTMLElement>("[data-autofocus]")?.focus({ preventScroll: true });
     return () => {
-      lockScroll(false);
+      if (!wasLocked) lockScroll(false);
       if (dialog.open) dialog.close();
     };
   }, []);
@@ -135,7 +137,7 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
         </div>
 
         <footer className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
-          <div id={captionId} className="measure flex flex-col gap-1.5">
+          <div id={captionId} className="measure">
             <p className="text-[length:var(--step-0)] leading-snug text-ink">
               <span className="italic">{projectName(image.project)}</span>
               <span aria-hidden="true" className="text-ink-faint">
@@ -143,10 +145,6 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
                 &middot;{" "}
               </span>
               <span className="text-ink-soft">{image.alt[lang]}</span>
-            </p>
-            <p className="text-[length:var(--step--1)] text-ink-mute">
-              <span className="label mr-2">{t.source}</span>
-              <span className="font-mono text-[0.85em]">{image.provenance}</span>
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-3">

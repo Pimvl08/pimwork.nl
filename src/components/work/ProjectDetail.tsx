@@ -1,87 +1,90 @@
 import Link from "next/link";
+import type { ReactNode } from "react";
+import { ProjectMedia } from "@/components/media/ProjectMedia";
 import { ArcCard } from "@/components/ui/ArcCard";
 import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
 import { PlateHeading } from "@/components/ui/PlateHeading";
-import { projects, statusLabel, type Project } from "@/content/projects";
+import { imagesFor, videoFor } from "@/content/media";
+import { projects, type Project } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { workCopy } from "./copy";
-import { formatPeriod, neighbours, numeralFor } from "./lib";
+import { featuredFirst, neighbours, numeralFor } from "./lib";
+import { ProjectDiagram, diagramCaption } from "./ProjectDiagram";
 import { ProjectFigure } from "./ProjectFigure";
 import styles from "./work.module.css";
 
 const ARCH = "M0 23 Q500 1 1000 23";
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
 
-/** Slightly arched hairline above every numbered figure. */
+/** Slightly arched hairline above every numbered item. */
 function FigureRule() {
   return (
-    <svg
-      viewBox="0 0 1000 24"
-      preserveAspectRatio="none"
-      aria-hidden="true"
-      focusable="false"
-    >
+    <svg viewBox="0 0 1000 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
       <path d={ARCH} className={styles.rule} />
     </svg>
+  );
+}
+
+function Section({ id, title, as: H, children }: { id: string; title: string; as: "h2" | "h3"; children: ReactNode }) {
+  return (
+    <section className={styles.section} aria-labelledby={id}>
+      <H id={id} className={styles.sectionTitle}>
+        {title}
+      </H>
+      <div className={styles.sectionBody}>{children}</div>
+    </section>
   );
 }
 
 interface ProjectDetailProps {
   project: Project;
   lang: Locale;
-  /** "page" is the full plate route (h1); "sheet" sits inside the modal (h2). */
+  /** "page" is the full route (h1); "sheet" sits inside the modal (h2). */
   mode: "page" | "sheet";
   /** Id of the project name, so the article and the dialog are labelled by it. */
   titleId: string;
 }
 
 /**
- * The full plate of one project, shared by /[lang]/werk/[slug] and the
- * intercepted modal sheet. Server component: no client code ships with it.
+ * One project, shared by /[lang]/werk/[slug] and the intercepted sheet:
+ * who it is for, the problem, what I built, what it delivers, how it works,
+ * the hardest part, real screens, tools and links. Server component; only
+ * the media block ships client code.
  */
-export function ProjectDetail({
-  project,
-  lang,
-  mode,
-  titleId,
-}: ProjectDetailProps) {
+export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailProps) {
   const t = workCopy[lang];
-  const numeral = numeralFor(project.slug, projects);
-  const around = neighbours(project.slug, projects);
-  const H = mode === "page" ? "h2" : "h3";
+  const order = featuredFirst(projects);
+  const numeral = numeralFor(project.slug, order);
+  const around = neighbours(project.slug, order);
   const sheet = mode === "sheet";
-  const home = `/${lang}#work`;
+  const H = sheet ? "h3" : "h2";
+  const index = `/${lang}/werk`;
   const id = (part: string) => `${titleId}-${part}`;
+  const images = imagesFor(project.slug);
+  const video = videoFor(project.slug);
+  // When a screenshot leads the page, the mechanism diagram moves under the hood.
+  const diagramBelow = images.length > 0 && diagramCaption(project.slug, lang) !== null;
 
   return (
     <article className={styles.detail} aria-labelledby={titleId}>
       {sheet ? null : (
         <div className={styles.topbar}>
-          <Link href={home} className={styles.backLink} data-cursor="link">
+          <Link href={index} className={styles.backLink}>
             <Icon name="arrowLeft" size={18} />
             <span>{t.back}</span>
           </Link>
-          <span className="label text-ink-mute">
-            {t.plate} {numeral}
-          </span>
         </div>
       )}
 
-      <PlateHeading
-        as={sheet ? "h2" : "h1"}
-        id={titleId}
-        numeral={numeral}
-        lead={project.short[lang]}
-      >
+      <PlateHeading as={sheet ? "h2" : "h1"} id={titleId} numeral={numeral} lead={project.tagline[lang]}>
         {project.name}
       </PlateHeading>
 
       <p className={styles.metaLine}>
-        <span>{project.category[lang]}</span>
-        <span>{formatPeriod(project.period, lang)}</span>
-        <span>{statusLabel[project.status][lang]}</span>
+        <span>{project.kind[lang]}</span>
+        <span className={styles.metaStatus}>{project.status[lang]}</span>
       </p>
 
       <ProjectFigure
@@ -95,117 +98,96 @@ export function ProjectDetail({
       />
 
       <div className={styles.sections}>
-        <section className={styles.section} aria-labelledby={id("problem")}>
-          <H id={id("problem")} className={styles.sectionTitle}>
-            {t.problem}
-          </H>
+        <Section id={id("audience")} title={t.audience} as={H}>
+          <p className={styles.lede}>{project.audience[lang]}</p>
+        </Section>
+
+        <Section id={id("problem")} title={t.problem} as={H}>
           <p className={styles.prose}>{project.problem[lang]}</p>
-        </section>
+        </Section>
 
-        <section className={styles.section} aria-labelledby={id("does")}>
-          <H id={id("does")} className={styles.sectionTitle}>
-            {t.whatItDoes}
-          </H>
-          <p className={styles.prose}>{project.summary[lang]}</p>
-        </section>
+        <Section id={id("solution")} title={t.solution} as={H}>
+          <p className={styles.prose}>{project.solution[lang]}</p>
+        </Section>
 
-        {project.highlights[lang].length > 0 ? (
-          <section className={styles.section} aria-labelledby={id("how")}>
-            <H id={id("how")} className={styles.sectionTitle}>
-              {t.highlights}
-            </H>
+        {project.benefits[lang].length > 0 ? (
+          <Section id={id("benefits")} title={t.benefits} as={H}>
             <ol className={styles.figureList}>
-              {project.highlights[lang].map((line, i) => (
+              {project.benefits[lang].map((line, i) => (
                 <li key={i} className={styles.figureItem}>
                   <FigureRule />
                   <span className={styles.figureNo} aria-hidden="true">
                     {i + 1}
                   </span>
-                  <p className={styles.figureText}>{line}</p>
+                  <p className={styles.benefitText}>{line}</p>
                 </li>
               ))}
             </ol>
-          </section>
+          </Section>
         ) : null}
 
-        {project.hardProblems[lang].length > 0 ? (
-          <section className={styles.section} aria-labelledby={id("hard")}>
-            <H id={id("hard")} className={styles.sectionTitle}>
-              {t.hardProblems}
-            </H>
-            <ol className={styles.figureList}>
-              {project.hardProblems[lang].map((line, i) => (
-                <li key={i} className={styles.figureItem}>
-                  <FigureRule />
-                  <span className={styles.figureNoSoft} aria-hidden="true">
-                    {LETTERS[i % LETTERS.length]}.
-                  </span>
-                  <p className={styles.figureText}>{line}</p>
-                </li>
-              ))}
-            </ol>
-          </section>
-        ) : null}
-
-        {project.metrics.length > 0 ? (
-          <section className={styles.section} aria-labelledby={id("metrics")}>
-            <H id={id("metrics")} className={styles.sectionTitle}>
-              {t.metrics}
-            </H>
-            <table className={styles.table}>
-              <caption>
-                {t.metrics}: {project.name}
-              </caption>
-              <thead>
-                <tr>
-                  <th scope="col">{t.metricLabel}</th>
-                  <th scope="col">{t.metricValue}</th>
-                </tr>
-              </thead>
-              <tbody>
-                {project.metrics.map((metric) => (
-                  <tr key={metric.label.nl}>
-                    <th scope="row">{metric.label[lang]}</th>
-                    <td>{metric.value[lang]}</td>
-                  </tr>
+        {project.craft[lang].length > 0 || diagramBelow ? (
+          <Section id={id("craft")} title={t.craft} as={H}>
+            {project.craft[lang].length > 0 ? (
+              <ul className={styles.figureList}>
+                {project.craft[lang].map((line, i) => (
+                  <li key={i} className={styles.figureItem}>
+                    <FigureRule />
+                    <span className={styles.figureNoSoft} aria-hidden="true">
+                      {LETTERS[i % LETTERS.length]}.
+                    </span>
+                    <p className={styles.figureText}>{line}</p>
+                  </li>
                 ))}
-              </tbody>
-            </table>
-          </section>
+              </ul>
+            ) : null}
+            {diagramBelow ? (
+              <figure className={styles.craftFigure}>
+                <div className={styles.frame}>
+                  <ProjectDiagram slug={project.slug} lang={lang} numeral={numeral} />
+                </div>
+                <figcaption className={styles.caption}>
+                  <span className="numeral text-ink">
+                    {t.fig} {numeral}
+                  </span>{" "}
+                  <span>{diagramCaption(project.slug, lang)}</span>
+                </figcaption>
+              </figure>
+            ) : null}
+          </Section>
         ) : null}
 
-        <section className={styles.section} aria-labelledby={id("stack")}>
-          <H id={id("stack")} className={styles.sectionTitle}>
-            {t.stack}
-          </H>
-          <ul className={styles.stackList}>
-            {project.stack.map((tool) => (
-              <li key={tool}>{tool}</li>
-            ))}
-          </ul>
-        </section>
+        <Section id={id("challenge")} title={t.challenge} as={H}>
+          <p className={styles.lede}>{project.challenge[lang]}</p>
+        </Section>
 
-        <section className={styles.section} aria-labelledby={id("links")}>
-          <H id={id("links")} className={styles.sectionTitle}>
-            {t.links}
-          </H>
-          {project.links.length > 0 ? (
+        {images.length > 0 || video ? (
+          <Section id={id("media")} title={t.media} as={H}>
+            <ProjectMedia lang={lang} name={project.name} images={images} video={video} />
+          </Section>
+        ) : null}
+
+        {project.stack.length > 0 ? (
+          <Section id={id("stack")} title={t.stack} as={H}>
+            <ul className={styles.stackList}>
+              {project.stack.map((tool) => (
+                <li key={tool}>{tool}</li>
+              ))}
+            </ul>
+          </Section>
+        ) : null}
+
+        {project.links.length > 0 ? (
+          <Section id={id("links")} title={t.links} as={H}>
             <div className={styles.linkList}>
-              {project.links.map((link) => (
-                <ArchButton
-                  key={link.href}
-                  href={link.href}
-                  variant="secondary"
-                  icon="arrowNE"
-                >
+              {project.links.map((link, i) => (
+                <ArchButton key={link.href} href={link.href} variant={i === 0 ? "primary" : "secondary"} icon="arrowNE">
                   {link.label[lang]}
                 </ArchButton>
               ))}
             </div>
-          ) : (
-            <p className={styles.prose}>{t.noLinks}</p>
-          )}
-        </section>
+          </Section>
+        ) : null}
       </div>
 
       {around ? (
@@ -214,13 +196,8 @@ export function ProjectDetail({
             const target = around[dir];
             const linkProps = {
               href: `/${lang}/werk/${target.slug}`,
-              className: cn(
-                styles.pagerLink,
-                dir === "next" && styles.pagerNext,
-              ),
+              className: cn(styles.pagerLink, dir === "next" && styles.pagerNext),
               "data-dir": dir,
-              "data-cursor": "view",
-              "data-cursor-label": t.cursor,
             };
             const inner = (
               <>
@@ -230,16 +207,15 @@ export function ProjectDetail({
                   {dir === "next" ? <Icon name="arrowRight" size={16} /> : null}
                 </span>
                 <span className={styles.pagerName}>
-                  <span className={styles.numeralSoft}>
-                    {numeralFor(target.slug, projects)}
-                  </span>
+                  <span className={styles.numeralSoft}>{numeralFor(target.slug, order)}</span>
                   {target.name}
                 </span>
+                <span className={styles.pagerKind}>{target.kind[lang]}</span>
               </>
             );
-            // Inside the sheet the next plate replaces this one, so Back still
-            // closes to the index. On the full page a soft link would be
-            // intercepted into a sheet; a plain link loads the next full plate.
+            // Inside the sheet the next project replaces this one, so Back
+            // still closes the sheet. On the full page a soft link would be
+            // intercepted into a sheet; a plain link loads the next full page.
             return (
               <ArcCard key={dir} className={styles.pagerCard}>
                 {sheet ? (
@@ -255,11 +231,13 @@ export function ProjectDetail({
         </nav>
       ) : null}
 
-      <div className={styles.backRow}>
-        <ArchButton href={home} variant="secondary" icon="arrowLeft">
-          {t.back}
-        </ArchButton>
-      </div>
+      {sheet ? null : (
+        <div className={styles.backRow}>
+          <ArchButton href={index} variant="secondary" icon="arrowLeft">
+            {t.back}
+          </ArchButton>
+        </div>
+      )}
     </article>
   );
 }

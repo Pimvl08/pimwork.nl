@@ -1,9 +1,8 @@
 /**
  * Pure helpers for the cover plate: the damped spring that drives the shell,
- * phrase cycling, pointer mapping and the intro timeline. No DOM, so they are
+ * phrase cycling and pointer mapping. No DOM, so they are
  * unit tested in tests/unit/hero.test.ts.
  */
-import type { Locale } from "@/i18n/config";
 
 export const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value));
 
@@ -65,22 +64,6 @@ export function needsRebuild(
   return Math.abs(previous.fold - next.fold) > epsilon || Math.abs(previous.twist - next.twist) > epsilon;
 }
 
-const WORDS: Record<Locale, string[]> = {
-  nl: ["Nul", "Eén", "Twee", "Drie", "Vier", "Vijf", "Zes", "Zeven", "Acht", "Negen", "Tien", "Elf", "Twaalf"],
-  en: ["Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve"],
-};
-
-/** A count written as a capitalised word (up to twelve), otherwise digits. */
-export function countWord(count: number, lang: Locale): string {
-  const n = Math.round(count);
-  return n >= 0 && n < WORDS[lang].length ? WORDS[lang][n] : String(n);
-}
-
-/** Splits a sentence into words, keeping punctuation attached. */
-export function splitWords(sentence: string): string[] {
-  return sentence.split(/\s+/).filter(Boolean);
-}
-
 /** Relative luminance of an "r g b" 0..1 triple (sRGB, approximate). */
 export function luminance([r, g, b]: readonly [number, number, number]): number {
   return 0.2126 * r + 0.7152 * g + 0.0722 * b;
@@ -99,24 +82,4 @@ export function creaseLineColor(
   if (Math.abs(luminance(ink) - s) >= Math.abs(luminance(paper) - s)) return [ink[0], ink[1], ink[2]];
   // Graphite, nudged a little towards the sheet so it reads as a pressed line, not a cut.
   return [paper[0] * 0.8 + sheet[0] * 0.2, paper[1] * 0.8 + sheet[1] * 0.2, paper[2] * 0.8 + sheet[2] * 0.2];
-}
-
-/** Intro sequence timeline in milliseconds (about 3.4 s in total). */
-export const INTRO = {
-  sheetIn: 520,
-  line1Start: 260,
-  line1Stagger: 80,
-  wordDuration: 650,
-  line2Start: 1000,
-  line2Stagger: 70,
-  creaseStart: 2050,
-  creaseDuration: 500,
-  foldStart: 2550,
-  foldDuration: 700,
-  total: 3400,
-} as const;
-
-/** Delay (ms) for word `index` of an intro line. */
-export function wordDelay(line: 1 | 2, index: number): number {
-  return line === 1 ? INTRO.line1Start + index * INTRO.line1Stagger : INTRO.line2Start + index * INTRO.line2Stagger;
 }

@@ -150,43 +150,6 @@
   white-space: nowrap;
 }
 
-.answer {
-  margin: 8px 0;
-  padding: 10px 0 4px;
-  border-top: 1px dashed var(--rule-strong);
-}
-
-.answerText {
-  font-family: var(--font-bodoni), Georgia, serif;
-  font-size: var(--step-0);
-  line-height: 1.5;
-  color: var(--ink);
-  max-width: 66ch;
-}
-
-.caret {
-  display: inline-block;
-  width: 0.55em;
-  height: 1em;
-  margin-left: 2px;
-  vertical-align: -0.12em;
-  background: var(--ink);
-  animation: blink 1s steps(2, start) infinite;
-}
-
-@keyframes blink {
-  to {
-    visibility: hidden;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .caret {
-    animation: none;
-    opacity: 0.6;
-  }
-}
-
 /* Prompt row: the line the visitor writes on. */
 .promptRow {
   display: flex;

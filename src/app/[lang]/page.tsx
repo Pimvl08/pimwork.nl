@@ -1,18 +1,15 @@
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
-import { AboutPlate } from "@/components/plates/AboutPlate";
-import { ContactPlate } from "@/components/plates/ContactPlate";
-import { DataPlate } from "@/components/plates/DataPlate";
+import { AboutTeaser, ContactBand, Services } from "@/components/home/HomeSections";
 import { HeroPlate } from "@/components/plates/HeroPlate";
-import { LabPlate } from "@/components/plates/LabPlate";
-import { MachinePlate } from "@/components/plates/MachinePlate";
-import { MediaPlate } from "@/components/plates/MediaPlate";
-import { WorkPlate } from "@/components/plates/WorkPlate";
+import { FeaturedWork } from "@/components/work/FeaturedWork";
 import { isLocale } from "@/i18n/config";
 
 /**
- * The home page is one long sheet of plates. Rendering is per request
- * (connection()) because every response carries a fresh CSP nonce.
+ * The home page, short on purpose: who Pim is, featured work, what he can
+ * build, a little about him and the way to get in touch. Every section leads
+ * to its own page. Rendering is per request (connection()) because every
+ * response carries a fresh CSP nonce.
  */
 export default async function HomePage({ params }: PageProps<"/[lang]">) {
   await connection();
@@ -21,13 +18,10 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
   return (
     <main id="main">
       <HeroPlate lang={lang} />
-      <AboutPlate lang={lang} />
-      <WorkPlate lang={lang} />
-      <LabPlate lang={lang} />
-      <MediaPlate lang={lang} />
-      <DataPlate lang={lang} />
-      <MachinePlate lang={lang} />
-      <ContactPlate lang={lang} />
+      <FeaturedWork lang={lang} />
+      <Services lang={lang} />
+      <AboutTeaser lang={lang} />
+      <ContactBand lang={lang} />
     </main>
   );
 }

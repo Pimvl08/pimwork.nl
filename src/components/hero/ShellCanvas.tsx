@@ -4,14 +4,12 @@ import { useEffect, useRef, useState } from "react";
 import { useReducedMotion, useVisible } from "@/lib/hooks";
 import { readGlColor } from "@/lib/theme";
 import { cn } from "@/lib/cn";
-import { useUI } from "@/lib/store";
 import { restParams } from "./camera";
 import { clamp, FOLD_RANGE, pointerToPose, REST_FOLD, springStep, type SpringState } from "./logic";
 import { createShellRenderer, type ShellRenderer } from "./shellRenderer";
 import styles from "./hero.module.css";
 
 interface ShellCanvasProps {
-  cursorLabel: string;
   onReady: () => void;
   onLost: () => void;
   onFail: () => void;
@@ -29,15 +27,13 @@ function readColors() {
  * twist) through a critically damped spring; touch bends it by dragging
  * sideways. The loop only runs while visible and the tab is shown.
  */
-export default function ShellCanvas({ cursorLabel, onReady, onLost, onFail, className }: ShellCanvasProps) {
+export default function ShellCanvas({ onReady, onLost, onFail, className }: ShellCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const rendererRef = useRef<ShellRenderer | null>(null);
   const reduce = useReducedMotion();
   const visible = useVisible(canvasRef);
   const [pageShown, setPageShown] = useState(true);
   const [alive, setAlive] = useState(false);
-  // The intro overlay covers the stage; no frames are drawn behind it.
-  const covered = useUI((s) => s.introState === "playing");
   const callbacks = useRef({ onReady, onLost, onFail });
   const motion = useRef({
     fold: { x: REST_FOLD, v: 0 } as SpringState,
@@ -152,7 +148,7 @@ export default function ShellCanvas({ cursorLabel, onReady, onLost, onFail, clas
 
   // The loop: springs towards the target, with a slow breathing fold.
   useEffect(() => {
-    if (reduce || !visible || !pageShown || !alive || covered) return;
+    if (reduce || !visible || !pageShown || !alive) return;
     let raf = 0;
     let last = performance.now();
     const m = motion.current;
@@ -171,7 +167,7 @@ export default function ShellCanvas({ cursorLabel, onReady, onLost, onFail, clas
     };
     raf = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(raf);
-  }, [reduce, visible, pageShown, alive, covered]);
+  }, [reduce, visible, pageShown, alive]);
 
   // Touch and pen: drag sideways on the canvas to bend; vertical scroll stays native (pan-y).
   const onPointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
@@ -198,8 +194,6 @@ export default function ShellCanvas({ cursorLabel, onReady, onLost, onFail, clas
       ref={canvasRef}
       className={cn(styles.canvas, className)}
       aria-hidden="true"
-      data-cursor="drag"
-      data-cursor-label={cursorLabel}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={endDrag}

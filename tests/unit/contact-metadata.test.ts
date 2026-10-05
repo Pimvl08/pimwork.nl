@@ -4,6 +4,7 @@ import manifest from "@/app/manifest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
 import { projects } from "@/content/projects";
+import { pages } from "@/content/sections";
 
 describe("site metadata routes", () => {
   it("robots allows the site, hides the API and the egg ledger, links the sitemap", () => {
@@ -14,12 +15,16 @@ describe("site metadata routes", () => {
     expect(out.sitemap).toMatch(/\/sitemap\.xml$/);
   });
 
-  it("sitemap lists home and every project in both languages with alternates", () => {
+  it("sitemap lists every page and every project in both languages with alternates", () => {
     const entries = sitemap();
-    expect(entries).toHaveLength((projects.length + 1) * 2);
+    expect(entries).toHaveLength((pages.length + projects.length) * 2);
     const urls = entries.map((entry) => entry.url);
     expect(urls.some((url) => url.endsWith("/nl"))).toBe(true);
     expect(urls.some((url) => url.endsWith("/en"))).toBe(true);
+    for (const path of ["/over", "/lab", "/contact", "/werk"]) {
+      expect(urls.some((url) => url.endsWith(`/nl${path}`))).toBe(true);
+      expect(urls.some((url) => url.endsWith(`/en${path}`))).toBe(true);
+    }
     for (const project of projects) {
       const nl = entries.find((entry) => entry.url.endsWith(`/nl/werk/${project.slug}`));
       expect(nl?.alternates?.languages).toMatchObject({ en: expect.stringContaining(`/en/werk/${project.slug}`) });

@@ -48,7 +48,7 @@ function greet(line: string) {
 
 /**
  * Easter eggs, mounted once for the whole site: Konami origami, letter rain,
- * five logo clicks for the compass cursor, "pim" for a greeting, a console
+ * five logo clicks spin the logo like a compass, "pim" for a greeting, a console
  * note, and the one Toaster every toast goes through.
  */
 export default function EasterEggs() {
@@ -108,12 +108,20 @@ export default function EasterEggs() {
     return () => window.removeEventListener("keydown", onKey);
   }, [fold, lang]);
 
-  /* Five clicks on the logo within three seconds: the compass cursor. */
+  /* Five clicks on the logo within three seconds: the mark turns once, like a compass. */
   useEffect(() => {
     const counter = createClickCounter(5, 3000);
     const onClick = (e: MouseEvent) => {
       const target = e.target instanceof Element ? e.target.closest('[data-egg="logo"]') : null;
-      if (target && counter(performance.now())) unlockEgg("compass");
+      if (!target || !counter(performance.now())) return;
+      unlockEgg("compass");
+      const mark = target.querySelector("svg");
+      if (mark && typeof mark.animate === "function" && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        mark.animate([{ transform: "rotate(0deg)" }, { transform: "rotate(360deg)" }], {
+          duration: 1100,
+          easing: "cubic-bezier(0.16, 1, 0.3, 1)",
+        });
+      }
     };
     document.addEventListener("click", onClick, true);
     return () => document.removeEventListener("click", onClick, true);

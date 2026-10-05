@@ -79,7 +79,7 @@
 :root {
   /* Spacing rhythm: one scale for the whole site. */
   --gutter: clamp(1rem, 4vw, 3.5rem);
-  --rail: clamp(0rem, 6vw, 5.5rem);
+  --rail: 0rem;
   --section-y: clamp(6rem, 13vw, 12rem);
   --measure: 66ch;
 
@@ -113,17 +113,6 @@ html {
   scrollbar-color: var(--shade-2) var(--paper);
   scrollbar-width: thin;
   hanging-punctuation: first last;
-}
-
-html.lenis,
-html.lenis body {
-  height: auto;
-}
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-.lenis.lenis-stopped {
-  overflow: clip;
 }
 
 body {
@@ -298,12 +287,6 @@ a:hover {
   to {
     clip-path: circle(150vmax at var(--vt-x, 100%) var(--vt-y, 0%));
   }
-}
-
-/* Native custom cursor is replaced only on fine pointers, see Cursor.tsx. */
-html[data-cursor-root="custom"],
-html[data-cursor-root="custom"] * {
-  cursor: none !important;
 }
 
 @media (prefers-reduced-motion: reduce) {

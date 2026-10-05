@@ -1,26 +1,39 @@
-/* Plate 04: gallery, lightbox and video player. Tokens only. */
+/* =========================================================================
+   Media on a project page: screenshot thumbnails, the lightbox and the
+   custom video player.
+   ========================================================================= */
 
-/* ------------------------------------------------------------ gallery */
-.grid {
+/* --------------------------------------------------------- thumbnails */
+.media {
   display: grid;
-  grid-template-columns: repeat(6, minmax(0, 1fr));
-  column-gap: clamp(0.75rem, 2.5vw, 1.5rem);
-  row-gap: clamp(1.75rem, 5vw, 3.5rem);
-  align-items: start;
+  gap: clamp(1.75rem, 4vw, 2.75rem);
+  max-width: 56rem;
 }
-.item {
-  grid-column: var(--start-sm, auto) / span var(--span-sm, 6);
-  align-self: var(--align, start);
+
+.videoFigure {
   margin: 0;
-  min-width: 0;
 }
-@media (min-width: 56rem) {
-  .grid {
-    grid-template-columns: repeat(12, minmax(0, 1fr));
-  }
-  .item {
-    grid-column: var(--start, auto) / span var(--span, 6);
-  }
+
+.note {
+  margin-top: 0.8rem;
+  max-width: var(--measure);
+  font-style: italic;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  color: var(--ink-mute);
+}
+
+/* Justified rows: every item grows by its aspect ratio, so a row shares one height. */
+.thumbs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.25rem 1rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+.shot {
+  min-width: 0;
 }
 
 .frame {
@@ -33,120 +46,40 @@
   color: inherit;
   cursor: zoom-in;
   overflow: hidden;
-  /* Arched top, as everything in this world. */
-  border-radius: 999px 999px 0 0 / 3.5rem 3.5rem 0 0;
+  border-radius: 999px 999px 0.3rem 0.3rem / 2.25rem 2.25rem 0.3rem 0.3rem;
   outline: 1px solid var(--rule);
   outline-offset: -1px;
   -webkit-tap-highlight-color: transparent;
+  transition: outline-color var(--dur-2) var(--ease-paper);
 }
 .frame:focus-visible {
   outline: 2px solid var(--ink);
   outline-offset: 3px;
 }
-.frame:active .img {
-  transform: scale(1.02);
-}
 .img {
-  display: block;
-  width: 100%;
-  height: auto;
+  object-fit: cover;
   transform: scale(1);
   transform-origin: 50% 60%;
-  transition: transform 1600ms var(--ease-out-expo);
-}
-
-/* Caption: revealed on hover and focus where hovering exists, always shown otherwise. */
-.caption {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0.25rem 0.75rem;
-  padding-top: 0.75rem;
-  transition:
-    opacity var(--dur-3) var(--ease-out-expo),
-    transform var(--dur-3) var(--ease-out-expo);
+  transition: transform 1200ms var(--ease-out-expo);
 }
 @media (hover: hover) and (pointer: fine) {
-  .caption {
-    opacity: 0;
-    transform: translateY(-0.35rem);
+  .frame:hover {
+    outline-color: var(--ink);
   }
-  .item:hover .caption,
-  .item:focus-within .caption {
-    opacity: 1;
-    transform: none;
+  .frame:hover .img {
+    transform: scale(1.025);
   }
-  .item:hover .img {
-    transform: scale(1.06);
-  }
+}
+.frame:active .img {
+  transform: scale(1.01);
 }
 
-/* Arc-shaped reveal: the image unfolds from a rising arch as it enters. */
-@supports (animation-timeline: view()) {
-  @media (prefers-reduced-motion: no-preference) {
-    .reveal {
-      animation: arc-reveal linear both;
-      animation-timeline: view();
-      animation-range: entry 0% entry 80%;
-    }
-  }
-}
-@keyframes arc-reveal {
-  from {
-    clip-path: ellipse(28% 0% at 50% 100%);
-  }
-  to {
-    clip-path: ellipse(80% 160% at 50% 100%);
-  }
-}
-/* Fallback without scroll timelines: set by JS only for items below the fold. */
-.reveal[data-reveal="pending"] {
-  clip-path: ellipse(28% 0% at 50% 100%);
-}
-.reveal[data-reveal="shown"] {
-  clip-path: ellipse(80% 160% at 50% 100%);
-  transition: clip-path var(--dur-5) var(--ease-out-expo);
-}
-
-/* Filter chips. */
-.chips {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-.chip {
-  min-height: 2.75rem;
-  padding: 0 1.1rem;
-  border: 1px solid var(--rule-strong);
-  border-radius: 999px 999px 0.6rem 0.6rem;
-  background: transparent;
-  color: var(--ink-soft);
+.thumbCaption {
+  margin-top: 0.6rem;
   font-style: italic;
-  cursor: pointer;
-  transition:
-    background-color var(--dur-2) var(--ease-paper),
-    color var(--dur-2) var(--ease-paper),
-    border-color var(--dur-2) var(--ease-paper);
-}
-.chip:hover {
-  border-color: var(--ink);
-  color: var(--ink);
-}
-.chip:active {
-  transform: translateY(1px);
-}
-.chip:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 3px;
-}
-.chip[aria-pressed="true"] {
-  background: var(--ink);
-  border-color: var(--ink);
-  color: var(--on-ink);
-}
-.chip:disabled {
-  opacity: 0.45;
-  cursor: not-allowed;
+  font-size: var(--step--1);
+  line-height: 1.4;
+  color: var(--ink-mute);
 }
 
 /* ------------------------------------------------------------ lightbox */
@@ -380,56 +313,3 @@
   scale: 1.3;
 }
 
-/* Tabs (list of recordings). */
-.tab {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: 0.25rem 1rem;
-  align-items: start;
-  width: 100%;
-  min-height: 2.75rem;
-  padding: 1rem 1rem 1rem 0;
-  border: 0;
-  border-top: 1px solid var(--rule);
-  background: transparent;
-  color: var(--ink-soft);
-  text-align: left;
-  cursor: pointer;
-  transition: color var(--dur-2) var(--ease-paper);
-}
-.tab:hover {
-  color: var(--ink);
-}
-.tab:focus-visible {
-  outline: 2px solid var(--ink);
-  outline-offset: 2px;
-}
-.tab[aria-selected="true"] {
-  color: var(--ink);
-}
-.tabMark {
-  display: block;
-  width: 1.75rem;
-  height: 0.9rem;
-  margin-top: 0.4rem;
-  border: 1px solid var(--rule-strong);
-  border-bottom: 0;
-  border-radius: 999px 999px 0 0;
-  transition:
-    background-color var(--dur-2) var(--ease-paper),
-    border-color var(--dur-2) var(--ease-paper);
-}
-.tab[aria-selected="true"] .tabMark {
-  background: var(--ink);
-  border-color: var(--ink);
-}
-.thumbVideo {
-  display: block;
-  width: 100%;
-  aspect-ratio: 16 / 10;
-  object-fit: cover;
-  border-radius: 999px 999px 0 0 / 1.25rem 1.25rem 0 0;
-  outline: 1px solid var(--rule);
-  outline-offset: -1px;
-  background: var(--paper-sunk);
-}

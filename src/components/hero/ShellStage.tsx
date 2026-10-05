@@ -2,10 +2,8 @@
 
 import dynamic from "next/dynamic";
 import { useState } from "react";
-import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import type { Silhouette } from "./camera";
-import { heroCopy } from "./copy";
 import styles from "./hero.module.css";
 
 const ShellCanvas = dynamic(() => import("./ShellCanvas"), { ssr: false, loading: () => null });
@@ -15,7 +13,7 @@ const ShellCanvas = dynamic(() => import("./ShellCanvas"), { ssr: false, loading
  * outline of the folded disc stands in until the WebGL shell has drawn its
  * first frame, and stays as the fallback when WebGL is missing or lost.
  */
-export function ShellStage({ lang, silhouette }: { lang: Locale; silhouette: Silhouette }) {
+export function ShellStage({ silhouette }: { silhouette: Silhouette }) {
   const [ready, setReady] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -34,7 +32,6 @@ export function ShellStage({ lang, silhouette }: { lang: Locale; silhouette: Sil
       </svg>
       {failed ? null : (
         <ShellCanvas
-          cursorLabel={heroCopy.bend[lang]}
           className={ready ? styles.canvasShown : undefined}
           onReady={() => setReady(true)}
           onLost={() => setReady(false)}

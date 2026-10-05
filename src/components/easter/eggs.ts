@@ -11,13 +11,13 @@ export interface EggDef {
   toast: Bilingual<string>;
 }
 
-/** Every easter egg on the site, in the order the secret plate lists them. */
+/** Every easter egg on the site, in the order the hidden page lists them. */
 export const eggs: EggDef[] = [
   {
     id: "origami",
     name: { nl: "Origami", en: "Origami" },
-    found: { nl: "De Konami-code vouwt elke plaat één keer langs de diagonaal.", en: "The Konami code folds every plate once along the diagonal." },
-    hint: { nl: "Een cheatcode uit 1986, buiten een tekstveld. De terminal kent een hint.", en: "A cheat code from 1986, outside a text field. The terminal has a hint." },
+    found: { nl: "De Konami-code vouwt de pagina één keer langs de diagonaal.", en: "The Konami code folds the page once along the diagonal." },
+    hint: { nl: "Een beroemde cheatcode uit 1986, getypt buiten een tekstveld.", en: "A famous cheat code from 1986, typed outside a text field." },
     toast: { nl: "Origami-modus ontgrendeld", en: "Origami mode unlocked" },
   },
   {
@@ -30,9 +30,9 @@ export const eggs: EggDef[] = [
   {
     id: "compass",
     name: { nl: "Passer", en: "Compass" },
-    found: { nl: "Vijf klikken op het logo binnen drie seconden maken van de cursor een passer.", en: "Five clicks on the logo within three seconds turn the cursor into a compass." },
+    found: { nl: "Vijf klikken op het logo binnen drie seconden laten het een rondje draaien, als een passer.", en: "Five clicks on the logo within three seconds spin it round once, like a compass." },
     hint: { nl: "Het logo is geduldig, maar niet eindeloos. Klik vaker dan normaal.", en: "The logo is patient, but not endlessly. Click more than usual." },
-    toast: { nl: "Passer ontgrendeld: de cursor tekent nu cirkels", en: "Compass unlocked: the cursor now draws circles" },
+    toast: { nl: "Passer gevonden: het logo draait een rondje", en: "Compass found: the logo turns a full circle" },
   },
   {
     id: "hello",
@@ -50,10 +50,10 @@ export const eggs: EggDef[] = [
   },
   {
     id: "secret",
-    name: { nl: "Plaat 99", en: "Plate 99" },
-    found: { nl: "Deze plaat. Het commando secret brengt je hier.", en: "This plate. The secret command brings you here." },
+    name: { nl: "Het verborgen blad", en: "The hidden sheet" },
+    found: { nl: "Deze pagina. Het commando secret brengt je hier.", en: "This page. The secret command brings you here." },
     hint: { nl: "", en: "" },
-    toast: { nl: "Plaat 99 gevonden", en: "Plate 99 found" },
+    toast: { nl: "Verborgen blad gevonden", en: "Hidden sheet found" },
   },
 ];
 

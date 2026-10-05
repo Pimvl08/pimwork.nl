@@ -19,12 +19,12 @@ export async function generateMetadata({ params }: ProjectRouteProps, parent: Re
   if (!project) return {};
   const locale: Locale = isLocale(lang) ? lang : "nl";
   // Keep the site's Open Graph fields (image, locale, site name); only the
-  // title, description and url belong to this plate.
+  // title, description and url belong to this project.
   const inherited = (await parent).openGraph ?? {};
   return {
     title: project.name,
-    description: project.short[locale],
-    openGraph: { ...inherited, title: `${project.name} | Pim`, description: project.short[locale], url: `/${locale}/werk/${slug}` },
+    description: project.tagline[locale],
+    openGraph: { ...inherited, title: `${project.name} | Pim`, description: project.tagline[locale], url: `/${locale}/werk/${slug}` },
     alternates: {
       canonical: `/${locale}/werk/${slug}`,
       languages: { "nl-NL": `/nl/werk/${slug}`, "en-GB": `/en/werk/${slug}`, "x-default": `/nl/werk/${slug}` },
@@ -33,8 +33,8 @@ export async function generateMetadata({ params }: ProjectRouteProps, parent: Re
 }
 
 /**
- * A project as a full plate. Reached directly (or on reload); a click from the
- * index opens the same detail in the intercepted modal sheet instead.
+ * A project as a full page. Reached directly (or on reload); a click from the
+ * home page or the work index opens the same detail in the intercepted sheet.
  */
 export default async function ProjectPage({ params }: ProjectRouteProps) {
   await connection();

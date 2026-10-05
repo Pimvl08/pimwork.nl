@@ -1,18 +1,17 @@
 import Image from "next/image";
-import { OpenSlot } from "@/components/ui/OpenSlot";
+import { CreaseMark } from "@/components/ui/CreaseMark";
 import { person } from "@/content/person";
 import type { Locale } from "@/i18n/config";
-import { aboutCopy } from "./copy";
 import styles from "./about.module.css";
 
 /**
- * The arched portrait frame. While person.portrait is null it holds an honest
- * open slot; once a portrait is set it is masked by the same arch.
+ * The arched portrait frame. Once person.portrait is set the photo is masked
+ * by the arch; until then the frame holds the crease mark as a monogram.
  */
 export function Portrait({ lang }: { lang: Locale }) {
   const portrait = person.portrait;
   return (
-    <figure className="mx-auto w-full max-w-[22rem] lg:mx-0">
+    <figure className="mx-auto w-full max-w-[20rem] lg:mx-0 lg:max-w-[22rem]" aria-hidden={portrait ? undefined : true}>
       <div className={styles.arch}>
         <svg className={styles.ring} viewBox="0 0 200 100" aria-hidden="true" focusable="false">
           <path
@@ -24,21 +23,23 @@ export function Portrait({ lang }: { lang: Locale }) {
             className="arc-draw"
           />
         </svg>
-        {portrait ? (
-          <div className={styles.archMask}>
+        <div className={styles.archMask}>
+          {portrait ? (
             <Image
               src={portrait.src}
               alt={portrait.alt[lang]}
               fill
               sizes="(min-width: 1024px) 22rem, 80vw"
               className="object-cover grayscale"
+              priority
             />
-          </div>
-        ) : (
-          <OpenSlot lang={lang} what={aboutCopy.portrait.what[lang]} className="h-full w-full border-b-0" />
-        )}
+          ) : (
+            <div className={styles.monogram}>
+              <CreaseMark size={160} className="h-auto w-[58%]" />
+            </div>
+          )}
+        </div>
       </div>
-      <figcaption className="label mt-4 text-ink-mute">{aboutCopy.portrait.caption[lang]}</figcaption>
     </figure>
   );
 }

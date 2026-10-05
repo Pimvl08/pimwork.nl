@@ -153,7 +153,6 @@ export function LabStage({ lang }: { lang: Locale }) {
                 style={style}
                 onClick={() => select(index, false)}
                 onKeyDown={onTabKey}
-                data-cursor="link"
               >
                 <span className={styles.tabNum}>
                   {copy.proef[lang]} 0{index + 1}

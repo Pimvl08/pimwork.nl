@@ -3,6 +3,7 @@
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment, useEffect, useId, useRef } from "react";
 import { CircleButton } from "@/components/ui/CircleButton";
+import { pageHref, pages } from "@/content/sections";
 import type { Locale } from "@/i18n/config";
 import { useCopy, useLang } from "@/i18n/LocaleProvider";
 import { localizedPath } from "@/lib/locale";
@@ -13,7 +14,6 @@ import styles from "./chrome.module.css";
 import { themeOrigin } from "./controls";
 import { chromeCopy } from "./copy";
 import { shortcutFor } from "./logic";
-import { goToPlate } from "./plates";
 import { Sheet } from "./Sheet";
 
 function isTyping(target: EventTarget | null): boolean {
@@ -85,11 +85,14 @@ export function KeyboardShortcuts() {
           nav.push(`${localizedPath(path ?? `/${current}`, target)}${window.location.hash}`);
           return;
         }
-        case "plate":
+        case "page": {
+          const page = pages.find((p) => p.id === action.id);
+          if (!page) return;
           event.preventDefault();
           if (state.shortcutsOpen) uiStore.set({ shortcutsOpen: false });
-          goToPlate(action.id, current, (href) => nav.push(href));
+          nav.push(pageHref(current, page));
           return;
+        }
       }
     };
     window.addEventListener("keydown", onKey, { capture: true });
@@ -113,7 +116,7 @@ export function ShortcutsSheet({ open }: { open: boolean }) {
     { keys: [["?"]], text: t.sheet },
     { keys: [["T"]], text: t.theme },
     { keys: [["L"]], text: t.lang },
-    { keys: [["0"], ["7"]], text: t.plates },
+    { keys: [["0"], ["4"]], text: t.pages },
     { keys: [["Esc"]], text: t.esc },
   ];
 
@@ -132,7 +135,7 @@ export function ShortcutsSheet({ open }: { open: boolean }) {
             <dt className={styles.keyCombo}>
               {row.keys.map((combo, index) => (
                 <Fragment key={combo.join("+")}>
-                  {index > 0 ? <span className={styles.keyJoin}>{row.text === t.plates ? t.to : t.or}</span> : null}
+                  {index > 0 ? <span className={styles.keyJoin}>{row.text === t.pages ? t.to : t.or}</span> : null}
                   {combo.map((key, k) => (
                     <Fragment key={key}>
                       {k > 0 ? (

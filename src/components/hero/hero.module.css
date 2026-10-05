@@ -1,4 +1,4 @@
-/* Plate 00: the cover. Tokens only; motion is transform, opacity, clip-path. */
+/* The home hero. Tokens only; motion is transform, opacity, clip-path. */
 
 .cover {
   min-height: 100svh;
@@ -64,73 +64,102 @@
   color: var(--ink);
 }
 
-.introLine {
-  margin: 0;
-  max-width: 22ch;
-  font-size: var(--step-2);
-  line-height: 1.38;
-  color: var(--ink-soft);
-  text-wrap: balance;
+.intro {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
 }
 
-/* The phrase: a button that folds over its crease. */
-.phrase {
-  position: relative;
-  display: inline-block;
-  padding: 0 0.1em 0.08em;
-  margin: 0 -0.04em;
-  border: 0;
-  background: none;
-  font: inherit;
+.introLine {
+  display: grid;
+  margin: 0;
+  max-width: 25ch;
+  font-size: var(--step-2);
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+/* Every version of the sentence sits in the same grid cell: the invisible
+   ones reserve the height of the longest, so nothing below ever jumps. */
+.introLine > * {
+  grid-area: 1 / 1;
+}
+.ghost {
+  visibility: hidden;
+  pointer-events: none;
+  user-select: none;
+}
+.ghostPhrase {
   font-style: italic;
-  line-height: inherit;
+}
+.introLead {
   color: var(--ink);
+}
+
+/* The example: an inline control whose words fold over their crease. The ink
+   underline is the one line that marks the live element. */
+.phrase {
+  color: var(--ink);
+  font-style: italic;
   cursor: pointer;
-  perspective: 420px;
-  border-radius: 0.2em;
+  text-decoration-line: underline;
+  text-decoration-color: var(--ink);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  border-radius: 0.15em;
   -webkit-tap-highlight-color: transparent;
+  transition: text-decoration-thickness var(--dur-2) var(--ease-out-expo);
 }
-/* Larger hit area (44px) without changing the line box. */
-.phrase::before {
-  content: "";
-  position: absolute;
-  inset: -0.45em -0.15em;
-}
-/* The crease under the phrase: the one ink line that marks the live element. */
-.phrase::after {
-  content: "";
-  position: absolute;
-  left: 0.1em;
-  right: 0.1em;
-  bottom: 0.04em;
-  height: 1px;
-  background: var(--ink);
-  transform-origin: 50% 100%;
-  transition: transform var(--dur-2) var(--ease-out-expo);
+.word {
+  display: inline-block;
+  transform-origin: 50% 58%;
+  backface-visibility: hidden;
+  text-decoration-line: underline;
+  text-decoration-color: var(--ink);
+  text-decoration-thickness: inherit;
+  text-underline-offset: 0.2em;
 }
 @media (hover: hover) and (pointer: fine) {
-  .phrase:hover::after {
-    transform: scaleY(2);
+  .phrase:hover,
+  .phrase:hover .word {
+    text-decoration-thickness: 2px;
   }
 }
-.phrase:active .phraseFace {
+.phrase:active .word {
   translate: 0 1px;
 }
 .phrase:focus-visible {
   outline: 1px solid var(--ink);
-  outline-offset: 0.3em;
-}
-
-.phraseFace {
-  display: inline-block;
-  transform-origin: 50% 58%;
-  backface-visibility: hidden;
+  outline-offset: 0.2em;
 }
 
 .phraseLink {
-  margin-left: 0.45rem;
-  vertical-align: middle;
-  translate: 0 -0.12em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 2.75rem;
+  color: var(--ink-mute);
+  font-style: italic;
+  font-size: var(--step-0);
+  text-decoration-line: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.25em;
+  transition: color var(--dur-2) var(--ease-paper), text-decoration-color var(--dur-2) var(--ease-paper);
+}
+.phraseLink svg {
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+.phraseLink:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .phraseLink:hover {
+    color: var(--ink);
+    text-decoration-color: currentColor;
+  }
+  .phraseLink:hover svg {
+    transform: translate(2px, -2px);
+  }
 }
 
 .actions {
@@ -196,123 +225,4 @@
 }
 .canvasShown {
   opacity: 1;
-}
-
-/* ----------------------------------------------------- intro sequence */
-
-.intro {
-  position: fixed;
-  inset: 0;
-  z-index: 200;
-}
-
-.introSheet {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  padding: var(--gutter);
-  background: var(--paper-raised);
-  animation:
-    intro-sheet-in var(--sheet-in) var(--ease-out-expo) both,
-    intro-sheet-out var(--fold-dur) var(--ease-crease) var(--fold-start) forwards;
-}
-@keyframes intro-sheet-in {
-  from {
-    clip-path: polygon(0 62%, 100% 38%, 100% 38%, 0 62%);
-  }
-  to {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-}
-@keyframes intro-sheet-out {
-  from {
-    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-  }
-  to {
-    clip-path: polygon(0 62%, 100% 38%, 100% 38%, 0 62%);
-  }
-}
-
-.introText {
-  width: min(100%, 64rem);
-  text-align: center;
-  animation: intro-text-out var(--fold-dur) var(--ease-crease) var(--fold-start) forwards;
-}
-@keyframes intro-text-out {
-  to {
-    opacity: 0.25;
-    transform: perspective(900px) rotateX(24deg) scale(0.94);
-  }
-}
-
-.introLine1 {
-  margin: 0 auto;
-  max-width: 17ch;
-  font-style: italic;
-  font-size: var(--step-4);
-  line-height: 1.04;
-  color: var(--ink);
-  text-wrap: balance;
-}
-.introLine2 {
-  margin: 1.25rem 0 0;
-  font-size: var(--step-2);
-  line-height: 1.3;
-  color: var(--ink-soft);
-}
-
-.introWord {
-  display: inline-block;
-  margin-right: 0.24em;
-  transform-origin: 50% 0%;
-  animation: intro-word var(--word-dur) var(--ease-out-expo) both;
-}
-.introWord:last-child {
-  margin-right: 0;
-}
-@keyframes intro-word {
-  from {
-    opacity: 0;
-    transform: perspective(700px) rotateX(-82deg) translateY(0.12em);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
-}
-
-.introCrease {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  overflow: visible;
-  pointer-events: none;
-}
-.introCrease path {
-  fill: none;
-  stroke: var(--ink);
-  stroke-width: 1.25;
-  stroke-dasharray: 1;
-  stroke-dashoffset: 1;
-  animation:
-    intro-crease-draw var(--crease-dur) var(--ease-crease) var(--crease-start) forwards,
-    intro-crease-fade 260ms var(--ease-paper) var(--fade-start) forwards;
-}
-@keyframes intro-crease-draw {
-  to {
-    stroke-dashoffset: 0;
-  }
-}
-@keyframes intro-crease-fade {
-  to {
-    opacity: 0;
-  }
-}
-
-.introSkip {
-  position: absolute;
-  right: var(--gutter);
-  bottom: max(var(--gutter), env(safe-area-inset-bottom));
 }

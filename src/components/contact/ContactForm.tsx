@@ -201,9 +201,9 @@ export function ContactForm({ lang, renderedAt, githubHref }: { lang: Locale; re
             <NoticeSheet labelledBy="contact-success-title">
               <div className="flex flex-col items-start gap-5 px-1 pb-2 pt-2 md:px-4 md:pt-4">
                 <Icon name="crease" size={40} className="text-ink" />
-                <h3 id="contact-success-title" ref={successRef} tabIndex={-1} className="text-[length:var(--step-2)] italic leading-tight outline-none focus-visible:underline">
+                <h2 id="contact-success-title" ref={successRef} tabIndex={-1} className="text-[length:var(--step-2)] italic leading-tight outline-none focus-visible:underline">
                   {copy.success.title[lang]}
-                </h3>
+                </h2>
                 <p className="measure text-ink-soft">{copy.success.body[lang]}</p>
                 <ArchButton variant="secondary" icon="reset" onClick={reset}>
                   {copy.success.again[lang]}
@@ -227,9 +227,9 @@ export function ContactForm({ lang, renderedAt, githubHref }: { lang: Locale; re
           >
             {summaryFields.length > 0 ? (
               <NoticeSheet labelledBy="contact-summary-title" sheetRef={summaryRef}>
-                <h3 id="contact-summary-title" className="text-[length:var(--step-1)] italic">
+                <h2 id="contact-summary-title" className="text-[length:var(--step-1)] italic">
                   {copy.summary.title[lang](summaryFields.length)}
-                </h3>
+                </h2>
                 <ul className="mt-3 flex flex-col gap-2">
                   {summaryFields.map((field) => (
                     <li key={field}>
@@ -333,9 +333,9 @@ export function ContactForm({ lang, renderedAt, githubHref }: { lang: Locale; re
 
             {notice ? (
               <NoticeSheet labelledBy="contact-notice-title" sheetRef={noticeRef} live>
-                <h3 id="contact-notice-title" className="text-[length:var(--step-1)] italic">
+                <h2 id="contact-notice-title" className="text-[length:var(--step-1)] italic">
                   {copy.notices[notice.notice].title[lang]}
-                </h3>
+                </h2>
                 <p className="measure mt-2 text-ink-soft">
                   {notice.notice === "rate_limited"
                     ? copy.notices.rate_limited.body[lang](copy.wait[lang](notice.retryAfter ?? 600))

@@ -1,0 +1,196 @@
+/* Home page sections below the hero. Tokens only. */
+
+.section {
+  position: relative;
+  padding: clamp(4rem, 8vw, 7.5rem) var(--gutter);
+  overflow-x: clip;
+  scroll-margin-top: 4rem;
+}
+
+.heading {
+  margin: 0;
+  color: var(--ink);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--step-4);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+.lead {
+  max-width: 38ch;
+  margin: 1.25rem 0 0;
+  color: var(--ink-soft);
+  font-size: var(--step-1);
+  line-height: 1.45;
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------ services */
+
+.servicesGrid {
+  position: relative;
+  display: grid;
+  gap: clamp(2.5rem, 5vw, 4rem);
+}
+@media (min-width: 64rem) {
+  .servicesGrid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+    align-items: start;
+  }
+  .servicesIntro {
+    position: sticky;
+    top: 6.5rem;
+  }
+}
+
+.serviceList {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-bottom: 1px solid var(--rule);
+}
+.service {
+  position: relative;
+  display: grid;
+  gap: 0.65rem;
+  padding: clamp(1.5rem, 3vw, 2.1rem) 0;
+  border-top: 1px solid var(--rule);
+}
+/* A short compass arc lifts off the rule at the start of every item. */
+.serviceArc {
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 4.5rem;
+  height: 0.7rem;
+  overflow: visible;
+  transform: translateY(-100%);
+  color: var(--ink);
+}
+.serviceArc path {
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.25;
+  stroke-linecap: round;
+}
+.serviceTitle {
+  margin: 0;
+  color: var(--ink);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--step-2);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.serviceBody {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--ink-soft);
+  line-height: 1.6;
+}
+.proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0 1.25rem;
+  margin: 0.15rem 0 0;
+}
+.proofLabel {
+  color: var(--ink-mute);
+  font-style: italic;
+  font-size: var(--step--1);
+}
+.proofLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 2.75rem;
+  color: var(--ink);
+  font-style: italic;
+  text-decoration-line: underline;
+  text-decoration-color: var(--rule-strong);
+  text-underline-offset: 0.25em;
+  transition: text-decoration-color var(--dur-2) var(--ease-paper);
+}
+.proofLink svg {
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+.proofLink:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .proofLink:hover {
+    text-decoration-color: currentColor;
+  }
+  .proofLink:hover svg {
+    transform: translate(2px, -2px);
+  }
+}
+
+/* --------------------------------------------------------------- about */
+
+.aboutGrid {
+  display: grid;
+  gap: 1.5rem clamp(2.5rem, 5vw, 4rem);
+  padding-top: clamp(2rem, 4vw, 3rem);
+  border-top: 1px solid var(--rule);
+}
+@media (min-width: 64rem) {
+  .aboutGrid {
+    grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  }
+}
+.aboutText {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1.75rem;
+}
+.aboutQuote {
+  max-width: 34ch;
+  margin: 0;
+  color: var(--ink);
+  font-style: italic;
+  font-size: var(--step-2);
+  line-height: 1.32;
+  text-wrap: pretty;
+}
+
+/* ------------------------------------------------------------- contact */
+
+.band {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  padding: clamp(3.5rem, 7vw, 6rem) var(--gutter) clamp(3rem, 6vw, 4.5rem);
+  border: 1px solid var(--rule-strong);
+  border-radius: 50% 50% 1.75rem 1.75rem / clamp(2.5rem, 7vw, 5.5rem) clamp(2.5rem, 7vw, 5.5rem) 1.75rem 1.75rem;
+  background: var(--paper-raised);
+  text-align: center;
+  overflow: hidden;
+}
+.band > :not(svg) {
+  position: relative;
+}
+.bandHeading {
+  max-width: 20ch;
+  margin: 0;
+  color: var(--ink);
+  font-style: italic;
+  font-weight: 400;
+  font-size: var(--step-3);
+  line-height: 1.08;
+  letter-spacing: -0.015em;
+  text-wrap: balance;
+}
+.bandBody {
+  max-width: 44ch;
+  margin: 0 0 0.75rem;
+  color: var(--ink-soft);
+  font-size: var(--step-1);
+  line-height: 1.45;
+  text-wrap: balance;
+}

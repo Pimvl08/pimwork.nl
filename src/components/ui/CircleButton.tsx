@@ -26,13 +26,13 @@ export function CircleButton(props: AsButton | AsLink) {
     const external = /^https?:\/\//.test(href);
     if (external) {
       return (
-        <a href={href} aria-label={label} title={label} className={classes} target="_blank" rel="noopener noreferrer" data-cursor="link" {...anchor}>
+        <a href={href} aria-label={label} title={label} className={classes} target="_blank" rel="noopener noreferrer" {...anchor}>
           {content}
         </a>
       );
     }
     return (
-      <Link href={href} aria-label={label} title={label} className={classes} data-cursor="link" {...anchor}>
+      <Link href={href} aria-label={label} title={label} className={classes} {...anchor}>
         {content}
       </Link>
     );
@@ -45,7 +45,7 @@ export function CircleButton(props: AsButton | AsLink) {
       title={label}
       aria-pressed={pressed}
       className={classes}
-      data-cursor="link"
+     
       {...button}
     >
       {content}

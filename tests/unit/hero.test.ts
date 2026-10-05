@@ -1,17 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { project, shellSilhouette, STAGE_ASPECT, viewSetup } from "@/components/hero/camera";
-import { introLine2, introPhrases, introSentence } from "@/components/hero/copy";
+import { heroCopy, introPhrases, introSentence } from "@/components/hero/copy";
 import {
-  countWord,
   creaseLineColor,
-  INTRO,
   needsRebuild,
   nextIndex,
   pointerToPose,
   springSettled,
   springStep,
-  splitWords,
-  wordDelay,
 } from "@/components/hero/logic";
 import { getProject } from "@/content/projects";
 
@@ -58,9 +54,22 @@ describe("phrase cycling", () => {
     for (const phrase of introPhrases) expect(getProject(phrase.slug)).toBeDefined();
   });
 
-  it("builds the spoken sentence", () => {
-    expect(introSentence("Pim", introPhrases[0], "nl")).toBe("Pim bouwt werkende apps met code en AI.");
-    expect(introSentence("Pim", introPhrases[1], "en")).toBe("Pim builds desktop tools with code and AI.");
+  it("builds the spoken sentence in the first person", () => {
+    expect(introSentence(introPhrases[0], "nl")).toBe(
+      "Ik bouw software die werk uit handen neemt, zoals een trainingsapp die ik elke week gebruik.",
+    );
+    expect(introSentence(introPhrases[0], "en")).toBe(
+      "I build software that takes work off your hands, like a training app I use every week.",
+    );
+  });
+
+  it("starts every example with an article, so each sentence stays grammatical", () => {
+    for (const phrase of introPhrases) {
+      expect(phrase.label.nl).toMatch(/^een /);
+      expect(phrase.label.en).toMatch(/^an? /);
+      expect(phrase.label.nl).not.toMatch(/[.,]$/);
+      expect(phrase.label.en).not.toMatch(/[.,]$/);
+    }
   });
 });
 
@@ -84,35 +93,11 @@ describe("pointer to pose", () => {
   });
 });
 
-describe("intro copy and timeline", () => {
-  it("writes counts as words", () => {
-    expect(countWord(8, "nl")).toBe("Acht");
-    expect(countWord(5, "en")).toBe("Five");
-    expect(countWord(42, "nl")).toBe("42");
-  });
-
-  it("composes the second line from the real counts", () => {
-    expect(introLine2(8, 5, "nl")).toBe("Acht projecten. Vijf experimenten. Eén lijn.");
-    expect(introLine2(8, 5, "en")).toBe("Eight projects. Five experiments. One line.");
-    expect(introLine2(1, 1, "nl")).toBe("Eén project. Eén experiment. Eén lijn.");
-  });
-
-  it("splits words and keeps punctuation", () => {
-    expect(splitWords(" Welkom in  Pims wereld. ")).toEqual(["Welkom", "in", "Pims", "wereld."]);
-  });
-
-  it("lasts about 3.4 seconds and finishes every step in time", () => {
-    expect(INTRO.total).toBeGreaterThanOrEqual(3200);
-    expect(INTRO.total).toBeLessThanOrEqual(3600);
-    expect(INTRO.foldStart + INTRO.foldDuration).toBeLessThanOrEqual(INTRO.total);
-    expect(INTRO.creaseStart + INTRO.creaseDuration).toBeLessThanOrEqual(INTRO.foldStart);
-    expect(wordDelay(2, 5) + INTRO.wordDuration).toBeLessThanOrEqual(INTRO.creaseStart + INTRO.creaseDuration);
-    expect(wordDelay(1, 1) - wordDelay(1, 0)).toBe(INTRO.line1Stagger);
-  });
-
-  it("no em or en dash in any copy", () => {
-    const text = [introLine2(8, 5, "nl"), introLine2(8, 5, "en"), ...introPhrases.flatMap((p) => [p.label.nl, p.label.en])].join(" ");
+describe("hero copy", () => {
+  it("never uses an em or en dash, and never mentions tools or the old intro", () => {
+    const text = JSON.stringify([heroCopy, introPhrases]);
     expect(text).not.toMatch(/[\u2013\u2014]/);
+    expect(text).not.toMatch(/Claude|digitale wereld|digital world/i);
   });
 });
 

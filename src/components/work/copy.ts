@@ -1,83 +1,87 @@
 import type { Bilingual } from "@/i18n/config";
 
-/** Interface copy for plate 02, the project pages and the modal sheet. */
+/** Interface copy for the work page, the featured work, the project pages and the sheet. */
 export const workCopy: Bilingual<{
   title: string;
   lead: string;
+  metaDescription: string;
   listLabel: string;
-  cursor: string;
-  open: string;
+  featuredTitle: string;
+  featuredLead: string;
+  allProjects: string;
+  view: string;
+  audience: string;
   problem: string;
-  whatItDoes: string;
-  highlights: string;
-  hardProblems: string;
-  metrics: string;
-  metricLabel: string;
-  metricValue: string;
+  solution: string;
+  benefits: string;
+  craft: string;
+  challenge: string;
+  media: string;
   stack: string;
   links: string;
-  noLinks: string;
   pager: string;
   prev: string;
   next: string;
   back: string;
   close: string;
   fig: string;
-  plate: string;
 }> = {
   nl: {
     title: "Werk",
-    lead: "Acht projecten die Pim bouwde met code en AI. Elk krijgt een eigen plaat: wat het probleem was, hoe het werkt en wat de meeste tijd kostte.",
+    lead: "Dit heb ik gebouwd, van een desktopapp voor een heel team tot een drukklaar kleurboek. Bij elk project lees je voor wie het is, welk probleem het oplost en hoe ik het heb aangepakt.",
+    metaDescription: "Projecten van Pim: apps, tools en werkstromen die hij bouwde, met voor wie ze zijn, welk probleem ze oplossen en hoe ze werken.",
     listLabel: "Projecten",
-    cursor: "Bekijk",
-    open: "Open de plaat van",
+    featuredTitle: "Uitgelicht werk",
+    featuredLead: "Drie projecten die laten zien wat ik bouw: voor een team, voor de sportschool en voor een vakman die snel een offerte wil sturen.",
+    allProjects: "Alle projecten",
+    view: "Bekijk",
+    audience: "Voor wie",
     problem: "Het probleem",
-    whatItDoes: "Wat het doet",
-    highlights: "Hoe het werkt",
-    hardProblems: "Wat tijd kostte",
-    metrics: "Gemeten",
-    metricLabel: "Meting",
-    metricValue: "Waarde",
-    stack: "Gereedschap",
+    solution: "Wat ik bouwde",
+    benefits: "Wat het oplevert",
+    craft: "Onder de motorkap",
+    challenge: "Het lastigste stuk",
+    media: "In beeld",
+    stack: "Gebouwd met",
     links: "Links",
-    noLinks: "Er is geen openbare link naar dit project.",
     pager: "Andere projecten",
-    prev: "Vorige plaat",
-    next: "Volgende plaat",
+    prev: "Vorig project",
+    next: "Volgend project",
     back: "Alle projecten",
     close: "Sluiten",
     fig: "fig.",
-    plate: "Plaat",
   },
   en: {
     title: "Work",
-    lead: "Eight projects Pim built with code and AI. Each one gets its own plate: what the problem was, how it works and what took the most time.",
+    lead: "This is what I have built, from a desktop app for a whole team to a print-ready coloring book. For each project you can read who it is for, which problem it solves and how I approached it.",
+    metaDescription: "Projects by Pim: apps, tools and workflows he built, with who they are for, which problem they solve and how they work.",
     listLabel: "Projects",
-    cursor: "View",
-    open: "Open the plate of",
+    featuredTitle: "Selected work",
+    featuredLead: "Three projects that show what I build: for a team, for the gym and for a tradesperson who wants to send a quote fast.",
+    allProjects: "All projects",
+    view: "View",
+    audience: "Who it is for",
     problem: "The problem",
-    whatItDoes: "What it does",
-    highlights: "How it works",
-    hardProblems: "What cost time",
-    metrics: "Measured",
-    metricLabel: "Measure",
-    metricValue: "Value",
-    stack: "Tools",
+    solution: "What I built",
+    benefits: "What it delivers",
+    craft: "Under the hood",
+    challenge: "The hardest part",
+    media: "Screens",
+    stack: "Built with",
     links: "Links",
-    noLinks: "There is no public link to this project.",
     pager: "Other projects",
-    prev: "Previous plate",
-    next: "Next plate",
+    prev: "Previous project",
+    next: "Next project",
     back: "All projects",
     close: "Close",
     fig: "fig.",
-    plate: "Plate",
   },
 };
 
 /**
  * Words inside the authored plate diagrams. Every label describes the real
- * mechanism of the project as written in content/projects.ts.
+ * mechanism of the project as written in content/projects.ts. No dates, costs
+ * or internal numbers.
  */
 export const diagramCopy = {
   teamsync: {
@@ -152,52 +156,26 @@ export const diagramCopy = {
       window: "one window",
     },
   },
-  capcraft: {
-    nl: {
-      caption: "Elke route laadt zijn eigen LCP-beeld vooraf; de layout shift daalt van 0,21 naar 0,001.",
-      alt: "Diagram: een route zoals /products laadt met een preload-link vooraf precies het beeld dat het grootste element van die pagina is. Rechts een meter voor Cumulative Layout Shift: de naald gaat van 0,21 naar 0,001.",
-      route: "route",
-      lcp: "LCP-beeld",
-      own: "alleen het eigen beeld",
-      cls: "Cumulative Layout Shift",
-      before: "0,21",
-      after: "0,001",
-      zero: "0",
-      max: "0,25",
-    },
-    en: {
-      caption: "Every route preloads its own LCP image; layout shift drops from 0.21 to 0.001.",
-      alt: "Diagram: a route such as /products uses a preload link to fetch exactly the image that is the largest element of that page. On the right a gauge for Cumulative Layout Shift: the needle moves from 0.21 to 0.001.",
-      route: "route",
-      lcp: "LCP image",
-      own: "only its own image",
-      cls: "Cumulative Layout Shift",
-      before: "0.21",
-      after: "0.001",
-      zero: "0",
-      max: "0.25",
-    },
-  },
   "kdp-kleurboek": {
     nl: {
-      caption: "Van ruwe PNG naar gekeurde vector, binnen een harde budgetgrens van $7.",
-      alt: "Diagram: vier stappen per kleurplaat. Een ruwe PNG met grijze spikkels wordt opgeschoond met een threshold, gevectoriseerd met potrace en gekeurd, met 0 grijze pixels als uitkomst. Daaronder het API-budget: $3,85 voor 147 calls, tegen een harde grens van $7 waarboven de code een call weigert.",
-      stages: ["ruwe PNG", "opgeschoond", "vector", "QC"],
-      subs: ["grijs, spikkels", "threshold", "potrace", "0 grijze pixels"],
-      budget: "API-budget",
-      spent: "$3,85 · 147 calls",
-      limit: "harde grens $7",
-      refuse: "weigert",
+      caption: "Van ruwe tekening naar gekeurde vectorplaat: elke plaat wordt op drie punten gecontroleerd.",
+      alt: "Diagram: vier stappen per kleurplaat. Een ruwe tekening met grijze spikkels wordt opgeschoond, met potrace omgezet naar strakke vectorlijnen en daarna gekeurd. De keuring controleert de lijndikte, te kleine vlakjes en losse vormen die nergens aan vastzitten. Pas als alle drie in orde zijn, gaat de plaat het boek in.",
+      stages: ["ruwe tekening", "opgeschoond", "vector", "keuring"],
+      subs: ["grijs, spikkels", "drempelwaarde", "potrace", "0 grijze pixels"],
+      inspect: "keuring per plaat",
+      checks: ["lijndikte", "te kleine vlakjes", "losse vormen"],
+      pass: "in orde",
+      verdict: "het boek in",
     },
     en: {
-      caption: "From raw PNG to checked vector, inside a hard budget limit of $7.",
-      alt: "Diagram: four steps per coloring page. A raw PNG with grey speckles is cleaned with a threshold, vectorised with potrace and checked, ending with 0 grey pixels. Below it the API budget: $3.85 for 147 calls, against a hard limit of $7 above which the code refuses a call.",
-      stages: ["raw PNG", "cleaned", "vector", "QC"],
+      caption: "From raw drawing to inspected vector plate: every plate is checked on three points.",
+      alt: "Diagram: four steps per coloring page. A raw drawing with grey speckles is cleaned up, turned into clean vector lines with potrace and then inspected. The inspection checks the line weight, regions that are too small and loose shapes that float free. Only when all three pass does the plate go into the book.",
+      stages: ["raw drawing", "cleaned", "vector", "inspection"],
       subs: ["grey, speckles", "threshold", "potrace", "0 grey pixels"],
-      budget: "API budget",
-      spent: "$3.85 · 147 calls",
-      limit: "hard limit $7",
-      refuse: "refuses",
+      inspect: "inspection per plate",
+      checks: ["line weight", "tiny regions", "loose shapes"],
+      pass: "passed",
+      verdict: "into the book",
     },
   },
   "solana-forensics": {
@@ -246,26 +224,6 @@ export const diagramCopy = {
       page: "Page",
       of: "of",
       totals: "total",
-    },
-  },
-  paletteforge: {
-    nl: {
-      caption: "Tintrotaties op de kleurcirkel, alleen in inkt getekend: 30, 120, 180 en 240 graden.",
-      alt: "Diagram: een kleurcirkel in inkt, zonder kleur. Vanaf de basistint staan de afgeleide tinten op 30 graden (analoog), 120 en 240 graden (triadisch) en 180 graden (complementair), elk met een boog die de rotatie meet.",
-      base: "basis",
-      analog: "analoog",
-      triadic: "triadisch",
-      complement: "complementair",
-      model: "hex, RGB, HSL",
-    },
-    en: {
-      caption: "Hue rotations on the colour wheel, drawn in ink only: 30, 120, 180 and 240 degrees.",
-      alt: "Diagram: a colour wheel drawn in ink, without colour. From the base hue the derived hues sit at 30 degrees (analogous), 120 and 240 degrees (triadic) and 180 degrees (complementary), each with an arc measuring the rotation.",
-      base: "base",
-      analog: "analogous",
-      triadic: "triadic",
-      complement: "complementary",
-      model: "hex, RGB, HSL",
     },
   },
 } as const;

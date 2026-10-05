@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Fragment } from "react";
-import { CircleButton } from "@/components/ui/CircleButton";
 import circle from "@/components/ui/CircleButton.module.css";
 import { Icon } from "@/components/ui/Icon";
 import { locales, type Locale } from "@/i18n/config";
@@ -11,10 +10,17 @@ import { useCopy, useLang } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/cn";
 import { localizedPath } from "@/lib/locale";
 import { persistLocale } from "@/lib/prefs";
-import { uiStore, useUI } from "@/lib/store";
+import { useUI } from "@/lib/store";
 import { toggleTheme } from "@/lib/theme";
 import styles from "./chrome.module.css";
 import { chromeCopy, languageNames } from "./copy";
+import { activePageId } from "./logic";
+
+/** The page the visitor is on, from the URL (null outside the menu). */
+export function useActivePage() {
+  const lang = useLang();
+  return activePageId(usePathname(), lang);
+}
 
 /** "NL · EN": real links to the same page in the other language. */
 export function LangSwitch({ className, large = false }: { className?: string; large?: boolean }) {
@@ -26,7 +32,7 @@ export function LangSwitch({ className, large = false }: { className?: string; l
   const onClick = (event: React.MouseEvent<HTMLAnchorElement>, target: Locale, href: string) => {
     persistLocale(target);
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
-    // Keep the reader on the same plate when switching language.
+    // Keep the reader at the same anchor when switching language.
     if (window.location.hash) {
       event.preventDefault();
       router.push(`${href}${window.location.hash}`);
@@ -50,7 +56,6 @@ export function LangSwitch({ className, large = false }: { className?: string; l
               lang={target}
               aria-current={target === lang ? "true" : undefined}
               className={styles.langLink}
-              data-cursor="link"
               onClick={(event) => onClick(event, target, href)}
             >
               {target.toUpperCase()}
@@ -78,7 +83,6 @@ export function ThemeToggle({ className }: { className?: string }) {
       className={cn(circle.circle, circle.md, styles.themeToggle, className)}
       aria-label={label}
       title={label}
-      data-cursor="link"
       data-theme-toggle=""
       onClick={(event) => {
         const rect = event.currentTarget.getBoundingClientRect();
@@ -92,19 +96,6 @@ export function ThemeToggle({ className }: { className?: string }) {
         <Icon name="moon" size={20} />
       </span>
     </button>
-  );
-}
-
-export function TerminalButton({ className }: { className?: string }) {
-  const label = useCopy(chromeCopy.terminal);
-  return (
-    <CircleButton
-      icon="terminal"
-      label={label}
-      className={className}
-      aria-keyshortcuts="Control+K Meta+K"
-      onClick={() => uiStore.set({ terminalOpen: true })}
-    />
   );
 }
 

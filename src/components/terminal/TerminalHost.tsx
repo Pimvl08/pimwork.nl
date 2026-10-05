@@ -18,7 +18,7 @@ const LEAVING = new Set<Action["type"]>(["goto", "open", "secret", "matrix", "la
 
 /**
  * The global terminal: one modal sheet with two modes, a command palette
- * (fuzzy search over commands, plates and projects) and the terminal itself.
+ * (fuzzy search over pages, projects and commands) and the terminal itself.
  * Opened through uiStore.terminalOpen (Ctrl/Cmd+K is wired by the chrome).
  */
 export default function TerminalHost() {

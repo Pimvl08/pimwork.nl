@@ -1,4 +1,4 @@
-/* Plate 07 form fields, drawn like the text input on the quality board:
+/* Contact form fields, drawn like the text input on the quality board:
    an arched top edge, the label above, a divider and a small arrow. */
 
 .field {
@@ -219,7 +219,7 @@
   }
 }
 
-/* Plate frame: keeps the decorative arc behind the content of this plate only. */
+/* Page frame: keeps the decorative arc behind the content of this page only. */
 .plate {
   isolation: isolate;
 }

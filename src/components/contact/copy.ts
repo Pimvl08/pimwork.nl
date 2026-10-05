@@ -2,28 +2,28 @@ import type { Bilingual } from "@/i18n/config";
 import type { ContactField, FieldErrorCode } from "@/lib/contact-schema";
 
 /**
- * All visible text of plate 07. Error messages are keyed by the short codes
+ * All visible text of the contact page. Error messages are keyed by the short codes
  * of the shared schema, so the browser and the server speak the same words.
  */
 export const contactCopy = {
   title: { nl: "Contact", en: "Contact" },
   lead: {
-    nl: "Schrijf Pim een bericht, over een project, een vraag of een idee.",
-    en: "Write Pim a message, about a project, a question or an idea.",
+    nl: "Heb je een idee, een vraag of een probleem waar software bij kan helpen? Stuur me een bericht.",
+    en: "Do you have an idea, a question or a problem that software could help with? Send me a message.",
   },
   alt: {
     heading: { nl: "Liever zonder formulier", en: "Rather without a form" },
     body: {
-      nl: "Al zijn projecten staan op GitHub. Daar kun je hem ook vinden.",
-      en: "All his projects live on GitHub. You can find him there too.",
+      nl: "Mijn projecten staan op GitHub. Daar kun je me ook bereiken.",
+      en: "My projects live on GitHub. You can reach me there too.",
     },
-    button: { nl: "Pim op GitHub", en: "Pim on GitHub" },
+    button: { nl: "Naar mijn GitHub", en: "Go to my GitHub" },
   },
   formLabel: { nl: "Contactformulier", en: "Contact form" },
   fields: {
     name: {
       label: { nl: "Naam", en: "Name" },
-      placeholder: { nl: "Hoe mag Pim je noemen", en: "What should Pim call you" },
+      placeholder: { nl: "Hoe mag ik je noemen?", en: "What should I call you?" },
     },
     email: {
       label: { nl: "E-mail", en: "Email" },
@@ -69,10 +69,10 @@ export const contactCopy = {
   submitting: { nl: "Bezig met versturen", en: "Sending" },
   notices: {
     not_configured: {
-      title: { nl: "Verzenden staat nog uit", en: "Sending is switched off for now" },
+      title: { nl: "Je bericht is niet verstuurd", en: "Your message was not sent" },
       body: {
-        nl: "Verzenden staat nog uit: er is nog geen mailkoppeling ingesteld. Je bericht is niet verstuurd. Bereik Pim via GitHub.",
-        en: "Sending is switched off for now: no mail connection has been set up yet. Your message was not sent. Reach Pim through GitHub.",
+        nl: "Dit formulier is nog niet gekoppeld aan mijn mailbox, dus berichten komen nog niet aan. Je tekst staat er nog. Bereik me tot die tijd via GitHub.",
+        en: "This form is not connected to my inbox yet, so messages do not arrive. Your text is still here. Until then, reach me through GitHub.",
       },
     },
     rate_limited: {
@@ -106,8 +106,8 @@ export const contactCopy = {
     failed: {
       title: { nl: "Niet verstuurd", en: "Not sent" },
       body: {
-        nl: "Er ging iets mis bij het versturen. Je bericht is niet aangekomen. Probeer het later opnieuw of bereik Pim via GitHub.",
-        en: "Something went wrong while sending. Your message did not arrive. Try again later or reach Pim through GitHub.",
+        nl: "Er ging iets mis bij het versturen. Je bericht is niet aangekomen. Probeer het later opnieuw of bereik me via GitHub.",
+        en: "Something went wrong while sending. Your message did not arrive. Try again later or reach me through GitHub.",
       },
     },
   },
@@ -118,10 +118,19 @@ export const contactCopy = {
   success: {
     title: { nl: "Dank je, je bericht is verstuurd", en: "Thank you, your message has been sent" },
     body: {
-      nl: "Het staat nu in de mailbox van Pim. Een antwoord komt op het e-mailadres dat je opgaf.",
-      en: "It is now in Pim's inbox. A reply will go to the email address you gave.",
+      nl: "Het staat nu in mijn mailbox. Ik antwoord op het e-mailadres dat je opgaf.",
+      en: "It is now in my inbox. I will reply to the email address you gave.",
     },
     again: { nl: "Nog een bericht", en: "Another message" },
   },
   github: { nl: "GitHub", en: "GitHub" },
+  /** Shown above the form while no mail connection is set up on the server. */
+  offline: {
+    heading: { nl: "Het formulier verstuurt nog geen berichten", en: "This form does not send messages yet" },
+    body: {
+      nl: "De koppeling met mijn mailbox staat nog niet aan. Wil je me nu iets laten weten, bereik me dan via GitHub.",
+      en: "The connection to my inbox is not switched on yet. If you want to reach me now, use GitHub.",
+    },
+    button: { nl: "Bereik me via GitHub", en: "Reach me on GitHub" },
+  },
 };

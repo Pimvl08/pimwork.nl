@@ -214,72 +214,6 @@ function Belhulp({ t }: { t: CopyOf<"belhulp"> }) {
   );
 }
 
-function CapCraft({ t }: { t: CopyOf<"capcraft"> }) {
-  const cx = 360;
-  const cy = 262;
-  const toDeg = (v: number) => -90 + (v / 0.25) * 180;
-  const before = toDeg(0.21);
-  const after = toDeg(0.001);
-  const [bx, by] = polar(cx, cy, 72, before);
-  const [ax, ay] = polar(cx, cy, 72, after);
-  const [s1x, s1y] = polar(cx, cy, 48, before);
-  const [s2x, s2y] = polar(cx, cy, 48, after);
-  const [lbx, lby] = polar(cx, cy, 98, before);
-  const ticks = [0, 0.05, 0.1, 0.15, 0.2, 0.25];
-  return (
-    <>
-      <text x={40} y={70} className={s.small}>
-        {t.route}
-      </text>
-      <text x={40} y={92} className={`${s.mono} ${s.inkText}`}>
-        /products
-      </text>
-      <path className={s.inkThin} d="M60 100 C 60 130, 90 140, 90 162" />
-      <Head x={90} y={162} angle={90} ink />
-      <text x={102} y={126} className={s.mono}>
-        {'<link rel="preload">'}
-      </text>
-      <rect x={40} y={140} width={190} height={180} rx={3} className={s.hair} />
-      <path className={s.hair} d="M40 156 H 230" />
-      <rect x={56} y={168} width={158} height={72} className={s.ink} />
-      <path className={s.hair} d="M56 168 L 214 240 M214 168 L 56 240" />
-      <text x={56} y={260} className={`${s.small} ${s.inkText}`}>
-        {t.lcp}
-      </text>
-      <path className={s.hair} d="M56 278 H 200 M56 292 H 180 M56 306 H 150" />
-      <text x={40} y={342} className={s.small}>
-        {t.own}
-      </text>
-      <path className={s.mute} d={`M${cx - 84} ${cy} A 84 84 0 0 1 ${cx + 84} ${cy}`} />
-      {ticks.map((v) => {
-        const [x1, y1] = polar(cx, cy, 84, toDeg(v));
-        const [x2, y2] = polar(cx, cy, 92, toDeg(v));
-        return <path key={v} className={s.mute} d={`M${x1} ${y1} L${x2} ${y2}`} />;
-      })}
-      <text x={cx - 84} y={cy + 20} textAnchor="middle" className={s.mono}>
-        {t.zero}
-      </text>
-      <text x={cx + 84} y={cy + 20} textAnchor="middle" className={s.mono}>
-        {t.max}
-      </text>
-      <path className={`${s.mute} ${s.dash}`} d={`M${cx} ${cy} L${bx} ${by}`} />
-      <text x={lbx - 6} y={lby} className={s.mono}>
-        {t.before}
-      </text>
-      <path className={s.ink} d={`M${cx} ${cy} L${ax} ${ay}`} />
-      <text x={cx - 98} y={cy - 10} textAnchor="end" className={`${s.mono} ${s.inkText}`}>
-        {t.after}
-      </text>
-      <path className={s.inkThin} d={`M${s1x} ${s1y} A 48 48 0 0 0 ${s2x} ${s2y}`} />
-      <Head x={s2x} y={s2y} angle={95} ink />
-      <circle cx={cx} cy={cy} r={4} className={s.dot} />
-      <text x={cx} y={cy + 46} textAnchor="middle" className={s.small}>
-        {t.cls}
-      </text>
-    </>
-  );
-}
-
 /** A slightly wobbly circle: the raw generated line before cleaning. */
 function wobble(cx: number, cy: number, radius: number): string {
   const points: string[] = [];
@@ -311,7 +245,6 @@ function KdpKleurboek({ t }: { t: CopyOf<"kdp-kleurboek"> }) {
   const qx = centers[3] - 30;
   const qy = cy - 30;
   const stair = [5, 4, 3, 2, 1, 0];
-  const dollar = (v: number) => r2(40 + (v / 7) * 360);
   return (
     <>
       {centers.map((x) => (
@@ -354,28 +287,29 @@ function KdpKleurboek({ t }: { t: CopyOf<"kdp-kleurboek"> }) {
           {sub}
         </text>
       ))}
-      <text x={40} y={266} className={s.small}>
-        {t.budget}
+      <path className={`${s.faint} ${s.dash}`} d={`M${centers[3]} 224 V 246`} />
+      <text x={40} y={258} className={s.small}>
+        {t.inspect}
       </text>
-      <path className={s.hair} d="M40 292 H 400" />
-      {Array.from({ length: 8 }, (_, i) => (
-        <path key={`t${i}`} className={s.hair} d={`M${dollar(i)} 287 V 297`} />
-      ))}
-      <path className={s.measureBar} d={`M40 292 H ${dollar(3.85)}`} />
-      <path className={s.mute} d={`M${dollar(3.85)} 282 V 302`} />
-      <text x={40} y={316} textAnchor="middle" className={s.mono}>
-        $0
-      </text>
-      <text x={dollar(3.85)} y={318} textAnchor="middle" className={s.mono}>
-        {t.spent}
-      </text>
-      <path className={s.ink} style={{ strokeWidth: 2.4 }} d="M400 270 V 312" />
-      <text x={400} y={262} textAnchor="end" className={s.inkText}>
-        {t.limit}
-      </text>
-      <path className={`${s.faint} ${s.dash}`} d="M410 292 H 446" />
-      <text x={410} y={318} className={`${s.small} ${s.faintText}`}>
-        {t.refuse}
+      {t.checks.map((check, i) => {
+        const y = 284 + i * 24;
+        return (
+          <g key={check}>
+            <text x={40} y={y}>
+              {check}
+            </text>
+            <path className={`${s.hair} ${s.dash}`} d={`M168 ${y - 4} H 372`} />
+            <path className={s.ink} d={`M380 ${y - 5} l5 5 l10 -11`} />
+            <text x={404} y={y} className={s.small}>
+              {t.pass}
+            </text>
+          </g>
+        );
+      })}
+      <path className={s.ink} style={{ strokeWidth: 1.6 }} d="M40 344 H 300" />
+      <Head x={300} y={344} angle={0} ink />
+      <text x={312} y={348} className={s.inkText}>
+        {t.verdict}
       </text>
     </>
   );
@@ -534,61 +468,6 @@ function OffertePdf({ t }: { t: CopyOf<"offerte-pdf-generator"> }) {
   );
 }
 
-function PaletteForge({ t }: { t: CopyOf<"paletteforge"> }) {
-  const cx = 240;
-  const cy = 192;
-  const R = 118;
-  const rotations: { deg: number; radius: number; label: string; anchor: "start" | "middle" | "end"; dy: number }[] = [
-    { deg: 30, radius: 36, label: `${t.analog} 30°`, anchor: "start", dy: 0 },
-    { deg: 120, radius: 54, label: `${t.triadic} 120°`, anchor: "start", dy: 6 },
-    { deg: 180, radius: 72, label: `${t.complement} 180°`, anchor: "middle", dy: 10 },
-    { deg: 240, radius: 90, label: `${t.triadic} 240°`, anchor: "end", dy: 6 },
-  ];
-  const [bx, by] = polar(cx, cy, R, 0);
-  return (
-    <>
-      <circle cx={cx} cy={cy} r={R} className={s.mute} />
-      {Array.from({ length: 12 }, (_, i) => {
-        const [x1, y1] = polar(cx, cy, R, i * 30);
-        const [x2, y2] = polar(cx, cy, R + 7, i * 30);
-        return <path key={i} className={s.mute} d={`M${x1} ${y1} L${x2} ${y2}`} />;
-      })}
-      {Array.from({ length: 36 }, (_, i) => {
-        if (i % 3 === 0) return null;
-        const [x1, y1] = polar(cx, cy, R, i * 10);
-        const [x2, y2] = polar(cx, cy, R + 3.5, i * 10);
-        return <path key={`m${i}`} className={s.hair} d={`M${x1} ${y1} L${x2} ${y2}`} />;
-      })}
-      <path className={s.hair} d={`M${cx} ${cy} L${bx} ${by}`} />
-      {rotations.map((rot) => {
-        const [px, py] = polar(cx, cy, R, rot.deg);
-        const [sx, sy] = polar(cx, cy, rot.radius, 0);
-        const [ex, ey] = polar(cx, cy, rot.radius, rot.deg);
-        const [lx, ly] = polar(cx, cy, R + 24, rot.deg);
-        const large = rot.deg > 180 ? 1 : 0;
-        return (
-          <g key={rot.deg}>
-            <path className={s.hair} d={`M${cx} ${cy} L${px} ${py}`} />
-            <path className={s.inkThin} d={`M${sx} ${sy} A ${rot.radius} ${rot.radius} 0 ${large} 1 ${ex} ${ey}`} />
-            <circle cx={px} cy={py} r={5} className={s.inkNode} />
-            <text x={lx} y={r2(ly + rot.dy)} textAnchor={rot.anchor}>
-              {rot.label}
-            </text>
-          </g>
-        );
-      })}
-      <circle cx={bx} cy={by} r={5.5} className={s.dot} />
-      <text x={bx} y={by - 16} textAnchor="middle" className={s.inkText}>
-        {t.base}
-      </text>
-      <circle cx={cx} cy={cy} r={2.5} className={s.dot} />
-      <text x={452} y={346} textAnchor="end" className={s.mono}>
-        {t.model}
-      </text>
-    </>
-  );
-}
-
 function body(slug: DiagramSlug, lang: Locale): ReactNode {
   switch (slug) {
     case "teamsync":
@@ -597,16 +476,12 @@ function body(slug: DiagramSlug, lang: Locale): ReactNode {
       return <StrengthTracker t={diagramCopy["strength-tracker"][lang]} />;
     case "belhulp":
       return <Belhulp t={diagramCopy.belhulp[lang]} />;
-    case "capcraft":
-      return <CapCraft t={diagramCopy.capcraft[lang]} />;
     case "kdp-kleurboek":
       return <KdpKleurboek t={diagramCopy["kdp-kleurboek"][lang]} />;
     case "solana-forensics":
       return <SolanaForensics t={diagramCopy["solana-forensics"][lang]} />;
     case "offerte-pdf-generator":
       return <OffertePdf t={diagramCopy["offerte-pdf-generator"][lang]} />;
-    case "paletteforge":
-      return <PaletteForge t={diagramCopy.paletteforge[lang]} />;
   }
 }
 

@@ -1,10 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
-  composeGallery,
   formatTime,
   playerKeyAction,
-  selectPerProject,
-  shapeOf,
   shortCaption,
   sliderKeyTarget,
   swipeStep,
@@ -66,47 +63,8 @@ describe("media logic", () => {
   });
 
   it("shortens alt text to its first clause", () => {
-    expect(shortCaption("Homepage van CapCraft: de kop")).toBe("Homepage van CapCraft");
+    expect(shortCaption("Inlogscherm van Strength Tracker: een oranje logo")).toBe("Inlogscherm van Strength Tracker");
     expect(shortCaption("Zonder dubbelepunt")).toBe("Zonder dubbelepunt");
-  });
-
-  it("selects at most n per project in order", () => {
-    const items = [{ project: "a" }, { project: "a" }, { project: "a" }, { project: "b" }];
-    expect(selectPerProject(items, 2)).toEqual([{ project: "a" }, { project: "a" }, { project: "b" }]);
-  });
-
-  it("classifies shapes", () => {
-    expect(shapeOf(1800, 720)).toBe("banner");
-    expect(shapeOf(1800, 1125)).toBe("wide");
-    expect(shapeOf(1400, 1399)).toBe("square");
-    expect(shapeOf(800, 1239)).toBe("tall");
-    expect(shapeOf(780, 1688)).toBe("phone");
-  });
-
-  it("composes rows that never exceed 12 columns and pairs phones on small screens", () => {
-    const items = [
-      { width: 1800, height: 1125 },
-      { width: 780, height: 1688 },
-      { width: 780, height: 1688 },
-      { width: 1400, height: 1400 },
-      { width: 1800, height: 720 },
-      { width: 800, height: 1239 },
-    ];
-    const placed = composeGallery(items);
-    expect(placed).toHaveLength(items.length);
-    // Rebuild rows from explicit starts and check the width budget.
-    let rowEnd = 0;
-    for (const p of placed) {
-      if (p.start !== undefined) rowEnd = p.start - 1;
-      rowEnd += p.span;
-      expect(rowEnd).toBeLessThanOrEqual(12);
-      expect(p.spanSm).toBeGreaterThan(0);
-      expect(p.spanSm).toBeLessThanOrEqual(6);
-    }
-    expect(placed[1].spanSm).toBe(3);
-    expect(placed[2].startSm).toBe(4);
-    expect(placed[5].spanSm).toBe(4);
-    expect(new Set(placed.map((p) => p.span)).size).toBeGreaterThan(2);
   });
 });
 
@@ -133,6 +91,13 @@ describe("media content", () => {
       expect(video.durationSeconds).toBeLessThanOrEqual(16);
       expect(banned.test(video.title.nl + video.title.en + video.description.nl + video.description.en)).toBe(false);
       if (video.project) expect(slugs.has(video.project)).toBe(true);
+    }
+  });
+
+  it("only holds media of projects that are still on the site", () => {
+    for (const item of [...images, ...videos]) {
+      expect(item.project === undefined || slugs.has(item.project)).toBe(true);
+      expect("src" in item ? item.src : item.poster).not.toMatch(/capcraft|paletteforge/);
     }
   });
 

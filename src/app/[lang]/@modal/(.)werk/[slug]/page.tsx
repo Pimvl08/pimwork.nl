@@ -7,8 +7,8 @@ import { getProject } from "@/content/projects";
 import { isLocale } from "@/i18n/config";
 
 /**
- * Intercepted /[lang]/werk/[slug]: opened from the index, the project unfolds
- * as a modal sheet over the home page. A direct visit renders the full page.
+ * Intercepted /[lang]/werk/[slug]: opened from the home page or the work
+ * index, the project unfolds as a modal sheet over that page. A direct visit renders the full page.
  */
 export default async function ProjectModal({ params }: { params: Promise<{ lang: string; slug: string }> }) {
   await connection();

@@ -1,5 +1,14 @@
 # Build brief (read this instead of the whole codebase)
 
+## NEW DIRECTION (Pim, 2026-10-05): read this first, it overrides anything below
+
+- The site is a **professional site for Pim to introduce himself** to businesses and people: what he can build, and that he understands AI well enough to make a real difference. Not a creative-developer playground.
+- **First person** ("Ik bouw ...", "I build ..."), calm and concrete. Less about AI as a topic; his AI skill shows through what he built.
+- **Multi-page**, not one long scroll: `/<lang>` home (short: hero, featured work, what I can build, short about, contact call to action), `/<lang>/werk` (all projects), `/<lang>/werk/<slug>` (one project; also opens as a sheet from links), `/<lang>/over` (about, including the ONE place that mentions Claude Code: "Hoe ik werk"), `/<lang>/lab` (the five experiments, for the curious), `/<lang>/contact`. Hidden: `/<lang>/geheim`.
+- **Removed on purpose:** the AI chatbot (Machine plate, `/api/ask`, `src/lib/ai`), the Data plate and stats, the Media plate as a section (screenshots and videos move into the project pages), the custom cursor ring ("only lag"), Lenis smooth scroll, the preloader, the plate rail, the intro sequence, the header terminal button (Ctrl/Cmd+K palette stays, navigation only), CapCraft and PaletteForge (not his own work), every date, cost, budget limit and internal metric, and visible "Nog in te vullen" slots (empty facts are simply hidden).
+- **Content model** (already rewritten, read it): `src/content/projects.ts` (6 projects; fields `featured kind tagline audience problem solution benefits craft challenge stack links status`, plus `featuredProjects`), `src/content/person.ts` (`person`, `facts` where null = hidden, `services` with `proof` slugs, `about` with `intro` and `howIWork`), `src/content/sections.ts` now exports `pages` (home, work, about, lab, contact) and `pageHref(lang, page)`. Never mention Claude Code anywhere except the about page's "Hoe ik werk" block, which comes from `about.howIWork`.
+- Keep: the "Gevouwen Schaal" world and tokens, the WebGL shell in the home hero, the lab experiments (on their own page), theme and language switch, the Ctrl/Cmd+K command palette, subtle easter eggs, the contact form.
+
 Project root: `/Users/pimvanleeuwen/Documents/claude code/pim-world`. Personal site of **Pim**, a showcase of what he builds with code and AI. Dutch first, English second. Visitors: friends, classmates, teachers, curious developers, phone first.
 
 ## Stack
@@ -38,13 +47,13 @@ Easings: `var(--ease-out-expo)` `var(--ease-paper)` `var(--ease-crease)`; durati
 - `@/lib/site`: `siteUrl()`. `@/lib/cn`: `cn(...)`.
 
 ### Content (the only source of facts)
-- `@/content/projects`: `projects: Project[]` (8, in display order), `getProject(slug)`, `statusLabel`. Project: `slug name status("live"|"local"|"delivered") period{from,to} category short summary problem highlights[] hardProblems[] metrics[{label,value}] stack[] links[{label,href}]` (text fields are `Bilingual`).
-- `@/content/person`: `person` (name, github, portrait null), `facts` (value null = open), `interests` (with evidence slug).
-- `@/content/sections`: plates `cover about work lab media data machine contact`, numerals 00 to 07.
+- `@/content/projects`: see NEW DIRECTION.
+- `@/content/person`: see NEW DIRECTION.
+- `@/content/sections`: `pages` and `pageHref` (see NEW DIRECTION).
 - `@/content/media`: `images`, `videos`, `imagesFor(slug)`, `videoFor(slug)` (filled by the media task; may be empty).
 
 ## Rules
-- Copy: NEVER the em dash or en dash character, anywhere (UI, comments, docs, alt text). Use commas, colons, periods, parentheses, a middle dot or a hyphen. All visible text bilingual in a co-located `copy.ts` (`Bilingual<...>`). Natural Dutch, third person about Pim ("Pim bouwde"), calm, direct, slightly nerdy, never salesy. Never invent facts; missing facts use `<OpenSlot>`.
+- Copy: NEVER the em dash or en dash character, anywhere (UI, comments, docs, alt text). Use commas, colons, periods, parentheses, a middle dot or a hyphen. All visible text bilingual in a co-located `copy.ts` (`Bilingual<...>`). Natural Dutch, third person about Pim ("Pim bouwde"), calm, direct, slightly nerdy, never salesy. Never invent facts; missing facts are hidden.
 - Craft floor: no eyebrow above headings, no gradient text, no glass/blur decoration, no glow, no emoji or unicode icons, no grid of identical icon cards as page structure, no hero-metric row, no coloured border-left accents, no hard offset shadows, mono only for code/data. Every control: hover, focus-visible, active, disabled, plus loading/error/empty where relevant. Body text 65 to 75ch. Check contrast in both themes.
 - Security: no secrets client-side, no `dangerouslySetInnerHTML`, no `eval`, all assets local (CSP: only self, data:, blob:), user input rendered as text, external links `rel="noopener noreferrer"`.
 - Performance: heavy code lazy (`next/dynamic` ssr:false or dynamic import) and mounted near the viewport; rAF loops stop off-screen (`useVisible`) and when `document.hidden`; DPR cap 2 (canvas) / 1.75 (WebGL); animate transform/opacity/clip-path; dispose GPU resources on unmount.

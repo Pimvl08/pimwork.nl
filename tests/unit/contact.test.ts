@@ -202,3 +202,28 @@ describe("POST /api/contact", () => {
     expect(await limited.json()).toMatchObject({ error: "rate_limited" });
   });
 });
+
+describe("server render of the contact page", () => {
+  it("says plainly that the form does not send yet and points to GitHub", async () => {
+    vi.stubEnv("RESEND_API_KEY", "");
+    vi.stubEnv("CONTACT_TO_EMAIL", "");
+    vi.stubEnv("CONTACT_FROM_EMAIL", "");
+    vi.doMock("next/navigation", () => ({ useRouter: () => ({ push: () => {} }), usePathname: () => "/nl/contact" }));
+    const { createElement } = await import("react");
+    const { renderToString } = await import("react-dom/server");
+    const { ContactPage } = await import("@/components/contact/ContactPage");
+    const { contactCopy } = await import("@/components/contact/copy");
+    const { person } = await import("@/content/person");
+    for (const lang of ["nl", "en"] as const) {
+      const html = renderToString(createElement(ContactPage, { lang, renderedAt: Date.now() }));
+      expect(html.match(/<h1/g)).toHaveLength(1);
+      expect(html).toContain(contactCopy.title[lang]);
+      expect(html).toContain(contactCopy.offline.heading[lang]);
+      expect(html).toContain(`href="${person.github.href}"`);
+      expect(html).toContain("<form");
+      expect(html).not.toContain("numeral");
+      expect(html).not.toMatch(new RegExp(`[${String.fromCharCode(0x2013)}${String.fromCharCode(0x2014)}]`));
+    }
+    vi.unstubAllEnvs();
+  });
+});

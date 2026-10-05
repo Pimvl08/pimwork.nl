@@ -2,8 +2,8 @@ import type { Bilingual } from "@/i18n/config";
 
 export const physicsCopy = {
   surface: {
-    nl: "Pot met papieren schijven, een per technologie die Pim gebruikt. Pijltjes kantelen de zwaartekracht, spatie schudt.",
-    en: "Jar of paper discs, one per technology Pim uses. Arrow keys tilt gravity, space shakes.",
+    nl: "Pot met papieren schijven, een per technologie die ik gebruik. Pijltjes kantelen de zwaartekracht, spatie schudt.",
+    en: "Jar of paper discs, one per technology I use. Arrow keys tilt gravity, space shakes.",
   },
   hint: {
     nl: "Sleep en gooi een schijf, tik ernaast om te duwen.",
@@ -16,8 +16,8 @@ export const physicsCopy = {
   reset: { nl: "Opnieuw", en: "Again" },
   table: { nl: "Lijst", en: "List" },
   tableCaption: {
-    nl: "Technologieën in Pims projecten, met het aantal projecten waarin ze voorkomen.",
-    en: "Technologies in Pim's projects, with the number of projects each appears in.",
+    nl: "Technologieën in mijn projecten, met het aantal projecten waarin ze voorkomen.",
+    en: "Technologies in my projects, with the number of projects each appears in.",
   },
   colTech: { nl: "Technologie", en: "Technology" },
   colCount: { nl: "Projecten", en: "Projects" },

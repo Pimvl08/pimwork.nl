@@ -614,8 +614,6 @@ export default function PhysicsJar({
           aria-roledescription={
             lang === "nl" ? "natuurkundeproef" : "physics experiment"
           }
-          data-cursor="drag"
-          data-cursor-label={copy.cursorPush[lang]}
           onKeyDown={onKeyDown}
         >
           <canvas
@@ -636,7 +634,6 @@ export default function PhysicsJar({
           <div
             id="stapel-tabel"
             className="absolute inset-0 overflow-auto bg-raised px-[clamp(1rem,4cqi,2rem)] py-4"
-            data-lenis-prevent
           >
             {table}
           </div>

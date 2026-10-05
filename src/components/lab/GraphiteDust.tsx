@@ -454,7 +454,6 @@ export default function GraphiteDust({ lang, active, reducedMotion }: Experiment
         onPointerCancel={() => engineRef.current?.pointerLeave()}
         onBlur={() => engineRef.current?.pointerLeave()}
         onKeyDown={onKey}
-        data-cursor="default"
       >
         <canvas ref={canvasRef} className={styles.canvas} aria-hidden="true" />
         <span ref={markRef} className={styles.vpointer} aria-hidden="true" />

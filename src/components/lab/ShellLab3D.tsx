@@ -211,9 +211,6 @@ export default function ShellLab3D({
         role="application"
         aria-roledescription={lang === "nl" ? "3D-proef" : "3D experiment"}
         aria-label={copy.surface[lang]}
-        data-cursor="default"
-        data-cursor-label={copy.cursor[lang]}
-        data-lenis-prevent-wheel
         onKeyDown={onSurfaceKey}
       >
         {failed && (

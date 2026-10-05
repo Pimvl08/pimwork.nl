@@ -18,11 +18,9 @@ export interface WorkRow {
   href: string;
   numeral: string;
   name: string;
-  category: string;
-  year: string;
-  period: string;
+  kind: string;
+  tagline: string;
   status: string;
-  short: string;
   stack: string[];
   /** Server-rendered decorative ProjectFigure for the preview and the card. */
   figure: ReactNode;
@@ -40,12 +38,13 @@ function ArchedRule({ className, ink = false }: { className?: string; ink?: bool
 }
 
 /**
- * The editorial index of plate 02. On a fine pointer each row opens on hover
+ * The editorial index of the work page. On a fine pointer each row opens on hover
  * or focus: a floating figure follows the pointer with lag, the name turns
  * from italic to roman and the details slide in. On touch the rows are
  * stacked arched cards with the figure inline.
  */
-export function WorkIndex({ rows, cursorLabel, listLabel }: { rows: WorkRow[]; cursorLabel: string; listLabel: string }) {
+export function WorkIndex({ rows, listLabel, headingLevel = "h2" }: { rows: WorkRow[]; listLabel: string; headingLevel?: "h2" | "h3" }) {
+  const Name = headingLevel;
   const pathname = usePathname() ?? "";
   const openSlug = /\/werk\/([^/?#]+)/.exec(pathname)?.[1] ?? null;
   const onIndex = openSlug === null;
@@ -196,8 +195,6 @@ export function WorkIndex({ rows, cursorLabel, listLabel }: { rows: WorkRow[]; c
                   scroll={false}
                   className={styles.row}
                   data-active={isActive || undefined}
-                  data-cursor="view"
-                  data-cursor-label={cursorLabel}
                   onFocus={onRowFocus(i)}
                   onBlur={onRowBlur}
                 >
@@ -205,21 +202,18 @@ export function WorkIndex({ rows, cursorLabel, listLabel }: { rows: WorkRow[]; c
                     {row.numeral}
                   </span>
                   <div className={styles.main}>
-                    <h3 className={styles.nameStack}>
+                    <Name className={styles.nameStack}>
                       <span className={styles.nameItalic}>{row.name}</span>
                       <span className={styles.nameRoman} aria-hidden="true">
                         {row.name}
                       </span>
-                    </h3>
-                    <p className={styles.short}>{row.short}</p>
+                    </Name>
+                    <p className={styles.short}>{row.tagline}</p>
                   </div>
                   <div className={styles.meta}>
-                    <span className={styles.category}>{row.category}</span>
-                    <span className={styles.status}>
-                      {row.year} · {row.status}
-                    </span>
+                    <span className={styles.category}>{row.kind}</span>
+                    <span className={styles.status}>{row.status}</span>
                     <span className={styles.more}>
-                      <span className={styles.period}>{row.period}</span>
                       <span className={styles.stack}>{row.stack.join(" · ")}</span>
                     </span>
                   </div>

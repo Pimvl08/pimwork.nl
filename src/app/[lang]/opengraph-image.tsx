@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { isLocale, type Locale } from "@/i18n/config";
 
-export const alt = "Pim: een schijf van grafietpapier met één vouwlijn / a graphite paper disc with a single crease";
+export const alt = "Pim: software die werk uit handen neemt / software that takes work off your hands";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -18,8 +18,8 @@ const RULE = "#34322e";
 const RULE_STRONG = "#4a4742";
 
 const copy: Record<Locale, { tagline: string; line: string }> = {
-  nl: { tagline: "Vorm uit één lijn", line: "Acht projecten, gebouwd met code en AI" },
-  en: { tagline: "Form from a single line", line: "Eight projects, built with code and AI" },
+  nl: { tagline: "Software die werk uit handen neemt", line: "Web-apps, desktopsoftware en slimme tools" },
+  en: { tagline: "Software that takes work off your hands", line: "Web apps, desktop software and smart tools" },
 };
 
 /** Site Open Graph image: graphite ground, the disc with one crease, the name. */
@@ -65,7 +65,7 @@ export default async function Image({ params }: { params: Promise<{ lang: string
           }}
         >
           <div style={{ display: "flex", fontSize: 196, lineHeight: 1, letterSpacing: "-0.03em" }}>Pim</div>
-          <div style={{ display: "flex", marginTop: 26, fontSize: 46, color: INK }}>{t.tagline}</div>
+          <div style={{ display: "flex", marginTop: 26, maxWidth: 640, fontSize: 46, lineHeight: 1.15, color: INK }}>{t.tagline}</div>
           <div style={{ display: "flex", marginTop: 14, fontSize: 28, color: INK_MUTE }}>{t.line}</div>
         </div>
       </div>

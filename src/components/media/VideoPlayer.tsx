@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import type { VideoAsset } from "@/content/media";
@@ -13,8 +12,6 @@ import styles from "./media.module.css";
 interface VideoPlayerProps {
   lang: Locale;
   video: VideoAsset;
-  /** Link shown when the video cannot be played. */
-  projectHref?: string;
 }
 
 type WebkitVideo = HTMLVideoElement & { webkitEnterFullscreen?: () => void; webkitDisplayingFullscreen?: boolean };
@@ -28,7 +25,7 @@ const SEEK = 5;
  * slider for the position, time, mute and fullscreen, plus keyboard control.
  * Muted, inline and metadata-only until the visitor presses play.
  */
-export function VideoPlayer({ lang, video, projectHref }: VideoPlayerProps) {
+export function VideoPlayer({ lang, video }: VideoPlayerProps) {
   const t = mediaCopy[lang].player;
   const rootRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<WebkitVideo>(null);
@@ -150,11 +147,6 @@ export function VideoPlayer({ lang, video, projectHref }: VideoPlayerProps) {
         <div className="absolute inset-0 grid place-items-center p-6 text-center">
           <div className="flex flex-col items-center gap-3 bg-paper px-6 py-5">
             <p className="text-[length:var(--step-1)] italic text-ink">{t.unavailable}</p>
-            {projectHref ? (
-              <Link href={projectHref} className="underline decoration-rule-strong underline-offset-4 hover:decoration-ink focus-visible:outline-2" data-cursor="link">
-                {t.toProject}
-              </Link>
-            ) : null}
           </div>
         </div>
       </div>
@@ -172,8 +164,6 @@ export function VideoPlayer({ lang, video, projectHref }: VideoPlayerProps) {
       aria-label={t.region(title)}
       data-paused={paused}
       data-active={active}
-      data-cursor="play"
-      data-cursor-label={t.cursor}
       onKeyDown={onKeyDown}
       onPointerMove={wake}
     >
@@ -219,12 +209,12 @@ export function VideoPlayer({ lang, video, projectHref }: VideoPlayerProps) {
             // The arch disappears while playing: keep focus on the bar's play button.
             playRef.current?.focus({ preventScroll: true });
           }}
-          aria-label={`${t.play}: ${title}`} data-cursor="play" data-cursor-label={t.cursor}>
+          aria-label={`${t.play}: ${title}`}>
           <Icon name="play" size={28} />
         </button>
       ) : null}
 
-      <div className={styles.controls} data-cursor="default">
+      <div className={styles.controls}>
         <button ref={playRef} type="button" className={styles.ctrl} onClick={toggle} aria-label={paused ? t.play : t.pause}>
           <Icon name={paused ? "play" : "pause"} size={20} />
         </button>

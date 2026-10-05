@@ -16,8 +16,8 @@ export interface ExperimentCopy {
 export const labCopy = {
   title: { nl: "Lab", en: "Lab" } satisfies Bilingual<string>,
   lead: {
-    nl: "Vijf proeven die Pim met code bouwde. Elke proef begint met een vraag over vorm, beweging of letters, en je kunt hem zelf aanraken.",
-    en: "Five experiments Pim built with code. Each starts with a question about form, motion or letters, and you can touch every one of them.",
+    nl: "Experimenten waarin ik uitprobeer wat er in een browser kan: deeltjes, 3D, natuurkunde, generatief ontwerp en typografie.",
+    en: "Experiments where I try out what a browser can do: particles, 3D, physics, generative design and typography.",
   } satisfies Bilingual<string>,
   tablist: { nl: "Proeven", en: "Experiments" } satisfies Bilingual<string>,
   proef: { nl: "Proef", en: "Experiment" } satisfies Bilingual<string>,

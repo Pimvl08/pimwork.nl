@@ -43,6 +43,8 @@ export function ProjectSheet({ titleId, closeLabel, children }: { titleId: strin
   // Esc closes; Tab and Shift+Tab stay inside the sheet.
   useEffect(() => {
     const onKey = (event: KeyboardEvent) => {
+      // A lightbox opened from the sheet is a modal <dialog> on top: it owns the keys.
+      if (sheetRef.current?.querySelector("dialog[open]")) return;
       if (event.key === "Escape") {
         event.preventDefault();
         close();
@@ -79,7 +81,7 @@ export function ProjectSheet({ titleId, closeLabel, children }: { titleId: strin
   const hidden = reduce ? { opacity: 0 } : { clipPath: FOLDED };
 
   return (
-    <div className={styles.overlay} data-cursor="default">
+    <div className={styles.overlay}>
       <motion.div
         className={styles.scrim}
         aria-hidden="true"
@@ -117,7 +119,7 @@ export function ProjectSheet({ titleId, closeLabel, children }: { titleId: strin
             transition={closing ? { duration: 0.3 } : { duration: 0.75, times: [0, 0.35, 1], ease: EASE_PAPER }}
           />
         )}
-        <div className={styles.sheetScroll} data-lenis-prevent>
+        <div className={styles.sheetScroll}>
           <div className={styles.sheetBar}>
             <span className={styles.closeWrap}>
               <CircleButton icon="close" label={closeLabel} size="lg" onClick={close} />

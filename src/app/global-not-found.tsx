@@ -12,10 +12,14 @@ export default function GlobalNotFound() {
     <html lang="nl-NL" data-theme="dark">
       <body>
         <main className="plate grid min-h-svh content-center gap-6" style={{ fontFamily: "Georgia, serif" }}>
-          <h1 className="text-[length:var(--step-4)] italic">404</h1>
-          <p className="measure">Deze plaat is uit het boek gescheurd. This plate was torn out of the book.</p>
+          <h1 className="text-[length:var(--step-4)] italic text-ink">Deze pagina bestaat niet.</h1>
+          <p className="measure text-ink-soft">
+            Misschien is de link verouderd. <span lang="en">This page does not exist, the link may be out of date.</span>
+          </p>
           <p>
-            <Link href="/">Naar de omslag · To the cover</Link>
+            <Link href="/" className="underline decoration-[var(--rule-strong)] underline-offset-4 hover:decoration-[var(--ink)]">
+              Naar de homepagina · Home
+            </Link>
           </p>
         </main>
       </body>

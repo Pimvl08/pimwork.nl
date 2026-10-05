@@ -1,13 +1,13 @@
-import { HeroActions } from "@/components/hero/HeroActions";
 import { HeroParallax } from "@/components/hero/HeroParallax";
 import { IntroLine } from "@/components/hero/IntroLine";
 import { ShellStage } from "@/components/hero/ShellStage";
 import { shellSilhouette, STAGE_ASPECT } from "@/components/hero/camera";
-import { heroCopy, introLine2, introPhrases, LAB_EXPERIMENT_COUNT } from "@/components/hero/copy";
+import { heroCopy, introPhrases } from "@/components/hero/copy";
 import styles from "@/components/hero/hero.module.css";
 import { ArcRule } from "@/components/ui/ArcRule";
+import { ArchButton } from "@/components/ui/ArchButton";
 import { person } from "@/content/person";
-import { getProject, projects } from "@/content/projects";
+import { getProject } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 
@@ -19,18 +19,14 @@ const COVER_ARC_NARROW = "M1010 40 A1300 1300 0 0 1 560 1010";
 const silhouette = shellSilhouette(STAGE_ASPECT);
 
 /**
- * Plate 00, the cover. "Pim" is server rendered (the LCP element, no JS
- * needed to see it); the intro line, actions and the live shell hydrate
- * on top of complete HTML.
+ * The opening of the home page. "Pim" is server rendered (the LCP element, no
+ * JS needed to see it); the folding example and the live shell hydrate on
+ * top of complete HTML.
  */
 export function HeroPlate({ lang }: { lang: Locale }) {
   const projectNames = Object.fromEntries(
     introPhrases.map((phrase) => [phrase.slug, getProject(phrase.slug)?.name ?? ""]).filter(([, name]) => name),
   );
-  const lines = {
-    line1: heroCopy.intro.line1[lang],
-    line2: introLine2(projects.length, LAB_EXPERIMENT_COUNT, lang),
-  };
 
   return (
     <section id="cover" className={cn("plate", styles.cover)} aria-labelledby="cover-title">
@@ -44,12 +40,19 @@ export function HeroPlate({ lang }: { lang: Locale }) {
           <h1 id="cover-title" className={styles.name} data-depth="5">
             {person.name}
           </h1>
-          <IntroLine lang={lang} name={person.name} projectNames={projectNames} />
-          <HeroActions lang={lang} lines={lines} />
+          <IntroLine lang={lang} projectNames={projectNames} />
+          <div className={styles.actions}>
+            <ArchButton variant="primary" size="lg" href={`/${lang}/werk`}>
+              {heroCopy.seeWork[lang]}
+            </ArchButton>
+            <ArchButton variant="secondary" size="lg" icon="arrowNE" href={`/${lang}/contact`}>
+              {heroCopy.contact[lang]}
+            </ArchButton>
+          </div>
         </div>
         <div className={styles.visual}>
           <p className="sr-only">{heroCopy.shellDescription[lang]}</p>
-          <ShellStage lang={lang} silhouette={silhouette} />
+          <ShellStage silhouette={silhouette} />
         </div>
       </div>
       <HeroParallax />

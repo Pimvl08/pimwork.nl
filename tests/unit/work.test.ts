@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { clampPreview, decimal, formatPeriod, neighbours, numeralFor, periodYear, polar, toRoman } from "@/components/work/lib";
-import { projects } from "@/content/projects";
+import { diagramCopy } from "@/components/work/copy";
+import { clampPreview, featuredFirst, neighbours, numeralFor, polar, toRoman } from "@/components/work/lib";
+import { featuredProjects, projects } from "@/content/projects";
 
 describe("toRoman", () => {
   it("writes the eight plate numerals", () => {
@@ -24,7 +25,7 @@ describe("toRoman", () => {
 describe("numeralFor", () => {
   it("follows the display order of projects.ts", () => {
     expect(numeralFor(projects[0].slug, projects)).toBe("I");
-    expect(numeralFor(projects[7].slug, projects)).toBe("VIII");
+    expect(numeralFor(projects[projects.length - 1].slug, projects)).toBe(toRoman(projects.length));
     expect(numeralFor("does-not-exist", projects)).toBe("");
   });
 });
@@ -52,38 +53,38 @@ describe("neighbours", () => {
   });
 });
 
-describe("formatPeriod", () => {
-  it("writes a single day", () => {
-    expect(formatPeriod({ from: "2026-08-22", to: "2026-08-22" }, "nl")).toBe("22 aug 2026");
-    expect(formatPeriod({ from: "2026-08-22", to: "2026-08-22" }, "en")).toBe("22 Aug 2026");
+describe("featuredFirst", () => {
+  it("puts featured items first and keeps each group's order", () => {
+    const list = [
+      { slug: "a", featured: false },
+      { slug: "b", featured: true },
+      { slug: "c", featured: false },
+      { slug: "d", featured: true },
+    ];
+    expect(featuredFirst(list).map((item) => item.slug)).toEqual(["b", "d", "a", "c"]);
   });
-  it("writes a range inside one month", () => {
-    expect(formatPeriod({ from: "2026-09-07", to: "2026-09-12" }, "nl")).toBe("7 tot 12 sep 2026");
-    expect(formatPeriod({ from: "2026-09-07", to: "2026-09-12" }, "en")).toBe("7 to 12 Sep 2026");
+  it("starts the real work index with the featured projects", () => {
+    const order = featuredFirst(projects);
+    expect(order).toHaveLength(projects.length);
+    expect(order.slice(0, featuredProjects.length)).toEqual(featuredProjects);
   });
-  it("writes a range across months and years", () => {
-    expect(formatPeriod({ from: "2026-03-22", to: "2026-07-28" }, "nl")).toBe("22 mrt tot 28 jul 2026");
-    expect(formatPeriod({ from: "2025-11-02", to: "2026-01-15" }, "en")).toBe("Nov 2025 to Jan 2026");
+});
+
+describe("work content", () => {
+  const banned = /[\u2013\u2014]/;
+  it("only draws diagrams for real projects", () => {
+    const slugs = new Set(projects.map((project) => project.slug));
+    for (const slug of Object.keys(diagramCopy)) expect(slugs.has(slug)).toBe(true);
   });
-  it("throws on malformed dates", () => {
-    expect(() => formatPeriod({ from: "2026-9-7", to: "2026-09-12" }, "nl")).toThrow(RangeError);
-  });
-  it("formats every real project period", () => {
-    for (const project of projects) {
-      expect(formatPeriod(project.period, "nl")).toMatch(/\d{4}$/);
-    }
+  it("keeps dates, money and dashes out of the diagrams", () => {
+    const text = JSON.stringify(diagramCopy);
+    expect(banned.test(text)).toBe(false);
+    expect(text).not.toMatch(/[$\u20AC]|\b20\d\d\b|budget/i);
+    expect(text).not.toMatch(/capcraft|paletteforge/i);
   });
 });
 
 describe("small formatters", () => {
-  it("periodYear collapses equal years", () => {
-    expect(periodYear({ from: "2026-03-20", to: "2026-03-22" }, "nl")).toBe("2026");
-    expect(periodYear({ from: "2025-03-20", to: "2026-03-22" }, "en")).toBe("2025 to 2026");
-  });
-  it("decimal uses a comma in Dutch", () => {
-    expect(decimal(2.5, "nl")).toBe("2,5");
-    expect(decimal(2.5, "en")).toBe("2.5");
-  });
   it("polar measures clockwise from twelve o'clock", () => {
     expect(polar(0, 0, 10, 0)).toEqual([0, -10]);
     expect(polar(0, 0, 10, 90)).toEqual([10, 0]);

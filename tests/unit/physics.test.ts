@@ -168,7 +168,7 @@ describe("technologies from projects.ts", () => {
 
   it("merges versions of the same tool", () => {
     const react = techs.find((t) => t.name === "React");
-    const reactUsers = projects.filter((p) => p.stack.some((s) => /^React \d+$/.test(s)));
+    const reactUsers = projects.filter((p) => p.stack.some((s) => /^React( \d+)?$/.test(s)));
     expect(react?.count).toBe(reactUsers.length);
     expect(techs.some((t) => /\d$/.test(t.name))).toBe(false);
     expect(techs[0].count).toBeGreaterThanOrEqual(techs[techs.length - 1].count);

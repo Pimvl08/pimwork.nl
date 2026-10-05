@@ -6,7 +6,6 @@ import { useCallback, useRef, useState, type ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import { localizedPath } from "@/lib/locale";
 import { persistLocale } from "@/lib/prefs";
-import { scrollToSection } from "@/lib/scroll";
 import { uiStore, unlockEgg } from "@/lib/store";
 import { applyTheme } from "@/lib/theme";
 import { cn } from "@/lib/cn";
@@ -14,21 +13,13 @@ import { startLetterRain } from "@/components/easter/bus";
 import { runCommand, type Action, type CommandResult, type Line } from "./engine";
 import styles from "./terminal.module.css";
 
-export interface AnswerLink {
-  label: string;
-  href: string;
-}
-
-export type Entry =
-  | { id: number; type: "input"; text: string }
-  | { id: number; type: "line"; line: Line }
-  | { id: number; type: "answer"; label: string; text: string; links: AnswerLink[]; status: "pending" | "streaming" | "done" | "error" };
+export type Entry = { id: number; type: "input"; text: string } | { id: number; type: "line"; line: Line };
 
 const MAX_ENTRIES = 240;
 let nextId = 1;
 export const entryId = () => nextId++;
 
-/** Typed history, shared by the global terminal and the one on plate 06. */
+/** Typed history, kept for the whole visit. */
 const sharedHistory: string[] = [];
 
 export function linesToEntries(lines: Line[]): Entry[] {
@@ -36,8 +27,8 @@ export function linesToEntries(lines: Line[]): Entry[] {
 }
 
 /**
- * Runs the side effects the engine asks for. `before` lets the overlay close
- * itself first, so scrolling and navigation happen on an unlocked page.
+ * Runs the side effects the engine asks for. The overlay closes itself first,
+ * so navigation happens on an unlocked page.
  */
 export function useActionRunner(lang: Locale) {
   const router = useRouter();
@@ -55,7 +46,7 @@ export function useActionRunner(lang: Locale) {
           router.push(localizedPath(pathname || `/${lang}`, action.lang));
           break;
         case "goto":
-          if (!scrollToSection(action.id)) router.push(`/${lang}#${action.id}`);
+          router.push(action.href);
           break;
         case "open":
           router.push(`/${lang}/werk/${action.slug}`);
@@ -65,9 +56,6 @@ export function useActionRunner(lang: Locale) {
           break;
         case "secret":
           router.push(`/${lang}/geheim`);
-          break;
-        case "sound":
-          uiStore.set({ soundOn: action.on });
           break;
         case "egg":
           unlockEgg(action.id);
@@ -96,7 +84,7 @@ export function useTerminalSession(lang: Locale, initial: () => Entry[]) {
   const run = useCallback(
     (input: string): CommandResult => {
       const state = uiStore.get();
-      const result = runCommand(input, { lang, theme: state.theme, soundOn: state.soundOn, history: [...sharedHistory] });
+      const result = runCommand(input, { lang, theme: state.theme, history: [...sharedHistory] });
       const trimmed = input.trim();
       if (trimmed && trimmed.length <= 200) {
         if (sharedHistory[sharedHistory.length - 1] !== trimmed) sharedHistory.push(trimmed);
@@ -219,25 +207,7 @@ export function EntryView({ entry, prompt }: { entry: Entry; prompt: string }) {
       </p>
     );
   }
-  if (entry.type === "line") return <LineView line={entry.line} />;
-  return (
-    <div className={styles.answer} aria-busy={entry.status === "pending" || entry.status === "streaming"}>
-      <p className="text-[length:var(--step--1)] text-ink-mute">{entry.label}</p>
-      <p className={cn(styles.answerText, "whitespace-pre-wrap")}>
-        {entry.text}
-        {entry.status === "pending" || entry.status === "streaming" ? <span className={styles.caret} aria-hidden="true" /> : null}
-      </p>
-      {entry.links.length ? (
-        <ul className="mt-2 flex flex-wrap gap-x-5 gap-y-1">
-          {entry.links.map((l) => (
-            <li key={l.href}>
-              <LinkLine text={l.label} href={l.href} />
-            </li>
-          ))}
-        </ul>
-      ) : null}
-    </div>
-  );
+  return <LineView line={entry.line} />;
 }
 
 export function TerminalLog({ entries, prompt, label, className }: { entries: Entry[]; prompt: string; label: string; className?: string }) {
