@@ -1,7 +1,6 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { Fragment } from "react";
 import circle from "@/components/ui/CircleButton.module.css";
 import { Icon } from "@/components/ui/Icon";
@@ -26,17 +25,16 @@ export function useActivePage() {
 export function LangSwitch({ className, large = false }: { className?: string; large?: boolean }) {
   const lang = useLang();
   const pathname = usePathname() ?? `/${lang}`;
-  const router = useRouter();
   const label = useCopy(chromeCopy.language);
 
   const onClick = (event: React.MouseEvent<HTMLAnchorElement>, target: Locale, href: string) => {
     persistLocale(target);
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
-    // Keep the reader at the same anchor when switching language.
-    if (window.location.hash) {
-      event.preventDefault();
-      router.push(`${href}${window.location.hash}`);
-    }
+    // A full page load: the language is part of the root layout, and a soft
+    // navigation would let the project sheet route intercept /werk/<slug>.
+    event.preventDefault();
+    // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a full load is intended: the language lives in the root layout
+    window.location.assign(`${href}${window.location.hash}`);
   };
 
   return (
@@ -50,7 +48,7 @@ export function LangSwitch({ className, large = false }: { className?: string; l
                 ·
               </span>
             ) : null}
-            <Link
+            <a
               href={href}
               hrefLang={target}
               lang={target}
@@ -60,7 +58,7 @@ export function LangSwitch({ className, large = false }: { className?: string; l
             >
               {target.toUpperCase()}
               <span className="sr-only"> {languageNames[target]}</span>
-            </Link>
+            </a>
           </Fragment>
         );
       })}

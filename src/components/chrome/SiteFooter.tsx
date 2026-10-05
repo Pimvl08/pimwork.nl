@@ -12,7 +12,7 @@ import styles from "./chrome.module.css";
 import { useActivePage } from "./controls";
 import { chromeCopy } from "./copy";
 
-/** The close of every page: who, what in one line, the pages, GitHub and the year. */
+/** The close of every page: who, what in one line, the pages, GitHub, the portfolio PDF and the year. */
 export function SiteFooter() {
   const lang = useLang();
   const active = useActivePage();
@@ -47,6 +47,12 @@ export function SiteFooter() {
                 <span>{t.github}</span>
                 <Icon name="arrowNE" size={16} />
                 <span className="sr-only"> ({t.githubNote})</span>
+              </a>
+            </li>
+            <li>
+              <a href={`/portfolio-pim-${lang}.pdf`} download className={`${styles.footerLink} ${styles.footerDownload}`}>
+                <Icon name="download" size={16} />
+                <span>{t.portfolio}</span>
               </a>
             </li>
           </ul>

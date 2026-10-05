@@ -95,7 +95,7 @@ export const projects: Project[] = [
     },
     stack: ["Tauri 2", "Rust", "React", "TypeScript", "Supabase", "Yjs"],
     links: [],
-    status: { nl: "Opgeleverd en in gebruik", en: "Delivered and in use" },
+    status: { nl: "Opgeleverd", en: "Delivered" },
   },
   {
     slug: "strength-tracker",
@@ -209,7 +209,7 @@ export const projects: Project[] = [
       en: "The total page count is only known once everything is drawn. The first version therefore left a gap in the footer. Now a final pass stamps 'Page X of Y' on every page, and a table that runs across two pages gets its header back automatically.",
     },
     stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "jsPDF"],
-    links: [{ label: { nl: "Broncode op GitHub", en: "Source on GitHub" }, href: "https://github.com/pimdaanbram-prog/Whatsapp-analyser-" }],
+    links: [],
     status: { nl: "Klaar voor gebruik, zonder server", en: "Ready to use, no server needed" },
   },
   {

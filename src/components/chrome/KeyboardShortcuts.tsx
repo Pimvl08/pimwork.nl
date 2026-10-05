@@ -82,7 +82,8 @@ export function KeyboardShortcuts() {
           event.preventDefault();
           const target: Locale = current === "nl" ? "en" : "nl";
           persistLocale(target);
-          nav.push(`${localizedPath(path ?? `/${current}`, target)}${window.location.hash}`);
+          // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a full load is intended: the language lives in the root layout
+          window.location.assign(`${localizedPath(path ?? `/${current}`, target)}${window.location.hash}`);
           return;
         }
         case "page": {

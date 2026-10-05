@@ -1,5 +1,6 @@
 import { about } from "@/content/person";
 import { ArchButton } from "@/components/ui/ArchButton";
+import { Icon } from "@/components/ui/Icon";
 import type { Locale } from "@/i18n/config";
 import { aboutCopy } from "./copy";
 import { FactList } from "./FactList";
@@ -49,6 +50,10 @@ export function AboutPage({ lang }: { lang: Locale }) {
             {c.closing.contact[lang]}
           </ArchButton>
         </div>
+        <a href={`/portfolio-pim-${lang}.pdf`} download className={styles.download}>
+          <Icon name="download" size={18} />
+          <span>{c.closing.portfolio[lang]}</span>
+        </a>
       </section>
     </main>
   );

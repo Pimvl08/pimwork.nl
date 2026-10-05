@@ -48,57 +48,76 @@ export default function ShellCanvas({ onReady, onLost, onFail, className }: Shel
 
   // Renderer lifecycle: create, size, theme, context loss, dispose.
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const renderer = createShellRenderer(canvas);
-    if (!renderer) {
-      callbacks.current.onFail();
-      return;
-    }
-    rendererRef.current = renderer;
-    renderer.setColors(readColors());
-    renderer.setParams(restParams);
-    renderer.resize();
-    renderer.render(true);
-    setAlive(true);
-    const ready = requestAnimationFrame(() => callbacks.current.onReady());
-
-    const observer = new ResizeObserver(() => {
-      renderer.resize();
-      renderer.render(true);
-    });
-    observer.observe(canvas);
-    const onTheme = () => {
-      renderer.setColors(readColors());
-      renderer.render(true);
-    };
-    const onLostEvent = (event: Event) => {
-      event.preventDefault();
-      setAlive(false);
-      callbacks.current.onLost();
-    };
-    const onRestored = () => {
-      if (!renderer.restore()) {
+    // Start WebGL only once the browser is idle, so shader compilation and the
+    // first mesh build never compete with the first paint. The SVG outline
+    // stays visible until the first frame is ready.
+    let cleanup: (() => void) | undefined;
+    let cancelled = false;
+    const start = () => {
+      if (cancelled) return;
+      cleanup = (() => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const renderer = createShellRenderer(canvas);
+      if (!renderer) {
         callbacks.current.onFail();
         return;
       }
+      rendererRef.current = renderer;
       renderer.setColors(readColors());
+      renderer.setParams(restParams);
       renderer.resize();
       renderer.render(true);
       setAlive(true);
-      callbacks.current.onReady();
+      const ready = requestAnimationFrame(() => callbacks.current.onReady());
+
+      const observer = new ResizeObserver(() => {
+        renderer.resize();
+        renderer.render(true);
+      });
+      observer.observe(canvas);
+      const onTheme = () => {
+        renderer.setColors(readColors());
+        renderer.render(true);
+      };
+      const onLostEvent = (event: Event) => {
+        event.preventDefault();
+        setAlive(false);
+        callbacks.current.onLost();
+      };
+      const onRestored = () => {
+        if (!renderer.restore()) {
+          callbacks.current.onFail();
+          return;
+        }
+        renderer.setColors(readColors());
+        renderer.resize();
+        renderer.render(true);
+        setAlive(true);
+        callbacks.current.onReady();
+      };
+      window.addEventListener("pim:theme", onTheme);
+      canvas.addEventListener("webglcontextlost", onLostEvent);
+      canvas.addEventListener("webglcontextrestored", onRestored);
+      return () => {
+        cancelAnimationFrame(ready);
+        observer.disconnect();
+        window.removeEventListener("pim:theme", onTheme);
+        canvas.removeEventListener("webglcontextlost", onLostEvent);
+        canvas.removeEventListener("webglcontextrestored", onRestored);
+        renderer.dispose();
+        rendererRef.current = null;
+      };
+      })();
     };
-    window.addEventListener("pim:theme", onTheme);
-    canvas.addEventListener("webglcontextlost", onLostEvent);
-    canvas.addEventListener("webglcontextrestored", onRestored);
+    // Safari has no requestIdleCallback: fall back to a short timeout there.
+    const hasIdle = "requestIdleCallback" in window;
+    const handle = hasIdle ? window.requestIdleCallback(start, { timeout: 2000 }) : window.setTimeout(start, 600);
     return () => {
-      cancelAnimationFrame(ready);
-      observer.disconnect();
-      window.removeEventListener("pim:theme", onTheme);
-      canvas.removeEventListener("webglcontextlost", onLostEvent);
-      canvas.removeEventListener("webglcontextrestored", onRestored);
-      renderer.dispose();
-      rendererRef.current = null;
+      cancelled = true;
+      if (hasIdle) window.cancelIdleCallback(handle);
+      else window.clearTimeout(handle);
+      cleanup?.();
     };
   }, []);
 
@@ -151,18 +170,25 @@ export default function ShellCanvas({ onReady, onLost, onFail, className }: Shel
     if (reduce || !visible || !pageShown || !alive) return;
     let raf = 0;
     let last = performance.now();
+    let drawn = { fold: Number.NaN, twist: Number.NaN };
     const m = motion.current;
+    // Breathing is a desktop detail; on touch devices the shell rests until touched.
+    const breathes = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
     const tick = (now: number) => {
       const renderer = rendererRef.current;
       if (!renderer) return;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       const t = now / 1000;
-      const breathe = Math.sin(t * 0.9) * 0.022 + Math.sin(t * 0.37 + 1.3) * 0.012;
+      const breathe = breathes ? Math.sin(t * 0.9) * 0.022 + Math.sin(t * 0.37 + 1.3) * 0.012 : 0;
       m.fold = springStep(m.fold, clamp(m.target.fold + breathe, FOLD_RANGE[0], FOLD_RANGE[1]), OMEGA, dt);
       m.twist = springStep(m.twist, m.target.twist, OMEGA, dt);
-      renderer.setParams({ ...restParams, fold: m.fold.x, twist: m.twist.x });
-      renderer.render();
+      // Rebuilding the folded mesh is the expensive part: skip frames where nothing moved.
+      if (Math.abs(m.fold.x - drawn.fold) > 1e-4 || Math.abs(m.twist.x - drawn.twist) > 1e-4) {
+        renderer.setParams({ ...restParams, fold: m.fold.x, twist: m.twist.x });
+        renderer.render();
+        drawn = { fold: m.fold.x, twist: m.twist.x };
+      }
       raf = requestAnimationFrame(tick);
     };
     raf = requestAnimationFrame(tick);

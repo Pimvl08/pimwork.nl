@@ -135,3 +135,35 @@
   padding-top: clamp(3rem, 6vw, 4.5rem);
   border-top: 1px solid var(--rule);
 }
+
+/* The portfolio PDF: a quiet text link under the two closing buttons. */
+.download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  min-height: 2.75rem;
+  margin-top: 1.25rem;
+  color: var(--ink-soft);
+  font-style: italic;
+  text-decoration-line: underline;
+  text-decoration-color: var(--rule-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.25em;
+  transition: color var(--dur-2) var(--ease-paper), text-decoration-color var(--dur-2) var(--ease-paper);
+}
+.download svg {
+  flex: none;
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+.download:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .download:hover {
+    color: var(--ink);
+    text-decoration-color: var(--ink);
+  }
+  .download:hover svg {
+    transform: translateY(2px);
+  }
+}

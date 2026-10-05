@@ -51,12 +51,14 @@ export const chromeCopy = {
       nav: "Voettekst",
       github: "GitHub",
       githubNote: "opent in een nieuw tabblad",
+      portfolio: "Download mijn portfolio (PDF)",
     },
     en: {
       line: "Software that takes work off your hands.",
       nav: "Footer",
       github: "GitHub",
       githubNote: "opens in a new tab",
+      portfolio: "Download my portfolio (PDF)",
     },
   },
 } satisfies Record<string, Bilingual<unknown> | Record<string, Bilingual<unknown>>>;

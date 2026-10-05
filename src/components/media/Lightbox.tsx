@@ -39,6 +39,8 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
   useEffect(() => {
     const dialog = dialogRef.current;
     if (!dialog) return;
+    // Remember what opened the lightbox so focus can return there on close.
+    const opener = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     if (!dialog.open) dialog.showModal();
     // Opened from inside the project sheet the page is already locked: leave it so.
     const wasLocked = document.documentElement.style.overflow === "hidden";
@@ -47,6 +49,7 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
     return () => {
       if (!wasLocked) lockScroll(false);
       if (dialog.open) dialog.close();
+      if (opener?.isConnected) opener.focus({ preventScroll: true });
     };
   }, []);
 

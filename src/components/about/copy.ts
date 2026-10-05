@@ -31,6 +31,7 @@ export const aboutCopy = {
     },
     work: { nl: "Bekijk mijn werk", en: "See my work" },
     contact: { nl: "Neem contact op", en: "Get in touch" },
+    portfolio: { nl: "Download mijn portfolio (PDF)", en: "Download my portfolio (PDF)" },
   },
 } satisfies {
   meta: { title: Bilingual<string>; description: Bilingual<string> };
@@ -38,5 +39,11 @@ export const aboutCopy = {
   portrait: { caption: Bilingual<string> };
   facts: { title: Bilingual<string> };
   principles: { title: Bilingual<string> };
-  closing: { title: Bilingual<string>; body: Bilingual<string>; work: Bilingual<string>; contact: Bilingual<string> };
+  closing: {
+    title: Bilingual<string>;
+    body: Bilingual<string>;
+    work: Bilingual<string>;
+    contact: Bilingual<string>;
+    portfolio: Bilingual<string>;
+  };
 };

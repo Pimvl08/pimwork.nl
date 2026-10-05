@@ -132,6 +132,7 @@
 
 .aboutGrid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 1.5rem clamp(2.5rem, 5vw, 4rem);
   padding-top: clamp(2rem, 4vw, 3rem);
   border-top: 1px solid var(--rule);
@@ -193,4 +194,28 @@
   font-size: var(--step-1);
   line-height: 1.45;
   text-wrap: balance;
+}
+/* On phones the arched buttons trim their side padding (and on the narrowest
+   ones their size), so a long label stays inside the column and the band.
+   If it still does not fit, the label wraps instead of being clipped. */
+.aboutText .aboutMore,
+.band .bandAction {
+  max-width: 100%;
+}
+.aboutText .aboutMore > span,
+.band .bandAction > span {
+  white-space: normal;
+  text-wrap: balance;
+  line-height: 1.15;
+}
+@media (max-width: 26rem) {
+  .aboutText .aboutMore,
+  .band .bandAction {
+    padding-inline: 1.4rem;
+  }
+}
+@media (max-width: 23.5rem) {
+  .aboutText .aboutMore {
+    font-size: var(--step-0);
+  }
 }

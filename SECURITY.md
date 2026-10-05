@@ -9,9 +9,10 @@ Open an issue on GitHub (github.com/pimdaanbram-prog) with the label `security`,
 ## Secrets
 
 - No secret is ever stored in the repository. `.env*` is ignored by git, only `.env.example` (empty values) is committed.
-- The two optional keys (`ANTHROPIC_API_KEY`, `RESEND_API_KEY`) are read **only in server route handlers** (`src/app/api/*`). They are never prefixed with `NEXT_PUBLIC_`, so Next.js cannot inline them into client bundles.
-- Without keys the site still works: the AI terminal answers from the site content (and says so), the contact form validates and says honestly that delivery is not configured.
-- Check before every release: `git grep -nE "sk-ant-|re_[A-Za-z0-9]{10,}|BEGIN (RSA|EC|OPENSSH) PRIVATE KEY"` must return nothing, and `grep -r "ANTHROPIC_API_KEY\|RESEND_API_KEY" .next/static` must return nothing after a build.
+- The only optional secret (`RESEND_API_KEY`) is read **only in the server route handler** (`src/app/api/contact`). It is never prefixed with `NEXT_PUBLIC_`, so Next.js cannot inline it into client bundles.
+- Without it the site still works: the contact form validates and says honestly that delivery is not configured.
+- The site has no AI features and calls no AI service.
+- Check before every release: `git grep -nE "sk-ant-|re_[A-Za-z0-9]{10,}|BEGIN (RSA|EC|OPENSSH) PRIVATE KEY"` must return nothing, and `grep -r "RESEND_API_KEY" .next/static` must return nothing after a build.
 
 ## HTTP headers
 
@@ -38,9 +39,8 @@ Trade-offs, stated honestly:
 
 ## Input handling
 
-- **No HTML from data.** The site never uses `dangerouslySetInnerHTML`, `eval` or `new Function`. Terminal output is a list of typed lines rendered as React text, so a command can never inject markup.
+- **No HTML from data.** The site never uses `dangerouslySetInnerHTML`, `eval` or `new Function`. Command palette output is a list of typed lines rendered as React text, so a command can never inject markup.
 - **Contact form** (`POST /api/contact`): same-origin check on the `Origin` header, `application/json` only, 8 KB body limit, Zod schema shared with the client (lengths and formats), honeypot field (silently dropped), minimum fill time of 3 seconds and maximum of 24 hours, rate limit of 5 requests per 10 minutes per client, all values HTML-escaped and CR/LF stripped before they reach an e-mail. Message contents and addresses are never logged.
-- **AI endpoint** (`POST /api/ask`): same-origin check, 4 KB body limit, question 2 to 400 characters, language enum, rate limit of 8 requests per 10 minutes per client, 25 second timeout, `max_tokens` capped, the model only sees a fixed system prompt built from the public site content. Questions are not logged.
 - The particle lab accepts a custom word: max 8 letters or digits, rendered as text on a canvas.
 
 ## Rate limiting

@@ -66,7 +66,7 @@ export function AboutTeaser({ lang }: { lang: Locale }) {
         </h2>
         <div className={styles.aboutText}>
           <p className={styles.aboutQuote}>{about.intro[lang][0]}</p>
-          <ArchButton variant="secondary" icon="arrowRight" href={`/${lang}/over`}>
+          <ArchButton variant="secondary" icon="arrowRight" href={`/${lang}/over`} className={styles.aboutMore}>
             {t.more[lang]}
           </ArchButton>
         </div>
@@ -86,7 +86,7 @@ export function ContactBand({ lang }: { lang: Locale }) {
           {t.title[lang]}
         </h2>
         <p className={styles.bandBody}>{t.body[lang]}</p>
-        <ArchButton variant="primary" size="lg" icon="arrowNE" href={`/${lang}/contact`}>
+        <ArchButton variant="primary" size="lg" icon="arrowNE" href={`/${lang}/contact`} className={styles.bandAction}>
           {t.action[lang]}
         </ArchButton>
       </div>

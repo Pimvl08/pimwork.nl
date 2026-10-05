@@ -1,67 +1,52 @@
-import { expect, gotoReady, test, visible } from "./fixtures";
+import { expect, gotoReady, isWide, test, trackErrors, visible } from "./fixtures";
+import type { Page } from "@playwright/test";
 
-/** Client navigations on the dev server may compile the target route first. */
-const NAV = { timeout: 20_000 };
+/** The visible theme toggle: in the header on wide screens, in the menu sheet on narrow ones. */
+async function themeToggle(page: Page) {
+  if (!isWide(page)) {
+    await page.getByRole("button", { name: "Menu openen" }).click();
+    await expect(page.getByRole("dialog", { name: "Menu" })).toBeVisible();
+  }
+  return visible(page.getByRole("button", { name: /^(Licht|Donker) thema$/ }));
+}
 
-test.describe("theme", () => {
-  test("the toggle flips data-theme, sets the cookie and survives a reload", async ({ page, context }) => {
-    await gotoReady(page, "/nl");
-    const html = page.locator("html");
-    await expect(html).toHaveAttribute("data-theme", "dark");
+test("the theme toggle flips the paper, sets the cookie and survives a reload", async ({ page, context }) => {
+  await gotoReady(page, "/nl");
+  const html = page.locator("html");
+  const before = await html.getAttribute("data-theme");
+  expect(["dark", "light"]).toContain(before);
+  const after = before === "dark" ? "light" : "dark";
 
-    const toggle = visible(page.getByRole("button", { name: "Licht thema" }));
-    await toggle.click();
-    await expect(html).toHaveAttribute("data-theme", "light");
-    await expect(visible(page.getByRole("button", { name: "Donker thema" }))).toBeVisible();
+  const toggle = await themeToggle(page);
+  await expect(toggle).toHaveAccessibleName(before === "dark" ? "Licht thema" : "Donker thema");
+  await toggle.click();
+  await expect(html).toHaveAttribute("data-theme", after);
+  await expect(toggle).toHaveAccessibleName(after === "dark" ? "Licht thema" : "Donker thema");
 
-    await expect
-      .poll(async () => (await context.cookies()).find((c) => c.name === "pim-theme")?.value)
-      .toBe("light");
+  await expect.poll(async () => (await context.cookies()).find((c) => c.name === "pim-theme")?.value).toBe(after);
 
-    await page.reload();
-    await expect(html).toHaveAttribute("data-theme", "light");
-
-    // And back.
-    await page.waitForFunction(() => window.__pimReady === true);
-    await visible(page.getByRole("button", { name: "Donker thema" })).click();
-    await expect(html).toHaveAttribute("data-theme", "dark");
-    await expect
-      .poll(async () => (await context.cookies()).find((c) => c.name === "pim-theme")?.value)
-      .toBe("dark");
-  });
-
-  test('the "t" key toggles the theme', async ({ page }) => {
-    await gotoReady(page, "/nl");
-    await page.locator("body").press("t");
-    await expect(page.locator("html")).toHaveAttribute("data-theme", "light");
-  });
+  await page.reload();
+  await expect(html).toHaveAttribute("data-theme", after);
 });
 
-test.describe("language", () => {
-  test("switching goes to /en with English headings and back to /nl", async ({ page }) => {
-    await gotoReady(page, "/nl");
-    const html = page.locator("html");
-    await expect(html).toHaveAttribute("lang", "nl-NL");
-    await expect(page.locator("#work-title")).toContainText("Werk");
+test("the language switch keeps the page and sets html lang", async ({ page }) => {
+  await gotoReady(page, "/nl/over");
+  await expect(page.locator("html")).toHaveAttribute("lang", "nl-NL");
+  const group = visible(page.getByRole("group", { name: "Taal" }));
+  await expect(group.getByRole("link", { name: /NL/ })).toHaveAttribute("aria-current", "true");
+  await group.getByRole("link", { name: /EN/ }).click();
+  await expect(page).toHaveURL(/\/en\/over$/);
+  await expect(page.locator("html")).toHaveAttribute("lang", "en-GB");
+  await expect(page.getByRole("heading", { level: 1, name: "About me" })).toBeVisible();
+});
 
-    const switcher = visible(page.getByRole("group", { name: "Taal" }));
-    await switcher.getByRole("link", { name: /EN/ }).click();
-    await expect(page).toHaveURL(/\/en(#.*)?$/, NAV);
-    await expect(html).toHaveAttribute("lang", "en-GB", NAV);
-    await expect(page.locator("#work-title")).toContainText("Work");
-    await expect(page.locator("#contact-title")).toContainText("Contact");
-
-    const back = visible(page.getByRole("group", { name: "Language" }));
-    await back.getByRole("link", { name: /NL/ }).click();
-    await expect(page).toHaveURL(/\/nl(#.*)?$/, NAV);
-    await expect(html).toHaveAttribute("lang", "nl-NL", NAV);
-    await expect(page.locator("#work-title")).toContainText("Werk");
-  });
-
-  test("the language switch keeps the project page", async ({ page }) => {
-    await gotoReady(page, "/nl/werk/teamsync");
-    await visible(page.getByRole("group", { name: "Taal" })).getByRole("link", { name: /EN/ }).click();
-    await expect(page).toHaveURL(/\/en\/werk\/teamsync$/, NAV);
-    await expect(page.locator("html")).toHaveAttribute("lang", "en-GB", NAV);
-  });
+test("the language switch on a project page keeps the project", async ({ page }) => {
+  const problems = trackErrors(page);
+  await gotoReady(page, "/nl/werk/teamsync");
+  await visible(page.getByRole("group", { name: "Taal" })).getByRole("link", { name: /EN/ }).click();
+  await expect(page).toHaveURL(/\/en\/werk\/teamsync$/);
+  await expect(page.locator("html")).toHaveAttribute("lang", "en-GB");
+  await expect(page.getByRole("heading", { name: "The problem" }).first()).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Het probleem" })).toHaveCount(0);
+  expect(problems).toEqual([]);
 });

@@ -1,45 +1,38 @@
-import { expect, gotoReady, test } from "./fixtures";
+import { expect, gotoReady, test, walkPage } from "./fixtures";
 
-const WIDTHS = [360, 390, 768, 1280, 1440];
+const PAGES = ["/nl", "/nl/werk", "/nl/over", "/nl/contact"];
 
-test.describe("responsive", () => {
-  for (const width of WIDTHS) {
-    test(`no horizontal overflow at ${width}px and the name is visible`, async ({ page }) => {
-      await page.setViewportSize({ width, height: 900 });
-      await gotoReady(page, "/nl");
-      await expect(page.locator("h1")).toBeVisible();
+/** Every width on desktop; the phone project covers the two phone widths with touch emulation. */
+const WIDTHS: Record<string, number[]> = {
+  desktop: [360, 390, 768, 1280, 1440],
+  mobile: [360, 390],
+};
 
-      // Walk the page so lazily mounted plates are measured too.
-      const height = await page.evaluate(() => document.documentElement.scrollHeight);
-      for (let y = 0; y < height; y += 1200) {
-        await page.evaluate((top) => window.scrollTo({ top, behavior: "instant" }), y);
-      }
-      await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-
-      const metrics = await page.evaluate(() => {
-        const de = document.documentElement;
-        // Name the widest unclipped culprits so a failure says where to look.
-        const culprits: string[] = [];
-        for (const el of Array.from(document.querySelectorAll<Element>("body *"))) {
-          const r = el.getBoundingClientRect();
-          if (!r.width || r.right <= de.clientWidth + 1) continue;
-          if (getComputedStyle(el).position === "fixed") continue;
-          let clipped = false;
-          for (let a = el.parentElement; a && a !== document.body; a = a.parentElement) {
-            const style = getComputedStyle(a);
-            if (style.overflowX !== "visible" || style.position === "fixed") {
-              clipped = true;
-              break;
+test.describe("responsive: no horizontal overflow", () => {
+  for (const width of [360, 390, 768, 1280, 1440]) {
+    for (const path of PAGES) {
+      test(`${path} at ${width}px`, async ({ page }, info) => {
+        test.skip(!(WIDTHS[info.project.name] ?? []).includes(width), "Width covered by another project.");
+        await page.setViewportSize({ width, height: 900 });
+        await gotoReady(page, path);
+        await walkPage(page);
+        const overflow = await page.evaluate(() => {
+          const doc = document.documentElement;
+          const over = doc.scrollWidth - doc.clientWidth;
+          const culprits: string[] = [];
+          if (over > 1) {
+            for (const el of Array.from(document.querySelectorAll<HTMLElement>("body *"))) {
+              const r = el.getBoundingClientRect();
+              if (r.width > 0 && r.right > doc.clientWidth + 1 && getComputedStyle(el).position !== "fixed") {
+                culprits.push(`${el.tagName.toLowerCase()}.${String(el.className).slice(0, 60)} right=${Math.round(r.right)}`);
+                if (culprits.length >= 5) break;
+              }
             }
           }
-          if (clipped) continue;
-          const section = el.closest("section, header, footer");
-          const cls = typeof el.className === "string" ? el.className : (el.className as SVGAnimatedString).baseVal;
-          culprits.push(`#${section?.id || section?.tagName.toLowerCase() || "?"} ${el.tagName.toLowerCase()}.${cls.split(" ")[0]} right=${Math.round(r.right)}`);
-        }
-        return { scrollWidth: de.scrollWidth, clientWidth: de.clientWidth, culprits: culprits.slice(0, 6) };
+          return { over, culprits };
+        });
+        expect(overflow.over, `overflow at ${width}px: ${overflow.culprits.join(" | ")}`).toBeLessThanOrEqual(1);
       });
-      expect(metrics.scrollWidth, `overflow at ${width}px: ${metrics.culprits.join(", ")}`).toBeLessThanOrEqual(metrics.clientWidth + 1);
-    });
+    }
   }
 });

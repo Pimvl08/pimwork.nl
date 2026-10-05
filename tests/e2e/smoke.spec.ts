@@ -1,20 +1,10 @@
-import { expect, gotoReady, test } from "./fixtures";
+import { PAGES, SLUGS, expect, gotoReady, test, trackErrors, walkPage } from "./fixtures";
 
-const SLUGS = [
-  "teamsync",
-  "strength-tracker",
-  "belhulp",
-  "capcraft",
-  "kdp-kleurboek",
-  "solana-forensics",
-  "offerte-pdf-generator",
-  "paletteforge",
-];
+const LANGS = ["nl", "en"] as const;
+const ALL_PATHS = LANGS.flatMap((lang) => [...PAGES.map((p) => `/${lang}${p}`), ...SLUGS.map((slug) => `/${lang}/werk/${slug}`)]);
 
 test.describe("smoke: routes", () => {
-  const ok = ["/nl", "/en", ...SLUGS.map((slug) => `/nl/werk/${slug}`), "/en/werk/teamsync", "/nl/geheim"];
-
-  for (const path of ok) {
+  for (const path of ALL_PATHS) {
     test(`${path} returns 200`, async ({ request }) => {
       const response = await request.get(path, { maxRedirects: 0 });
       expect(response.status()).toBe(200);
@@ -22,13 +12,15 @@ test.describe("smoke: routes", () => {
     });
   }
 
-  test("an unknown page returns 404", async ({ request }) => {
-    const response = await request.get("/nl/xyz", { maxRedirects: 0 });
-    expect(response.status()).toBe(404);
-  });
+  for (const slug of ["capcraft", "paletteforge"]) {
+    test(`/nl/werk/${slug} is gone (404)`, async ({ request }) => {
+      const response = await request.get(`/nl/werk/${slug}`, { maxRedirects: 0 });
+      expect(response.status()).toBe(404);
+    });
+  }
 
-  test("an unknown project returns 404", async ({ request }) => {
-    const response = await request.get("/nl/werk/bestaat-niet", { maxRedirects: 0 });
+  test("an unknown page returns 404", async ({ request }) => {
+    const response = await request.get("/nl/bestaat-niet", { maxRedirects: 0 });
     expect(response.status()).toBe(404);
   });
 
@@ -44,29 +36,52 @@ test.describe("smoke: routes", () => {
     expect(new URL(response.headers()["location"], "http://x").pathname).toBe("/en");
   });
 
-  test("robots, sitemap, manifest and icon load", async ({ request }) => {
+  test("/api/ask no longer exists (404)", async ({ request }) => {
+    expect((await request.get("/api/ask")).status()).toBe(404);
+    const post = await request.post("/api/ask", { data: { question: "Hoi", lang: "nl" } });
+    expect(post.status()).toBe(404);
+  });
+
+  test("robots, sitemap, manifest and icons load", async ({ request }) => {
     const robots = await request.get("/robots.txt");
     expect(robots.status()).toBe(200);
     expect(await robots.text()).toMatch(/sitemap/i);
 
     const sitemap = await request.get("/sitemap.xml");
     expect(sitemap.status()).toBe(200);
-    expect(await sitemap.text()).toContain("<urlset");
+    const xml = await sitemap.text();
+    expect(xml).toContain("<urlset");
+    expect(xml).toContain("/nl/over");
+    expect(xml).not.toMatch(/capcraft|paletteforge/i);
 
     const manifest = await request.get("/manifest.webmanifest");
     expect(manifest.status()).toBe(200);
     const parsed = (await manifest.json()) as { name?: string; icons?: unknown[] };
     expect(parsed.name).toBeTruthy();
+    expect(parsed.icons?.length).toBeGreaterThan(0);
 
     const icon = await request.get("/icon.svg");
     expect(icon.status()).toBe(200);
     expect(icon.headers()["content-type"]).toContain("image/svg+xml");
+
+    const apple = await request.get("/apple-icon");
+    expect(apple.status()).toBe(200);
+    expect(apple.headers()["content-type"]).toContain("image/png");
   });
+
+  for (const lang of LANGS) {
+    test(`portfolio PDF (${lang}) loads`, async ({ request }) => {
+      const pdf = await request.get(`/portfolio-pim-${lang}.pdf`);
+      expect(pdf.status()).toBe(200);
+      expect(pdf.headers()["content-type"]).toContain("application/pdf");
+      expect((await pdf.body()).subarray(0, 5).toString()).toBe("%PDF-");
+    });
+  }
 });
 
 test.describe("smoke: headers", () => {
   test("pages carry a nonce CSP and the nonce is on the scripts", async ({ request }) => {
-    const response = await request.get("/nl");
+    const response = await request.get("/nl/over");
     const csp = response.headers()["content-security-policy"];
     expect(csp, "content-security-policy header").toBeTruthy();
     const match = csp.match(/'nonce-([^']+)'/);
@@ -83,6 +98,9 @@ test.describe("smoke: headers", () => {
     // No script may carry a different nonce than the one in the header.
     const foreign = scripts.filter((tag) => /nonce="/.test(tag) && !tag.includes(`nonce="${nonce}"`));
     expect(foreign).toEqual([]);
+    // Inline scripts (no src) only run with the nonce.
+    const inlineWithout = scripts.filter((tag) => !/\ssrc=/.test(tag) && !tag.includes(`nonce="${nonce}"`) && !/type="application\/(ld\+)?json"/.test(tag));
+    expect(inlineWithout).toEqual([]);
   });
 
   test("every request gets a fresh nonce", async ({ request }) => {
@@ -97,27 +115,21 @@ test.describe("smoke: headers", () => {
     expect(headers["x-content-type-options"]).toBe("nosniff");
     expect(headers["referrer-policy"]).toBeTruthy();
     expect(headers["permissions-policy"]).toContain("camera=()");
+    expect(headers["cross-origin-opener-policy"]).toBe("same-origin");
     expect(headers["x-powered-by"]).toBeUndefined();
   });
 });
 
-test.describe("smoke: browser", () => {
-  test("/nl loads without console errors or page errors", async ({ page }) => {
-    const problems: string[] = [];
-    page.on("console", (message) => {
-      if (message.type() === "error") problems.push(`console: ${message.text()}`);
-    });
-    page.on("pageerror", (error) => problems.push(`pageerror: ${error.message}`));
+test.describe("smoke: no console errors", () => {
+  for (const path of ALL_PATHS) {
+    test(`${path} loads without console errors or page errors`, async ({ page }) => {
+      const problems = trackErrors(page);
 
-    await gotoReady(page, "/nl");
-    await expect(page.locator("h1")).toBeVisible();
-    // Walk the page once so lazily mounted plates (lab, media, data) load too.
-    const height = await page.evaluate(() => document.documentElement.scrollHeight);
-    for (let y = 0; y < height; y += 900) {
-      await page.evaluate((top) => window.scrollTo({ top, behavior: "instant" }), y);
-      await page.waitForTimeout(120);
-    }
-    await page.waitForLoadState("networkidle");
-    expect(problems).toEqual([]);
-  });
+      await gotoReady(page, path);
+      await expect(page.locator("h1").first()).toBeVisible();
+      await walkPage(page);
+      await page.waitForLoadState("networkidle");
+      expect(problems).toEqual([]);
+    });
+  }
 });

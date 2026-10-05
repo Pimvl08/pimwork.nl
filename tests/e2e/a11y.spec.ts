@@ -1,12 +1,16 @@
 import AxeBuilder from "@axe-core/playwright";
-import { expect, gotoReady, test } from "./fixtures";
+import { expect, gotoReady, test, walkPage } from "./fixtures";
 
 const PAGES: { path: string; theme: "dark" | "light" }[] = [
   { path: "/nl", theme: "dark" },
-  { path: "/en", theme: "dark" },
+  { path: "/nl/werk", theme: "dark" },
   { path: "/nl/werk/teamsync", theme: "dark" },
+  { path: "/nl/over", theme: "dark" },
+  { path: "/nl/lab", theme: "dark" },
+  { path: "/nl/contact", theme: "dark" },
   // Contrast must hold on cotton paper too.
   { path: "/nl", theme: "light" },
+  { path: "/nl/werk/strength-tracker", theme: "light" },
 ];
 const TAGS = ["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"];
 
@@ -16,24 +20,29 @@ test.describe("accessibility (axe)", () => {
       await context.addCookies([{ name: "pim-theme", value: theme, url: baseURL ?? "http://localhost:3100" }]);
       await gotoReady(page, path);
       await expect(page.locator("html")).toHaveAttribute("data-theme", theme);
-      // Walk the page once so lazily mounted plates (lab, media, data) are audited too.
-      const height = await page.evaluate(() => document.documentElement.scrollHeight);
-      for (let y = 0; y < height; y += 900) {
-        await page.evaluate((top) => window.scrollTo({ top, behavior: "instant" }), y);
-        await page.waitForTimeout(100);
-      }
-      await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
-      // Let entrance transitions settle so contrast is measured on the final colours.
+      // Walk the page once so scroll-mounted content is audited too.
+      await walkPage(page);
       await page.evaluate(() => document.fonts.ready);
-      await page.waitForTimeout(800);
+      // Let entrance transitions settle so contrast is measured on the final colours.
+      await page.waitForFunction(() => document
+            .getAnimations()
+            .filter((a) => a.timeline === document.timeline && a.effect?.getTiming().iterations !== Infinity)
+            .every((a) => a.playState !== "running"), undefined, {
+        timeout: 5_000,
+      }).catch(() => undefined);
 
-      const results = await new AxeBuilder({ page }).withTags(TAGS).analyze();
+      const results = await new AxeBuilder({ page })
+        .withTags(TAGS)
+        // Decorative canvases (aria-hidden, with a text alternative beside them) are not content.
+        .exclude('canvas[aria-hidden="true"]')
+        .analyze();
       const serious = results.violations
         .filter((v) => v.impact === "serious" || v.impact === "critical")
         .map((v) => ({
           rule: v.id,
           impact: v.impact,
-          targets: v.nodes.slice(0, 5).map((n) => n.target.join(" ")),
+          targets: v.nodes.slice(0, 6).map((n) => n.target.join(" ")),
+          summary: v.nodes[0]?.failureSummary?.split("\n").slice(0, 3).join(" "),
           count: v.nodes.length,
         }));
       expect(serious, JSON.stringify(serious, null, 2)).toEqual([]);
