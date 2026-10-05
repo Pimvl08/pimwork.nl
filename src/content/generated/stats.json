@@ -1,0 +1,372 @@
+{
+  "generatedAt": "2026-10-05T09:06:38.092Z",
+  "projects": [
+    {
+      "slug": "teamsync",
+      "languages": {
+        "ts": {
+          "files": 63,
+          "lines": 5463
+        },
+        "tsx": {
+          "files": 65,
+          "lines": 5278
+        },
+        "rs": {
+          "files": 37,
+          "lines": 4382
+        },
+        "sql": {
+          "files": 12,
+          "lines": 1585
+        },
+        "css": {
+          "files": 1,
+          "lines": 359
+        },
+        "sh": {
+          "files": 2,
+          "lines": 173
+        },
+        "js": {
+          "files": 1,
+          "lines": 30
+        },
+        "html": {
+          "files": 4,
+          "lines": 23
+        }
+      },
+      "docsLines": 1102,
+      "tests": 168,
+      "testsByKind": {
+        "js": 82,
+        "rust": 44,
+        "python": 0,
+        "pgtap": 42
+      },
+      "dependencies": 58,
+      "commitsByWeek": {
+        "2026-W37": 45
+      },
+      "firstDate": "2026-09-07",
+      "lastDate": "2026-09-12",
+      "dateSource": "git"
+    },
+    {
+      "slug": "strength-tracker",
+      "languages": {
+        "tsx": {
+          "files": 60,
+          "lines": 12224
+        },
+        "ts": {
+          "files": 50,
+          "lines": 8702
+        },
+        "css": {
+          "files": 1,
+          "lines": 564
+        },
+        "js": {
+          "files": 3,
+          "lines": 153
+        },
+        "sql": {
+          "files": 1,
+          "lines": 82
+        },
+        "html": {
+          "files": 1,
+          "lines": 31
+        },
+        "sh": {
+          "files": 1,
+          "lines": 6
+        }
+      },
+      "docsLines": 467,
+      "tests": 110,
+      "testsByKind": {
+        "js": 110,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": 37,
+      "commitsByWeek": {
+        "2026-W12": 1,
+        "2026-W15": 21,
+        "2026-W16": 2,
+        "2026-W17": 5,
+        "2026-W19": 4,
+        "2026-W20": 9,
+        "2026-W23": 1,
+        "2026-W24": 10,
+        "2026-W31": 1
+      },
+      "firstDate": "2026-03-22",
+      "lastDate": "2026-07-28",
+      "dateSource": "git"
+    },
+    {
+      "slug": "belhulp",
+      "languages": {
+        "py": {
+          "files": 15,
+          "lines": 1994
+        },
+        "js": {
+          "files": 3,
+          "lines": 509
+        },
+        "css": {
+          "files": 2,
+          "lines": 249
+        },
+        "swift": {
+          "files": 1,
+          "lines": 115
+        },
+        "html": {
+          "files": 1,
+          "lines": 71
+        }
+      },
+      "docsLines": 176,
+      "tests": 0,
+      "testsByKind": {
+        "js": 0,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": null,
+      "commitsByWeek": {},
+      "firstDate": "2026-09-23",
+      "lastDate": "2026-09-25",
+      "dateSource": "files"
+    },
+    {
+      "slug": "capcraft",
+      "languages": {
+        "tsx": {
+          "files": 55,
+          "lines": 4451
+        },
+        "ts": {
+          "files": 20,
+          "lines": 1142
+        },
+        "css": {
+          "files": 2,
+          "lines": 184
+        },
+        "js": {
+          "files": 3,
+          "lines": 137
+        },
+        "html": {
+          "files": 1,
+          "lines": 106
+        }
+      },
+      "docsLines": 111,
+      "tests": 0,
+      "testsByKind": {
+        "js": 0,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": 15,
+      "commitsByWeek": {},
+      "firstDate": "2026-08-22",
+      "lastDate": "2026-08-22",
+      "dateSource": "files"
+    },
+    {
+      "slug": "kdp-kleurboek",
+      "languages": {
+        "py": {
+          "files": 28,
+          "lines": 4231
+        },
+        "sh": {
+          "files": 3,
+          "lines": 26
+        },
+        "html": {
+          "files": 1,
+          "lines": 1
+        }
+      },
+      "docsLines": 1607,
+      "tests": 0,
+      "testsByKind": {
+        "js": 0,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": 36,
+      "commitsByWeek": {},
+      "firstDate": "2026-09-28",
+      "lastDate": "2026-09-29",
+      "dateSource": "files"
+    },
+    {
+      "slug": "solana-forensics",
+      "languages": {
+        "js": {
+          "files": 24,
+          "lines": 2837
+        },
+        "html": {
+          "files": 1,
+          "lines": 183
+        }
+      },
+      "docsLines": 70,
+      "tests": 0,
+      "testsByKind": {
+        "js": 0,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": 0,
+      "commitsByWeek": {},
+      "firstDate": "2026-08-23",
+      "lastDate": "2026-08-23",
+      "dateSource": "files"
+    },
+    {
+      "slug": "offerte-pdf-generator",
+      "languages": {
+        "tsx": {
+          "files": 13,
+          "lines": 1574
+        },
+        "ts": {
+          "files": 8,
+          "lines": 719
+        },
+        "css": {
+          "files": 1,
+          "lines": 65
+        },
+        "js": {
+          "files": 3,
+          "lines": 55
+        },
+        "html": {
+          "files": 1,
+          "lines": 19
+        }
+      },
+      "docsLines": 32,
+      "tests": 0,
+      "testsByKind": {
+        "js": 0,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": 12,
+      "commitsByWeek": {
+        "2026-W26": 4
+      },
+      "firstDate": "2026-06-22",
+      "lastDate": "2026-06-22",
+      "dateSource": "git"
+    },
+    {
+      "slug": "paletteforge",
+      "languages": {
+        "tsx": {
+          "files": 29,
+          "lines": 3024
+        },
+        "ts": {
+          "files": 18,
+          "lines": 1121
+        },
+        "css": {
+          "files": 1,
+          "lines": 126
+        },
+        "js": {
+          "files": 2,
+          "lines": 22
+        }
+      },
+      "docsLines": 131,
+      "tests": 0,
+      "testsByKind": {
+        "js": 0,
+        "rust": 0,
+        "python": 0,
+        "pgtap": 0
+      },
+      "dependencies": 24,
+      "commitsByWeek": {
+        "2026-W12": 1
+      },
+      "firstDate": "2026-03-20",
+      "lastDate": "2026-03-20",
+      "dateSource": "git"
+    }
+  ],
+  "totals": {
+    "projects": 8,
+    "files": 538,
+    "lines": 62016,
+    "docsLines": 3696,
+    "tests": 278,
+    "dependencies": 182,
+    "commits": 104,
+    "languages": {
+      "tsx": {
+        "files": 222,
+        "lines": 26551
+      },
+      "ts": {
+        "files": 159,
+        "lines": 17147
+      },
+      "py": {
+        "files": 43,
+        "lines": 6225
+      },
+      "rs": {
+        "files": 37,
+        "lines": 4382
+      },
+      "js": {
+        "files": 39,
+        "lines": 3743
+      },
+      "sql": {
+        "files": 13,
+        "lines": 1667
+      },
+      "css": {
+        "files": 8,
+        "lines": 1547
+      },
+      "html": {
+        "files": 10,
+        "lines": 434
+      },
+      "sh": {
+        "files": 6,
+        "lines": 205
+      },
+      "swift": {
+        "files": 1,
+        "lines": 115
+      }
+    }
+  }
+}
