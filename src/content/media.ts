@@ -36,30 +36,6 @@ export interface VideoAsset {
 
 export const images: ImageAsset[] = [
   {
-    src: "/media/strength-tracker/login-desktop.jpg",
-    width: 1800,
-    height: 1125,
-    alt: {
-      nl: "Inlogscherm van Strength Tracker op een desktopscherm: een oranje bliksemlogo, het woord STRENGTH en een donker formulier met velden voor e-mail en wachtwoord en een oranje knop Inloggen.",
-      en: "Strength Tracker login screen on a desktop display: an orange lightning logo, the word STRENGTH and a dark form with email and password fields and an orange log in button.",
-    },
-    project: "strength-tracker",
-    provenance: "Playwright screenshot (Chrome, 1440x900 @1.25x) of the public login screen at https://strengttracker.netlify.app",
-    blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAAAQABAAD//gAPTGF2YzYzLjEuMTAyAP/bAEMACAoKCwoLDQ0NDQ0NEA8QEBAQEBAQEBAQEBISEhUVFRISEhAQEhIUFBUVFxcXFRUVFRcXGRkZHh4cHCMjJCsrM//EAFoAAQEBAAAAAAAAAAAAAAAAAAEDBwEBAQAAAAAAAAAAAAAAAAAAAAIQAAEEAgMBAAAAAAAAAAAAAAECAwASMlFBIWEREQEBAQEAAAAAAAAAAAAAAAAAESFB/8AAEQgACgAQAwEiAAIRAAMRAP/aAAwDAQACEQMRAD8AxJpJW4kVt3jvyLqS24oFNSDjr7xImEdVcf/Z",
-  },
-  {
-    src: "/media/strength-tracker/login-phone.jpg",
-    width: 780,
-    height: 1688,
-    alt: {
-      nl: "Hetzelfde inlogscherm van Strength Tracker op een telefoon, met het formulier over de volle breedte.",
-      en: "The same Strength Tracker login screen on a phone, with the form spanning the full width.",
-    },
-    project: "strength-tracker",
-    provenance: "Playwright screenshot (Chrome, 390x844 @2x) of the public login screen at https://strengttracker.netlify.app",
-    blurDataURL: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAgAM8w0wAAD//gAPTGF2YzYzLjEuMTAyAP/bAEMACAoKCwoLDQ0NDQ0NEA8QEBAQEBAQEBAQEBISEhUVFRISEhAQEhIUFBUVFxcXFRUVFRcXGRkZHh4cHCMjJCsrM//EAG4AAQEAAwEAAAAAAAAAAAAAAAIBAwQHBQEBAQAAAAAAAAAAAAAAAAAAAgQQAAICAgEDBAMBAAAAAAAAAAECAxEABCEFEkETJIFxMmFSkREAAQMDBQEBAAAAAAAAAAAAERIxAAIBUTIhcQMTBCL/wAARCAAiABADASIAAhEAAxEA/9oADAMBAAIRAxEAPwDjGrDJtTJDHy7kKtmuT+8ezBJqzSQycPGe1gDfP3jh2fSC+3hJAruIbuv+rDDnLNteqG9vCpYfkA1g3dglyb8c3gFaifyGG5yZQqlAF1FzsMDMxIrlRSv8KTlaNwpJVgK8is29frO/rRrHFMUVOFAC8f6Mez1zqOzE8Umwzo4pgVQWPgXhv7nT1guqojhLxJ+dOvtUGRSDytp4uE4sJyi8ln//2Q==",
-  },
-  {
     src: "/media/kdp-kleurboek/character-sheet.png",
     width: 1024,
     height: 1024,

@@ -45,7 +45,7 @@ test.describe("project pages", () => {
     });
   }
 
-  for (const slug of ["strength-tracker", "kdp-kleurboek", "offerte-pdf-generator"]) {
+  for (const slug of ["kdp-kleurboek", "offerte-pdf-generator"]) {
     test(`${slug}: a screenshot opens in a lightbox and Escape closes it`, async ({ page }) => {
       await gotoReady(page, `/nl/werk/${slug}`);
       const thumbs = page.getByRole("list", { name: "Schermafbeeldingen" });

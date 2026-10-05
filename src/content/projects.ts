@@ -153,7 +153,7 @@ export const projects: Project[] = [
       { label: { nl: "Open de app", en: "Open the app" }, href: "https://strengttracker.netlify.app" },
       { label: { nl: "Broncode op GitHub", en: "Source on GitHub" }, href: "https://github.com/pimdaanbram-prog/strength-tracker" },
     ],
-    status: { nl: "Live en elke week in gebruik", en: "Live and used every week" },
+    status: { nl: "Live en in gebruik", en: "Live and in use" },
   },
   {
     slug: "offerte-pdf-generator",

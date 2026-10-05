@@ -12,11 +12,11 @@ Delegated: Pim asked for "the best technology for the problem". Chosen: Next.js 
 
 ## Users
 
-Pim's own showcase (confirmed 2026-10-04: "puur showcase"). The visitor is a friend, classmate, teacher or curious developer who opens the link Pim shares, usually on a phone first and later on a laptop, to see what Pim builds with AI and code. Secondary: Pim himself, who uses the site as a benchmark of what Claude Code can produce in his environment.
+Businesses and people who might hire Pim or want to know what he can build (changed by Pim on 2026-10-05; the first answer was "puur showcase"). The visitor opens a link Pim shares, often on a phone first, and wants to understand in seconds what he makes, believe it through real projects, and get in touch.
 
 ## Product Purpose
 
-A personal website about Pim that doubles as a technical showcase. Success: a visitor leaves knowing who Pim is, what he has actually built, and that he can make demanding interactive web work; and Pim can point to every feature as working, tested code.
+A professional personal website that introduces Pim, shows what he can build and that he understands AI well enough to make a real difference. Success: a visitor knows who Pim is, has seen real projects with the problem they solve, and knows how to reach him.
 
 ## Positioning
 
@@ -31,7 +31,8 @@ Every project, number and image on the site comes from Pim's own disk: real repo
 
 ## Capabilities and Constraints
 
-- Only Pim's own projects are shown with name and screenshots (confirmed): Strength Tracker, CapCraft, PaletteForge, TeamSync, Belhulp, Solana Forensics, Offerte PDF Generator, KDP Kleurboek. Client pitches and school assignments are not named.
+- Only Pim's own, relevant projects are shown (confirmed 2026-10-05): TeamSync, Strength Tracker and OfferteVlot featured, plus Belhulp, the coloring book and Solana Forensics. CapCraft (an example for a friend) and PaletteForge (a school assignment) are excluded.
+- No AI chatbot, no custom cursor, no single long scroll, no dates or internal metrics; Claude Code is named only in the about page's "Hoe ik werk" (Pim, 2026-10-05).
 - No invented personal facts. Missing facts (photo of Pim, location, age, school name) stay open and get clearly marked, easy-to-fill slots.
 - No secrets in the repository or client bundle. Never publish e-mail addresses, phone numbers, client or campaign names, wallet addresses or internal ids from project folders.
 - Must respect prefers-reduced-motion, keyboard use and screen readers.

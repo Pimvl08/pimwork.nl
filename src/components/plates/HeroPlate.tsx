@@ -42,10 +42,10 @@ export function HeroPlate({ lang }: { lang: Locale }) {
           </h1>
           <IntroLine lang={lang} projectNames={projectNames} />
           <div className={styles.actions}>
-            <ArchButton variant="primary" size="lg" href={`/${lang}/werk`}>
+            <ArchButton variant="primary" href={`/${lang}/werk`}>
               {heroCopy.seeWork[lang]}
             </ArchButton>
-            <ArchButton variant="secondary" size="lg" icon="arrowNE" href={`/${lang}/contact`}>
+            <ArchButton variant="secondary" trail="arrowNE" href={`/${lang}/contact`}>
               {heroCopy.contact[lang]}
             </ArchButton>
           </div>

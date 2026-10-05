@@ -1,7 +1,8 @@
-import { about } from "@/content/person";
+import { about, person } from "@/content/person";
 import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
 import type { Locale } from "@/i18n/config";
+import { cn } from "@/lib/cn";
 import { aboutCopy } from "./copy";
 import { FactList } from "./FactList";
 import { HowIWork } from "./HowIWork";
@@ -9,18 +10,28 @@ import { Portrait } from "./Portrait";
 import styles from "./about.module.css";
 
 /**
- * The about page: who Pim is beside the arched portrait frame, the facts
+ * The about page: who Pim is (beside the arched portrait, once there is one), the facts
  * that are known, how he works, and a way on to his work or to contact.
  */
 export function AboutPage({ lang }: { lang: Locale }) {
   const c = aboutCopy;
   const [first, ...rest] = about.intro[lang];
+  // The portrait frame only exists once there is a portrait; until then the
+  // introduction takes the full measure.
+  const portrait = person.portrait;
   return (
     <main id="main" className={`plate relative isolate ${styles.root} ${styles.page}`}>
-      <div className="grid items-start gap-x-[clamp(2.5rem,6vw,6rem)] gap-y-12 lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]">
-        <div className="order-2 lg:order-1 lg:pt-4">
-          <Portrait lang={lang} />
-        </div>
+      <div
+        className={cn(
+          "grid items-start gap-x-[clamp(2.5rem,6vw,6rem)] gap-y-12",
+          portrait && "lg:grid-cols-[minmax(0,22rem)_minmax(0,1fr)]",
+        )}
+      >
+        {portrait ? (
+          <div className="order-2 lg:order-1 lg:pt-4">
+            <Portrait portrait={portrait} lang={lang} />
+          </div>
+        ) : null}
         <div className="order-1 flex flex-col gap-8 lg:order-2">
           <h1 className="text-[length:var(--step-4)] italic leading-[1.02]">{c.title[lang]}</h1>
           {first ? <p className="measure text-[length:var(--step-1)] leading-[1.45] text-ink">{first}</p> : null}

@@ -162,10 +162,12 @@
   }
 }
 
+/* Primary and secondary side by side at body scale and matched height; they
+   only stack when the column is too narrow to hold both. */
 .actions {
   display: flex;
   flex-wrap: wrap;
-  align-items: center;
+  align-items: stretch;
   gap: 0.75rem 1rem;
   margin-top: clamp(0.25rem, 1vh, 0.75rem);
 }
@@ -177,7 +179,13 @@
   min-width: 0;
 }
 
+/* The stage keeps the layout box. The drawing box (outline + canvas) can
+   bleed up and to the right by --bleed (a fraction of the stage, the same on
+   both axes so the ratio holds); the camera frames the shell inside that box.
+   --seat (set inline from the silhouette) is the height of the shell's lower
+   tip in the drawing box; the baseline is drawn exactly there. */
 .stage {
+  --bleed: 0;
   position: relative;
   width: 100%;
   max-width: 46rem;
@@ -187,6 +195,37 @@
 @media (max-width: 59.99rem) {
   .stage {
     max-width: 30rem;
+  }
+}
+/* Desktop only: on one column the bleed would cover the actions above. */
+@media (min-width: 60rem) {
+  .stage {
+    --bleed: 0.25;
+  }
+}
+
+.draw {
+  position: absolute;
+  top: calc(var(--bleed) * -100%);
+  right: calc(var(--bleed) * -100%);
+  bottom: 0;
+  left: 0;
+}
+
+/* A hairline across the right column at the tip: the paper stands on it,
+   and it runs on to the edge of the page like the rule of the next band. */
+.baseline {
+  position: absolute;
+  top: calc((var(--seat, 1) * (1 + var(--bleed)) - var(--bleed)) * 100%);
+  left: -50vw;
+  right: -50vw;
+  height: 0;
+  border-top: 1px solid var(--rule-strong);
+  pointer-events: none;
+}
+@media (min-width: 60rem) {
+  .baseline {
+    left: 0;
   }
 }
 

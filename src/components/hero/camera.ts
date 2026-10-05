@@ -21,6 +21,14 @@ export const heroCamera = {
   fovY: (30 * Math.PI) / 180,
   near: 0.1,
   far: 30,
+  /**
+   * Framing in screen space (a lens shift, no change of perspective): scales
+   * and moves the projected shell inside the canvas box. On desktop that box
+   * bleeds up and to the right of the stage (see hero.module.css), so at rest
+   * the shell fills about 62% of the stage width with its lower tip seated on
+   * the baseline, and the opened flap still never touches the canvas edge.
+   */
+  frame: { scale: 1.058, x: -0.0216, y: -0.114 },
 };
 
 /** The pose of the shell at rest, as drawn by the silhouette. */
@@ -86,9 +94,17 @@ export interface ViewSetup {
   light: Vec3;
 }
 
+/** Screen-space scale and shift applied after projection: ndc' = ndc * scale + offset. */
+function frameMatrix({ scale, x, y }: { scale: number; x: number; y: number }): Float32Array {
+  return new Float32Array([scale, 0, 0, 0, 0, scale, 0, 0, 0, 0, 1, 0, x, y, 0, 1]);
+}
+
 export function viewSetup(aspect: number, cam = heroCamera): ViewSetup {
   const eye = cameraEye(cam);
-  const matrix = multiply(perspective(cam.fovY, aspect, cam.near, cam.far), lookAt(eye, cam.target));
+  const matrix = multiply(
+    frameMatrix(cam.frame),
+    multiply(perspective(cam.fovY, aspect, cam.near, cam.far), lookAt(eye, cam.target)),
+  );
   const forward = normalize(sub(cam.target, eye));
   const right = normalize(cross(forward, [0, 0, 1]));
   const back: Vec3 = [-forward[0], -forward[1], -forward[2]];
@@ -114,6 +130,8 @@ export interface Silhouette {
   rim: string;
   /** The crease arc. */
   crease: string;
+  /** Height of the lowest rim point (the tip) as a fraction of the box, 0 = top. */
+  seat: number;
 }
 
 /**
@@ -129,10 +147,12 @@ export function shellSilhouette(aspect = STAGE_ASPECT, params: CreaseParams = re
     return `${(((nx + 1) / 2) * w).toFixed(1)} ${(((1 - ny) / 2) * h).toFixed(1)}`;
   };
   const rimPoints: string[] = [];
-  for (let i = 0; i < samples; i++) {
-    const a = (i / samples) * Math.PI * 2;
+  let lowest = 0;
+  for (let i = 0; i < samples * 4; i++) {
+    const a = (i / (samples * 4)) * Math.PI * 2;
     const [x, y, z] = foldPoint(Math.cos(a), Math.sin(a), params);
-    rimPoints.push(toSvg(x, y, z));
+    lowest = Math.max(lowest, (1 - project(matrix, x, y, z)[1]) / 2);
+    if (i % 4 === 0) rimPoints.push(toSvg(x, y, z));
   }
   const line = creaseLine(params, 48);
   const creasePoints: string[] = [];
@@ -141,5 +161,6 @@ export function shellSilhouette(aspect = STAGE_ASPECT, params: CreaseParams = re
     viewBox: `0 0 ${w} ${h}`,
     rim: `M${rimPoints.join(" L")} Z`,
     crease: creasePoints.length > 1 ? `M${creasePoints.join(" L")}` : "",
+    seat: Math.round(lowest * 10000) / 10000,
   };
 }

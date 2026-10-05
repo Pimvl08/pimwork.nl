@@ -1,0 +1,157 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-05T22:10:00+02:00",
+  "title": "Design System: Pim",
+  "extensions": {
+    "colorMeta": {
+      "graphite-paper": { "role": "neutral", "displayName": "Graphite Paper", "canonical": "#121211", "cssVar": "--paper (dark)", "tonalRamp": ["#0c0c0b", "#121211", "#1a1917", "#2a2926", "#34322e", "#4a4742", "#5c5953", "#8e8a82"] },
+      "graphite-raised": { "role": "neutral", "displayName": "Graphite Raised", "canonical": "#1a1917", "cssVar": "--paper-raised (dark)", "tonalRamp": ["#0c0c0b", "#121211", "#1a1917", "#2a2926", "#34322e", "#4a4742", "#5c5953", "#8e8a82"] },
+      "graphite-sunk": { "role": "neutral", "displayName": "Graphite Sunk", "canonical": "#0c0c0b", "cssVar": "--paper-sunk (dark)", "tonalRamp": ["#0c0c0b", "#121211", "#1a1917", "#2a2926", "#34322e", "#4a4742", "#5c5953", "#8e8a82"] },
+      "bone-ink": { "role": "primary", "displayName": "Bone Ink (crease ink, graphite theme)", "canonical": "#ece6da", "cssVar": "--ink (dark)", "tonalRamp": ["#34322e", "#4a4742", "#6e6a63", "#9a958c", "#cfc8bb", "#ece6da", "#f2ede3", "#f7f2e8"] },
+      "bone-ink-soft": { "role": "neutral", "displayName": "Bone Ink Soft", "canonical": "#cfc8bb", "cssVar": "--ink-soft (dark)", "tonalRamp": ["#34322e", "#4a4742", "#6e6a63", "#9a958c", "#cfc8bb", "#ece6da", "#f2ede3", "#f7f2e8"] },
+      "bone-ink-mute": { "role": "neutral", "displayName": "Bone Ink Mute", "canonical": "#9a958c", "cssVar": "--ink-mute (dark)", "tonalRamp": ["#34322e", "#4a4742", "#6e6a63", "#9a958c", "#cfc8bb", "#ece6da", "#f2ede3", "#f7f2e8"] },
+      "bone-ink-faint": { "role": "neutral", "displayName": "Bone Ink Faint (separators only)", "canonical": "#6e6a63", "cssVar": "--ink-faint (dark)", "tonalRamp": ["#34322e", "#4a4742", "#6e6a63", "#9a958c", "#cfc8bb", "#ece6da", "#f2ede3", "#f7f2e8"] },
+      "graphite-rule": { "role": "neutral", "displayName": "Graphite Rule", "canonical": "#34322e", "cssVar": "--rule (dark)", "tonalRamp": ["#121211", "#1a1917", "#2a2926", "#34322e", "#4a4742", "#5c5953", "#8e8a82", "#cfc8bb"] },
+      "graphite-rule-strong": { "role": "neutral", "displayName": "Graphite Rule Strong", "canonical": "#4a4742", "cssVar": "--rule-strong (dark)", "tonalRamp": ["#121211", "#1a1917", "#2a2926", "#34322e", "#4a4742", "#5c5953", "#8e8a82", "#cfc8bb"] },
+      "cotton-paper": { "role": "neutral", "displayName": "Cotton Paper", "canonical": "#f2efe6", "cssVar": "--paper (light)", "tonalRamp": ["#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#e8e4d9", "#f2efe6", "#fbfaf6", "#ffffff"] },
+      "cotton-raised": { "role": "neutral", "displayName": "Cotton Raised", "canonical": "#fbfaf6", "cssVar": "--paper-raised (light)", "tonalRamp": ["#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#e8e4d9", "#f2efe6", "#fbfaf6", "#ffffff"] },
+      "cotton-sunk": { "role": "neutral", "displayName": "Cotton Sunk", "canonical": "#e8e4d9", "cssVar": "--paper-sunk (light)", "tonalRamp": ["#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#e8e4d9", "#f2efe6", "#fbfaf6", "#ffffff"] },
+      "carbon-ink": { "role": "primary", "displayName": "Carbon Ink (crease ink, cotton theme)", "canonical": "#1c1c1c", "cssVar": "--ink (light)", "tonalRamp": ["#0e0e0e", "#1c1c1c", "#33322f", "#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#f2efe6"] },
+      "carbon-ink-soft": { "role": "neutral", "displayName": "Carbon Ink Soft", "canonical": "#33322f", "cssVar": "--ink-soft (light)", "tonalRamp": ["#0e0e0e", "#1c1c1c", "#33322f", "#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#f2efe6"] },
+      "carbon-ink-mute": { "role": "neutral", "displayName": "Carbon Ink Mute", "canonical": "#5e5b55", "cssVar": "--ink-mute (light)", "tonalRamp": ["#0e0e0e", "#1c1c1c", "#33322f", "#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#f2efe6"] },
+      "carbon-ink-faint": { "role": "neutral", "displayName": "Carbon Ink Faint (separators only)", "canonical": "#85817a", "cssVar": "--ink-faint (light)", "tonalRamp": ["#0e0e0e", "#1c1c1c", "#33322f", "#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#f2efe6"] },
+      "cotton-rule": { "role": "neutral", "displayName": "Cotton Rule", "canonical": "#d3cfc4", "cssVar": "--rule (light)", "tonalRamp": ["#33322f", "#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#e8e4d9", "#f2efe6", "#fbfaf6"] },
+      "cotton-rule-strong": { "role": "neutral", "displayName": "Cotton Rule Strong", "canonical": "#b9b4a8", "cssVar": "--rule-strong (light)", "tonalRamp": ["#33322f", "#5e5b55", "#85817a", "#b9b4a8", "#d3cfc4", "#e8e4d9", "#f2efe6", "#fbfaf6"] }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (name)", "purpose": "The name \"Pim\" in the home hero only. Italic." },
+      "headline": { "displayName": "Headline", "purpose": "Plate and section headings, italic, with the roman plate numeral inside at 0.38em." },
+      "title": { "displayName": "Title", "purpose": "Hero intro line (max 25ch), large arch buttons, project titles." },
+      "lead": { "displayName": "Lead", "purpose": "One sentence under a heading; arch button labels." },
+      "body": { "displayName": "Body", "purpose": "Roman reading text at a 66ch measure with old-style numerals." },
+      "label": { "displayName": "Geometer's Label", "purpose": "Italic tracked capitals naming a field, term, status or link direction. Never a kicker above a heading." },
+      "data": { "displayName": "Data", "purpose": "Fragment Mono for code, commands and measured values only." }
+    },
+    "shadows": [
+      { "name": "thumb-lift", "value": "0 1.25rem 2.5rem -1.5rem hsl(var(--shadow-color) / 0.55)", "purpose": "Mobile thumb bar floating over the page." },
+      { "name": "preview-lift", "value": "0 28px 56px -30px hsl(var(--shadow-color) / 0.55)", "purpose": "Floating hover preview of a project." },
+      { "name": "panel-lift", "value": "0 2rem 4rem -2.5rem hsl(var(--shadow-color) / 0.6)", "purpose": "Centered dialog panels." },
+      { "name": "sheet-rise", "value": "0 -24px 80px -40px hsl(var(--shadow-color) / 0.6)", "purpose": "Project sheet rising from below on wide screens." },
+      { "name": "inset-hairline", "value": "inset 0 0 0 1px var(--rule-strong)", "purpose": "Drawn outline inside terminal and lab controls." }
+    ],
+    "motion": [
+      { "name": "dur-1", "value": "160ms", "purpose": "Micro feedback." },
+      { "name": "dur-2", "value": "260ms", "purpose": "Color, stroke and border state changes." },
+      { "name": "dur-3", "value": "420ms", "purpose": "Arc lifts, icon nudges, theme color fade." },
+      { "name": "dur-4", "value": "700ms", "purpose": "Current-link arc draw, theme unfold view transition." },
+      { "name": "dur-5", "value": "1100ms", "purpose": "Long reveals." },
+      { "name": "ease-paper", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Default paper easing for state changes." },
+      { "name": "ease-out-expo", "value": "cubic-bezier(0.16, 1, 0.3, 1)", "purpose": "Lifts, nudges and arc draws." },
+      { "name": "ease-crease", "value": "cubic-bezier(0.65, 0, 0.35, 1)", "purpose": "Theme change unfolding from the toggle." }
+    ],
+    "breakpoints": [
+      { "name": "hero-split", "value": "60rem" },
+      { "name": "desktop-nav", "value": "64rem" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Arch Button Primary",
+      "kind": "button",
+      "refersTo": "button-arch-primary",
+      "description": "Primary action: ink-filled arch with a lifting arc on hover.",
+      "html": "<a class=\"ds-arch ds-arch-primary\" href=\"#\"><svg class=\"ds-arch-shape\" viewBox=\"0 0 200 52\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-arch-lift\" d=\"M8 10 Q100 -10 192 10\" vector-effect=\"non-scaling-stroke\"/><path class=\"ds-arch-body\" d=\"M0.5 51.5 V22 Q0.5 0.5 26 0.5 H174 Q199.5 0.5 199.5 22 V51.5 Z\" vector-effect=\"non-scaling-stroke\"/></svg><span>Bekijk mijn werk</span></a>",
+      "css": ".ds-arch { position: relative; display: inline-flex; align-items: center; justify-content: center; gap: 0.6rem; min-height: 3.25rem; padding: 0.95rem 2.1rem 0.7rem; font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); font-style: italic; font-size: clamp(1.25rem, 1.12rem + 0.6vw, 1.55rem); line-height: 1; text-decoration: none; color: var(--ink, #ece6da); isolation: isolate; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-arch-shape { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; } .ds-arch-body { transition: fill 260ms, stroke 260ms; } .ds-arch-lift { fill: none; stroke: var(--ink, #ece6da); stroke-width: 1; opacity: 0; transform: translateY(6px); transition: opacity 260ms cubic-bezier(0.22, 1, 0.36, 1), transform 420ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-arch-primary { color: var(--on-ink, #121211); } .ds-arch-primary .ds-arch-body { fill: var(--ink, #ece6da); stroke: var(--ink, #ece6da); stroke-width: 1; } .ds-arch:hover .ds-arch-lift { opacity: 1; transform: translateY(0); } .ds-arch:active { transform: scale(0.975); } .ds-arch:focus-visible { outline: 1.5px solid var(--ink, #ece6da); outline-offset: 6px; border-radius: 2px; }"
+    },
+    {
+      "name": "Arch Button Secondary",
+      "kind": "button",
+      "refersTo": "button-arch-secondary",
+      "description": "Outlined arch for the second action.",
+      "html": "<a class=\"ds-arch2\" href=\"#\"><svg class=\"ds-arch2-shape\" viewBox=\"0 0 200 52\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-arch2-lift\" d=\"M8 10 Q100 -10 192 10\" vector-effect=\"non-scaling-stroke\"/><path class=\"ds-arch2-body\" d=\"M0.5 51.5 V22 Q0.5 0.5 26 0.5 H174 Q199.5 0.5 199.5 22 V51.5 Z\" vector-effect=\"non-scaling-stroke\"/></svg><span>Neem contact op</span></a>",
+      "css": ".ds-arch2 { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0.95rem 2.1rem 0.7rem; font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); font-style: italic; font-size: clamp(1.25rem, 1.12rem + 0.6vw, 1.55rem); line-height: 1; text-decoration: none; color: var(--ink, #ece6da); isolation: isolate; transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-arch2-shape { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; overflow: visible; } .ds-arch2-body { fill: transparent; stroke: var(--rule-strong, #4a4742); stroke-width: 1; transition: fill 260ms, stroke 260ms; } .ds-arch2-lift { fill: none; stroke: var(--ink, #ece6da); stroke-width: 1; opacity: 0; transform: translateY(6px); transition: opacity 260ms, transform 420ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-arch2:hover .ds-arch2-body { stroke: var(--ink, #ece6da); fill: color-mix(in oklab, var(--ink, #ece6da) 6%, transparent); } .ds-arch2:hover .ds-arch2-lift { opacity: 1; transform: translateY(0); } .ds-arch2:active { transform: scale(0.975); } .ds-arch2:focus-visible { outline: 1.5px solid var(--ink, #ece6da); outline-offset: 6px; border-radius: 2px; }"
+    },
+    {
+      "name": "Circle Button",
+      "kind": "button",
+      "refersTo": "button-circle",
+      "description": "Icon-only control: a 2.75rem ring; pressed fills with ink.",
+      "html": "<button class=\"ds-circle\" type=\"button\" aria-label=\"Next\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M7 17 17 7M9 7h8v8\"/></svg></button>",
+      "css": ".ds-circle { display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 999px; border: 1px solid var(--rule-strong, #4a4742); color: var(--ink, #ece6da); background: transparent; cursor: pointer; transition: border-color 260ms cubic-bezier(0.22, 1, 0.36, 1), background-color 260ms cubic-bezier(0.22, 1, 0.36, 1), transform 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-circle svg { transition: transform 420ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-circle:hover { border-color: var(--ink, #ece6da); background: color-mix(in oklab, var(--ink, #ece6da) 7%, transparent); } .ds-circle:hover svg { transform: rotate(-8deg) scale(1.06); } .ds-circle[aria-pressed=\"true\"] { background: var(--ink, #ece6da); border-color: var(--ink, #ece6da); color: var(--on-ink, #121211); } .ds-circle:active { transform: scale(0.94); } .ds-circle:focus-visible { outline: 1.5px solid var(--ink, #ece6da); outline-offset: 4px; }"
+    },
+    {
+      "name": "Arched Field",
+      "kind": "input",
+      "refersTo": "input-arch",
+      "description": "Text field in an arched raised sheet; focus thickens the stroke and lifts an arc.",
+      "html": "<label class=\"ds-field\"><span class=\"ds-field-label\">Naam</span><span class=\"ds-field-box\"><svg class=\"ds-field-outline\" viewBox=\"0 0 400 58\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path class=\"ds-field-lift\" d=\"M12 6 Q200 -8 388 6\" vector-effect=\"non-scaling-stroke\"/><path class=\"ds-field-sheet\" d=\"M0.5 57.5 V12 Q200 -4 399.5 12 V57.5 Z\" vector-effect=\"non-scaling-stroke\"/></svg><input class=\"ds-field-control\" placeholder=\"Je naam\"><span class=\"ds-field-divider\"></span><span class=\"ds-field-arrow\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"round\"><path d=\"M7 17 17 7M9 7h8v8\"/></svg></span></span></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 0.55rem; } .ds-field-label { font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); font-style: italic; font-size: clamp(0.82rem, 0.78rem + 0.2vw, 0.9rem); letter-spacing: 0.14em; text-transform: uppercase; color: var(--ink-mute, #9a958c); } .ds-field-box { position: relative; isolation: isolate; display: flex; align-items: stretch; min-height: 3.6rem; } .ds-field-outline { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; overflow: visible; pointer-events: none; } .ds-field-sheet { fill: var(--paper-raised, #1a1917); stroke: var(--rule-strong, #4a4742); stroke-width: 1; transition: stroke 260ms, stroke-width 260ms; } .ds-field-lift { fill: none; stroke: var(--ink, #ece6da); stroke-width: 1; opacity: 0; transform: translateY(5px); transition: opacity 260ms, transform 420ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-field-control { flex: 1 1 auto; min-width: 0; border: 0; background: transparent; color: var(--ink, #ece6da); font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); font-size: max(1rem, clamp(1.02rem, 0.96rem + 0.3vw, 1.18rem)); padding: 1.15rem 1.1rem 0.8rem; outline: none; } .ds-field-control::placeholder { color: var(--ink-mute, #9a958c); font-style: italic; } .ds-field-divider { flex: none; width: 1px; margin: 0.95rem 0 0.7rem; background: var(--rule-strong, #4a4742); transition: background 260ms; } .ds-field-arrow { flex: none; display: grid; place-items: center; width: 3.1rem; color: var(--ink-mute, #9a958c); transition: color 260ms, transform 420ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-field-box:hover .ds-field-sheet { stroke: var(--ink-mute, #9a958c); } .ds-field-box:focus-within .ds-field-sheet { stroke: var(--ink, #ece6da); stroke-width: 1.75; } .ds-field-box:focus-within .ds-field-lift { opacity: 1; transform: translateY(0); } .ds-field-box:focus-within .ds-field-divider { background: var(--ink, #ece6da); } .ds-field-box:focus-within .ds-field-arrow { color: var(--ink, #ece6da); transform: translate(2px, -2px); }"
+    },
+    {
+      "name": "Header Navigation",
+      "kind": "nav",
+      "refersTo": "nav-link",
+      "description": "Mark and name, muted page links, the current one in ink with a drawn hairline arc.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-brand\" href=\"#\"><svg width=\"22\" height=\"22\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.25\" stroke-linecap=\"round\"><path d=\"M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18ZM5.5 18.2C9 15.5 13.8 9.8 15.2 3.6\"/></svg>Pim</a><a class=\"ds-nav-link\" aria-current=\"page\" href=\"#\">Werk<svg class=\"ds-nav-arc\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\"><path d=\"M2 8 Q50 -2 98 8\" pathLength=\"1\"/></svg></a><a class=\"ds-nav-link\" href=\"#\">Over mij<svg class=\"ds-nav-arc\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\"><path d=\"M2 8 Q50 -2 98 8\" pathLength=\"1\"/></svg></a><a class=\"ds-nav-link\" href=\"#\">Lab<svg class=\"ds-nav-arc\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\"><path d=\"M2 8 Q50 -2 98 8\" pathLength=\"1\"/></svg></a><a class=\"ds-nav-link\" href=\"#\">Contact<svg class=\"ds-nav-arc\" viewBox=\"0 0 100 10\" preserveAspectRatio=\"none\"><path d=\"M2 8 Q50 -2 98 8\" pathLength=\"1\"/></svg></a></nav>",
+      "css": ".ds-nav { display: flex; align-items: center; gap: 1.5rem; height: 4rem; padding: 0 2rem; background: var(--paper, #121211); font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); font-style: italic; } .ds-nav-brand { display: inline-flex; align-items: center; gap: 0.6rem; min-height: 2.75rem; margin-right: auto; color: var(--ink, #ece6da); font-size: clamp(1.25rem, 1.12rem + 0.6vw, 1.55rem); line-height: 1; text-decoration: none; } .ds-nav-brand svg { transition: transform 700ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-nav-brand:hover svg { transform: rotate(-16deg); } .ds-nav-link { position: relative; display: inline-flex; align-items: center; min-height: 2.75rem; padding-inline: 0.5rem; color: var(--ink-mute, #9a958c); text-decoration: none; transition: color 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-nav-link[aria-current] { color: var(--ink, #ece6da); } .ds-nav-arc { position: absolute; left: 18%; bottom: 0.3rem; width: 64%; height: 0.5rem; overflow: visible; } .ds-nav-arc path { fill: none; stroke: var(--ink, #ece6da); stroke-width: 1.25; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 420ms cubic-bezier(0.16, 1, 0.3, 1); } .ds-nav-link[aria-current] .ds-nav-arc path { stroke-dashoffset: 0; } .ds-nav-link:hover { color: var(--ink, #ece6da); } .ds-nav-link:hover:not([aria-current]) .ds-nav-arc path { stroke-dashoffset: 0.62; } .ds-nav-link:focus-visible { outline: 1.5px solid var(--ink, #ece6da); outline-offset: 4px; border-radius: 2px; }"
+    },
+    {
+      "name": "Arc Card",
+      "kind": "card",
+      "refersTo": "card-arc",
+      "description": "Raised paper card whose top edge is a shallow compass arc; outline turns ink on hover.",
+      "html": "<a class=\"ds-card\" href=\"#\"><svg class=\"ds-card-shape\" viewBox=\"0 0 400 300\" preserveAspectRatio=\"none\" aria-hidden=\"true\"><path d=\"M0.5 299.5 V22 Q200 -10 399.5 22 V299.5 Z\" vector-effect=\"non-scaling-stroke\"/></svg><h3 class=\"ds-card-title\">Strength Tracker</h3><p class=\"ds-card-text\">Een trainingslog die offline werkt en je voortgang laat zien.</p></a>",
+      "css": ".ds-card { position: relative; isolation: isolate; display: block; padding: 2.5rem 1.75rem 1.75rem; color: var(--ink-soft, #cfc8bb); text-decoration: none; font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); } .ds-card-shape { position: absolute; inset: 0; z-index: -1; width: 100%; height: 100%; overflow: visible; pointer-events: none; } .ds-card-shape path { fill: var(--paper-raised, #1a1917); stroke: var(--rule-strong, #4a4742); stroke-width: 1; transition: fill 300ms, stroke 300ms; } .ds-card:hover .ds-card-shape path { stroke: var(--ink, #ece6da); } .ds-card:focus-visible { outline: 1.5px solid var(--ink, #ece6da); outline-offset: 4px; } .ds-card-title { margin: 0 0 0.6rem; color: var(--ink, #ece6da); font-style: italic; font-weight: 400; font-size: clamp(1.6rem, 1.3rem + 1.4vw, 2.4rem); line-height: 1.04; letter-spacing: -0.015em; } .ds-card-text { margin: 0; font-size: clamp(1.02rem, 0.96rem + 0.3vw, 1.18rem); line-height: 1.6; }"
+    },
+    {
+      "name": "Plate Heading",
+      "kind": "custom",
+      "refersTo": "headline",
+      "description": "Italic headline with its roman plate numeral inside; lead sentence below, never a label above.",
+      "html": "<div class=\"ds-plate\"><h2 class=\"ds-plate-h\"><span class=\"ds-plate-no\" aria-hidden=\"true\">II</span><span>Werk</span></h2><p class=\"ds-plate-lead\">Drie projecten die ik zelf heb gebouwd, van probleem tot resultaat.</p></div>",
+      "css": ".ds-plate { display: flex; flex-direction: column; gap: 1.25rem; font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); } .ds-plate-h { display: flex; align-items: baseline; gap: 0.35em; margin: 0; color: var(--ink, #ece6da); font-style: italic; font-weight: 400; font-size: clamp(2.8rem, 1.8rem + 4.6vw, 6rem); line-height: 1.04; letter-spacing: -0.015em; } .ds-plate-no { font-size: 0.38em; color: var(--ink-mute, #9a958c); font-variant-numeric: lining-nums tabular-nums; letter-spacing: 0; } .ds-plate-lead { max-width: 66ch; margin: 0; color: var(--ink-soft, #cfc8bb); font-size: clamp(1.25rem, 1.12rem + 0.6vw, 1.55rem); line-height: 1.375; }"
+    },
+    {
+      "name": "Mobile Thumb Bar",
+      "kind": "nav",
+      "refersTo": "thumb-bar",
+      "description": "Arched bottom bar on raised paper carrying the page links below 64rem.",
+      "html": "<nav class=\"ds-thumb\"><a class=\"ds-thumb-link\" aria-current=\"page\" href=\"#\">Werk</a><a class=\"ds-thumb-link\" href=\"#\">Over mij</a><a class=\"ds-thumb-link\" href=\"#\">Lab</a><a class=\"ds-thumb-link\" href=\"#\">Contact</a></nav>",
+      "css": ".ds-thumb { display: flex; align-items: center; justify-content: space-between; gap: 0.3rem; width: min(100%, 26rem); padding: 0.7rem 0.45rem 0.45rem 0.6rem; border: 1px solid var(--rule-strong, #4a4742); border-radius: 50% 50% 1.85rem 1.85rem / 1rem 1rem 1.85rem 1.85rem; background: var(--paper-raised, #1a1917); box-shadow: 0 1.25rem 2.5rem -1.5rem hsl(var(--shadow-color, 0 0% 0%) / 0.55); font-family: var(--font-serif, 'Bodoni Moda', Georgia, serif); font-style: italic; } .ds-thumb-link { display: inline-grid; place-items: center; min-height: 2.75rem; padding-inline: 0.6rem; color: var(--ink-mute, #9a958c); text-decoration: none; transition: color 260ms cubic-bezier(0.22, 1, 0.36, 1); } .ds-thumb-link[aria-current] { color: var(--ink, #ece6da); } .ds-thumb-link:hover { color: var(--ink, #ece6da); } .ds-thumb-link:focus-visible { outline: 1.5px solid var(--ink, #ece6da); outline-offset: 4px; border-radius: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Gevouwen Schaal (the curved crease shell)",
+    "overview": "One line makes the form. The site is a sheet of paper scored by a single sweeping compass arc: graphite paper by night (the default), cotton paper by day. Everything that holds content takes the shape of that arc: buttons, cards, fields, sheets and the mobile thumb bar are arched on top and nearly square at the foot. A live WebGL shell, bending with the pointer, is the one sculptural object; every other surface stays flat paper with hairline rules.\n\nThe palette is monochrome by construction. There is no hue accent: the active element is marked by full-strength ink (the \"crease ink\") against muted ink, and by an arc that draws itself in. A static fibre grain sits over the whole page at 7% (graphite) or 9% (cotton) overlay. Type is one family, Bodoni Moda, italic for display, names, labels and actions, roman for reading; Fragment Mono appears only for code and data.\n\nDensity is calm and editorial: generous section padding, a 66ch reading measure, numbered plates with roman numerals. Motion is paper motion: unfolding from a crease, arcs drawing in, the theme change opening as a circle from the toggle. All of it collapses under reduced motion.\n\nVisual rejections confirmed by the direction contract: no dark bento-grid portfolio, no glass, no gradients, no neon, no custom cursor ring.",
+    "keyCharacteristics": [
+      "Two papers, one ink family; no hue accent.",
+      "Arched tops on every container; round circle-arrow buttons beside them.",
+      "Hairline compass arcs (1px, non-scaling) cross the layout as the signature line.",
+      "Bodoni Moda italic for voice, roman for reading, Fragment Mono only for data.",
+      "Depth only from soft, long, low-opacity drop shadows on floating surfaces."
+    ],
+    "rules": [
+      { "name": "The Crease Ink Rule", "body": "Emphasis is ink strength, not hue. Active, current, focused and pressed states move from Ink Mute or Rule Strong to full Ink; nothing on the site introduces a colored accent.", "section": "colors" },
+      { "name": "The Shade On Curves Rule", "body": "The shade ramp is reserved for curved surfaces (the WebGL shell, the scrollbar thumb). Flat panels use Raised and Sunk paper, never shade.", "section": "colors" },
+      { "name": "The Label Is Not An Eyebrow Rule", "body": "The tracked italic capital label names a field, term, status or link direction it sits beside. It never floats above a heading as a kicker; a plate heading carries its numeral inside, and its optional lead goes below.", "section": "typography" },
+      { "name": "The Mono For Data Rule", "body": "Fragment Mono appears only where the content is code or a measured value.", "section": "typography" },
+      { "name": "The Floating Only Rule", "body": "A shadow means the surface floats over the page. Cards and buttons at rest have none; they are outlined in Rule Strong instead.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do mark the active, current or focused element by moving it to full Ink; keep everything else in Ink Soft, Ink Mute or Rule Strong.",
+      "Do give every new container an arched top and a near-square foot, and every icon-only control a 2.75rem circle.",
+      "Do draw outlines and arcs as 1px non-scaling hairlines in Rule Strong.",
+      "Do set voice in Bodoni Moda italic and reading text in roman at the 66ch measure.",
+      "Do use the motion tokens (--dur-1 to --dur-5, --ease-paper, --ease-out-expo, --ease-crease) and let reduced motion collapse them.",
+      "Do keep tap targets at 2.75rem or larger."
+    ],
+    "donts": [
+      "Don't introduce a hue accent, a gradient, glass or a neon glow.",
+      "Don't place a tracked uppercase label above a heading as a kicker or eyebrow.",
+      "Don't use Fragment Mono for prose, headings or labels.",
+      "Don't add a drop shadow to a surface that rests on the page.",
+      "Don't use Ink Faint for text that must be read; it is for separators.",
+      "Don't lay content out as a dark bento grid of tiles."
+    ]
+  }
+}

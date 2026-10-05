@@ -9,6 +9,8 @@ type Variant = "primary" | "secondary";
 interface BaseProps {
   variant?: Variant;
   icon?: IconName;
+  /** A trailing circle-arrow: the icon drawn inside the world's circle, as on the quality board. */
+  trail?: IconName;
   size?: "md" | "lg";
   children: ReactNode;
   className?: string;
@@ -23,8 +25,8 @@ type LinkProps = BaseProps & Omit<ComponentPropsWithoutRef<"a">, keyof BaseProps
  * Hover lifts a second arc above the first, like a crease being pressed.
  */
 export function ArchButton(props: ButtonProps | LinkProps) {
-  const { variant = "primary", icon, size = "md", children, className, ...rest } = props;
-  const classes = cn(styles.arch, styles[variant], styles[size], className);
+  const { variant = "primary", icon, trail, size = "md", children, className, ...rest } = props;
+  const classes = cn(styles.arch, styles[variant], styles[size], trail && styles.withTrail, className);
   const inner = (
     <>
       <svg className={styles.shape} viewBox="0 0 200 56" preserveAspectRatio="none" aria-hidden="true">
@@ -33,6 +35,11 @@ export function ArchButton(props: ButtonProps | LinkProps) {
       </svg>
       <span className={styles.label}>{children}</span>
       {icon ? <Icon name={icon} size={18} className={styles.icon} /> : null}
+      {trail ? (
+        <span className={styles.trail} aria-hidden="true">
+          <Icon name={trail} size={16} className={styles.icon} />
+        </span>
+      ) : null}
     </>
   );
 

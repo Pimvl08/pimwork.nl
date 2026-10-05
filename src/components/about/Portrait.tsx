@@ -1,17 +1,14 @@
 import Image from "next/image";
-import { CreaseMark } from "@/components/ui/CreaseMark";
-import { person } from "@/content/person";
+import type { person } from "@/content/person";
 import type { Locale } from "@/i18n/config";
 import styles from "./about.module.css";
 
-/**
- * The arched portrait frame. Once person.portrait is set the photo is masked
- * by the arch; until then the frame holds the crease mark as a monogram.
- */
-export function Portrait({ lang }: { lang: Locale }) {
-  const portrait = person.portrait;
+type PortraitAsset = NonNullable<(typeof person)["portrait"]>;
+
+/** The arched portrait frame: the photo masked by the arch. Rendered only when a portrait exists. */
+export function Portrait({ portrait, lang }: { portrait: PortraitAsset; lang: Locale }) {
   return (
-    <figure className="mx-auto w-full max-w-[20rem] lg:mx-0 lg:max-w-[22rem]" aria-hidden={portrait ? undefined : true}>
+    <figure className="mx-auto w-full max-w-[20rem] lg:mx-0 lg:max-w-[22rem]">
       <div className={styles.arch}>
         <svg className={styles.ring} viewBox="0 0 200 100" aria-hidden="true" focusable="false">
           <path
@@ -24,20 +21,14 @@ export function Portrait({ lang }: { lang: Locale }) {
           />
         </svg>
         <div className={styles.archMask}>
-          {portrait ? (
-            <Image
-              src={portrait.src}
-              alt={portrait.alt[lang]}
-              fill
-              sizes="(min-width: 1024px) 22rem, 80vw"
-              className="object-cover grayscale"
-              priority
-            />
-          ) : (
-            <div className={styles.monogram}>
-              <CreaseMark size={160} className="h-auto w-[58%]" />
-            </div>
-          )}
+          <Image
+            src={portrait.src}
+            alt={portrait.alt[lang]}
+            fill
+            sizes="(min-width: 1024px) 22rem, 80vw"
+            className="object-cover grayscale"
+            priority
+          />
         </div>
       </div>
     </figure>

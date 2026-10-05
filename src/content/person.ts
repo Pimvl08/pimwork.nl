@@ -106,11 +106,11 @@ export const about = {
     body: {
       nl: [
         "Een AI-tool schrijft code die er overtuigend uitziet, ook als hij niet klopt. Daarom laat ik nooit iets ongecontroleerd door. Ik maak eerst scherp wat er precies moet gebeuren, laat het in kleine stappen bouwen, en controleer elke stap met tests en door het zelf te bekijken en te gebruiken.",
-        "Zo bouwde ik TeamSync, een complete desktopapp voor Mac en Windows met een eigen sync-engine, in zes dagen. Met tests voor de engine, voor de toegangsregels van de database en voor twee laptops die tegelijk werken.",
+        "Zo bouwde ik TeamSync, een complete desktopapp voor Mac en Windows met een eigen sync-engine. Met tests voor de engine, voor de toegangsregels van de database en voor twee laptops die tegelijk werken.",
       ],
       en: [
         "An AI tool writes code that looks convincing, even when it is wrong. That is why I never let anything through unchecked. I first make it sharp what exactly needs to happen, have it built in small steps, and check every step with tests and by looking at it and using it myself.",
-        "That is how I built TeamSync, a complete desktop app for Mac and Windows with its own sync engine, in six days. With tests for the engine, for the database access rules, and for two laptops working at the same time.",
+        "That is how I built TeamSync, a complete desktop app for Mac and Windows with its own sync engine. With tests for the engine, for the database access rules, and for two laptops working at the same time.",
       ],
     },
     principles: [

@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ViewTransition, useCallback, useEffect, useRef, useState, type FocusEvent, type PointerEvent, type ReactNode } from "react";
 import { ArcCard } from "@/components/ui/ArcCard";
+import { Icon } from "@/components/ui/Icon";
 import { useMediaQuery, useReducedMotion } from "@/lib/hooks";
 import { clampPreview } from "./lib";
 import { morphClass, projectTransitionName } from "./transition";
@@ -40,7 +41,9 @@ function ArchedRule({ className, ink = false }: { className?: string; ink?: bool
 /**
  * The editorial index of the work page. On a fine pointer each row opens on hover
  * or focus: a floating figure follows the pointer with lag, the name turns
- * from italic to roman and the details slide in. On touch the rows are
+ * from italic to roman and the details slide in. Each row carries a small
+ * plate of its figure and a circle-arrow, so the list shows evidence and not
+ * only names. On touch the rows are
  * stacked arched cards with the figure inline.
  */
 export function WorkIndex({ rows, listLabel, headingLevel = "h2" }: { rows: WorkRow[]; listLabel: string; headingLevel?: "h2" | "h3" }) {
@@ -213,6 +216,9 @@ export function WorkIndex({ rows, listLabel, headingLevel = "h2" }: { rows: Work
                   <div className={styles.meta}>
                     <span className={styles.category}>{row.kind}</span>
                     <span className={styles.status}>{row.status}</span>
+                    <span className={styles.go} aria-hidden="true">
+                      <Icon name="arrowNE" size={18} />
+                    </span>
                     <span className={styles.more}>
                       <span className={styles.stack}>{row.stack.join(" · ")}</span>
                     </span>

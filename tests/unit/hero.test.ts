@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { project, shellSilhouette, STAGE_ASPECT, viewSetup } from "@/components/hero/camera";
+import { project, restParams, shellSilhouette, STAGE_ASPECT, viewSetup } from "@/components/hero/camera";
+import { buildCreaseMesh } from "@/components/hero/shellRenderer";
 import { heroCopy, introPhrases, introSentence } from "@/components/hero/copy";
 import {
   creaseLineColor,
@@ -124,5 +125,31 @@ describe("shell rendering helpers", () => {
     expect(s.rim.startsWith("M")).toBe(true);
     expect(s.rim.endsWith("Z")).toBe(true);
     expect(s.crease.length).toBeGreaterThan(10);
+  });
+});
+
+describe("crease-following shell mesh", () => {
+  it("keeps one row exactly on the crease, all vertices on the disc and a seated tip", () => {
+    for (const twist of [-0.35, 0, 0.35]) {
+      const params = { ...restParams, twist };
+      const mesh = buildCreaseMesh(params);
+      expect(mesh.indices).toBeInstanceOf(Uint16Array);
+      expect(mesh.positions.length).toBe(mesh.vertexCount * 3);
+      let onCrease = 0;
+      for (let v = 0; v < mesh.vertexCount; v++) {
+        const u = mesh.flat[v * 2];
+        const w = mesh.flat[v * 2 + 1];
+        expect(u * u + w * w).toBeLessThan(1 + 1e-4);
+        if (Math.abs(mesh.creaseDistance[v]) < 1e-6) onCrease++;
+      }
+      // Every column that crosses the crease contributes one exact crease vertex.
+      expect(onCrease).toBeGreaterThan(100);
+    }
+  });
+
+  it("returns the seat of the tip inside the box", () => {
+    const { seat } = shellSilhouette();
+    expect(seat).toBeGreaterThan(0.9);
+    expect(seat).toBeLessThan(1);
   });
 });

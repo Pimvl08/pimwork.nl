@@ -81,14 +81,6 @@
   padding-top: calc(var(--section-y) + 3rem);
 }
 
-/* The monogram that stands in the frame while there is no portrait. */
-.monogram {
-  display: grid;
-  place-items: center;
-  height: 100%;
-  background: var(--paper-sunk);
-}
-
 /* ---------------------------------------------------------- how I work */
 
 .how {

@@ -1,10 +1,11 @@
 /**
  * Raw WebGL renderer for the hero shell (WebGL2, falls back to WebGL1).
- * Draws a soft contact shadow on the ground, then the folded paper disc with
+ * Draws a soft contact shadow on the ground, then the folded paper disc (a
+ * mesh that follows the crease, see buildCreaseMesh) with
  * wrap lighting, graphite shading on the curved flap, faint fibres and a
  * crisp crease line. No three.js: this ships in the first viewport.
  */
-import { buildShell, type CreaseParams } from "@/lib/crease";
+import { buildShell, computeNormals, foldPoint, type CreaseParams, type ShellMesh } from "@/lib/crease";
 import { restParams, viewSetup, type Vec3, type ViewSetup } from "./camera";
 import { creaseLineColor, needsRebuild } from "./logic";
 
@@ -30,9 +31,89 @@ export interface ShellRenderer {
   dispose(): void;
 }
 
-const RINGS = 48;
-const SEGMENTS = 160;
+const COLUMNS = 160;
+const BASE_ROWS = 20;
+const FLAP_ROWS = 32;
 const DPR_CAP = 1.75;
+
+/**
+ * The folded disc as a mesh that follows the crease instead of a polar grid.
+ * Columns are rays from the crease centre, rows are arcs concentric with the
+ * crease, and one row lies exactly on the crease. A polar grid cuts the crease
+ * diagonally, so the fold happens along a zigzag of triangle edges, which
+ * shows as a serrated edge where the crease meets the rim (the shell's lower
+ * tip). Here the fold is exact, and a column sits on each crease end.
+ */
+export function buildCreaseMesh(p: CreaseParams, columns = COLUMNS, baseRows = BASE_ROWS, flapRows = FLAP_ROWS): ShellMesh {
+  const cos = Math.cos(p.twist);
+  const sin = Math.sin(p.twist);
+  const cx = p.center[0] * cos - p.center[1] * sin;
+  const cy = p.center[0] * sin + p.center[1] * cos;
+  const D = Math.hypot(cx, cy);
+  // The parametrisation needs the crease centre outside the disc (always true for the hero).
+  if (D <= 1.0001) return buildShell(p, 48, 160);
+
+  const toDisc = Math.atan2(-cy, -cx);
+  const alpha = Math.asin(1 / D);
+  const deltas: number[] = [];
+  for (let j = 0; j <= columns; j++) deltas.push(-alpha + (2 * alpha * j) / columns);
+  // Snap the nearest column onto each end of the crease, where it meets the rim.
+  const cosEnd = (p.radius * p.radius + D * D - 1) / (2 * p.radius * D);
+  if (Math.abs(cosEnd) < 1) {
+    const end = Math.acos(cosEnd);
+    for (const target of [-end, end]) {
+      const j = Math.round(((target + alpha) / (2 * alpha)) * columns);
+      if (j > 0 && j < columns) deltas[j] = target;
+    }
+  }
+
+  const rows = baseRows + flapRows + 1;
+  const vertexCount = (columns + 1) * rows;
+  const positions = new Float32Array(vertexCount * 3);
+  const flat = new Float32Array(vertexCount * 2);
+  const creaseDistance = new Float32Array(vertexCount);
+  let v = 0;
+  for (const delta of deltas) {
+    const ex = Math.cos(toDisc + delta);
+    const ey = Math.sin(toDisc + delta);
+    // The ray from the crease centre enters and leaves the unit disc at rho1, rho2.
+    const along = D * Math.cos(delta);
+    const half = Math.sqrt(Math.max(0, 1 - D * D * Math.sin(delta) ** 2));
+    const rho1 = along - half;
+    const rho2 = along + half;
+    const mid = Math.min(rho2, Math.max(rho1, p.radius));
+    for (let i = 0; i < rows; i++) {
+      const rho = i <= baseRows ? rho1 + ((mid - rho1) * i) / baseRows : mid + ((rho2 - mid) * (i - baseRows)) / flapRows;
+      const u = cx + ex * rho;
+      const w = cy + ey * rho;
+      const [x, y, z, d] = foldPoint(u, w, p);
+      positions[v * 3] = x;
+      positions[v * 3 + 1] = y;
+      positions[v * 3 + 2] = z;
+      flat[v * 2] = u;
+      flat[v * 2 + 1] = w;
+      creaseDistance[v] = d;
+      v++;
+    }
+  }
+
+  const indices = new Uint16Array(columns * (rows - 1) * 6);
+  let k = 0;
+  for (let j = 0; j < columns; j++) {
+    for (let i = 0; i < rows - 1; i++) {
+      const a = j * rows + i;
+      const c = (j + 1) * rows + i;
+      indices[k++] = a;
+      indices[k++] = c;
+      indices[k++] = a + 1;
+      indices[k++] = a + 1;
+      indices[k++] = c;
+      indices[k++] = c + 1;
+    }
+  }
+  const normals = computeNormals(positions, indices, vertexCount);
+  return { positions, normals, flat, creaseDistance, indices, vertexCount };
+}
 
 const SHADOW_GLSL = `
 uniform vec2 uShadowC;
@@ -130,7 +211,7 @@ varying vec2 vP;
 ${SHADOW_GLSL}
 void main() {
   float r = length(vP);
-  float contact = (1.0 - smoothstep(0.94, 1.22, r)) * 0.24;
+  float contact = (1.0 - smoothstep(0.95, 1.12, r)) * 0.2;
   float a = 1.0 - (1.0 - contact) * (1.0 - flapShadow(vP));
   // Fade out well before the canvas edge so the shadow never ends in a hard line.
   vec2 uv = gl_FragCoord.xy / uRes;
@@ -235,18 +316,6 @@ export function createShellRenderer(canvas: HTMLCanvasElement): ShellRenderer | 
     const uniforms = (program: WebGLProgram, names: string[]) =>
       Object.fromEntries(names.map((name) => [name, ctx.getUniformLocation(program, name)]));
 
-    // Static data: flat disc coordinates and the triangle indices never change.
-    const mesh = buildShell(params ?? restParams, RINGS, SEGMENTS);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, flat);
-    ctx.bufferData(ctx.ARRAY_BUFFER, mesh.flat, ctx.STATIC_DRAW);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, positions);
-    ctx.bufferData(ctx.ARRAY_BUFFER, mesh.positions, ctx.DYNAMIC_DRAW);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, normals);
-    ctx.bufferData(ctx.ARRAY_BUFFER, mesh.normals, ctx.DYNAMIC_DRAW);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, crease);
-    ctx.bufferData(ctx.ARRAY_BUFFER, mesh.creaseDistance, ctx.DYNAMIC_DRAW);
-    ctx.bindBuffer(ctx.ELEMENT_ARRAY_BUFFER, indices);
-    ctx.bufferData(ctx.ELEMENT_ARRAY_BUFFER, mesh.indices, ctx.STATIC_DRAW);
     ctx.bindBuffer(ctx.ARRAY_BUFFER, groundQuad);
     const g = 2.2;
     ctx.bufferData(ctx.ARRAY_BUFFER, new Float32Array([-g, -g, g, -g, -g, g, g, g]), ctx.STATIC_DRAW);
@@ -260,26 +329,38 @@ export function createShellRenderer(canvas: HTMLCanvasElement): ShellRenderer | 
       crease,
       indices,
       groundQuad,
-      indexCount: mesh.indices.length,
-      indexType: mesh.indices instanceof Uint32Array ? ctx.UNSIGNED_INT : ctx.UNSIGNED_SHORT,
+      indexCount: 0,
+      indexType: ctx.UNSIGNED_SHORT,
       shellU: uniforms(shell, SHELL_UNIFORMS),
       groundU: uniforms(ground, GROUND_UNIFORMS),
     };
     lastPose = null;
-    if (params) upload(params);
+    upload(params ?? restParams);
     dirty = true;
     return true;
   }
 
   function upload(p: CreaseParams) {
     if (!res) return;
-    const mesh = buildShell(p, RINGS, SEGMENTS);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, res.positions);
-    ctx.bufferSubData(ctx.ARRAY_BUFFER, 0, mesh.positions);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, res.normals);
-    ctx.bufferSubData(ctx.ARRAY_BUFFER, 0, mesh.normals);
-    ctx.bindBuffer(ctx.ARRAY_BUFFER, res.crease);
-    ctx.bufferSubData(ctx.ARRAY_BUFFER, 0, mesh.creaseDistance);
+    // The mesh follows the crease, so every buffer (also the flat coordinates
+    // and, in principle, the indices) belongs to the current pose.
+    const mesh = buildCreaseMesh(p);
+    const data: [WebGLBuffer, Float32Array][] = [
+      [res.positions, mesh.positions],
+      [res.normals, mesh.normals],
+      [res.flat, mesh.flat],
+      [res.crease, mesh.creaseDistance],
+    ];
+    for (const [buffer, values] of data) {
+      ctx.bindBuffer(ctx.ARRAY_BUFFER, buffer);
+      ctx.bufferData(ctx.ARRAY_BUFFER, values, ctx.DYNAMIC_DRAW);
+    }
+    if (mesh.indices.length !== res.indexCount) {
+      ctx.bindBuffer(ctx.ELEMENT_ARRAY_BUFFER, res.indices);
+      ctx.bufferData(ctx.ELEMENT_ARRAY_BUFFER, mesh.indices, ctx.STATIC_DRAW);
+      res.indexCount = mesh.indices.length;
+      res.indexType = mesh.indices instanceof Uint32Array ? ctx.UNSIGNED_INT : ctx.UNSIGNED_SHORT;
+    }
     updateShadow(p, mesh.positions, mesh.creaseDistance);
     lastPose = { fold: p.fold, twist: p.twist };
     dirty = true;

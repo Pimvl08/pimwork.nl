@@ -181,6 +181,40 @@
   margin-top: 1.3rem;
 }
 
+/* The circle-arrow of the row: drawn, not a separate control (the whole row is the link). */
+.go {
+  display: inline-grid;
+  place-items: center;
+  flex: none;
+  width: 2.75rem;
+  height: 2.75rem;
+  margin-left: auto;
+  align-self: center;
+  border: 1px solid var(--rule-strong);
+  border-radius: 50%;
+  color: var(--ink-soft);
+  transition:
+    border-color var(--dur-2) var(--ease-paper),
+    color var(--dur-2) var(--ease-paper);
+}
+.go svg {
+  transition: transform var(--dur-3) var(--ease-out-expo);
+}
+.row:focus-visible .go,
+.row:active .go {
+  border-color: var(--ink);
+  color: var(--ink);
+}
+@media (hover: hover) {
+  .row:hover .go {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+  .row:hover .go svg {
+    transform: translate(2px, -2px);
+  }
+}
+
 .hairline {
   display: none;
 }
@@ -210,7 +244,7 @@
   }
 
   .row {
-    grid-template-columns: 4.5rem minmax(0, 1fr) minmax(13rem, 19rem);
+    grid-template-columns: 4.5rem minmax(0, 1fr) clamp(7.5rem, 10vw, 10rem) minmax(13rem, 19rem);
     column-gap: clamp(1.25rem, 3vw, 3rem);
     align-items: start;
     padding: clamp(1.9rem, 3.2vw, 2.75rem) 0 calc(clamp(1.1rem, 2vw, 1.6rem) + 14px);
@@ -256,12 +290,23 @@
   }
 
   .meta {
-    grid-column: 3;
+    position: relative;
+    grid-column: 4;
     grid-row: 1;
     flex-direction: column;
     flex-wrap: nowrap;
     gap: 0.3rem;
     margin-top: 0.55rem;
+    padding-right: 3.75rem;
+  }
+  .go {
+    position: absolute;
+    top: -0.35rem;
+    right: 0;
+  }
+  .row[data-active] .go {
+    border-color: var(--ink);
+    color: var(--ink);
   }
   .more {
     display: flex;
@@ -278,8 +323,17 @@
     flex-basis: auto;
   }
 
+  /* A small plate of the figure in the row, as on the board's content
+     cards. It steps back while the large preview follows the pointer. */
   .inline {
-    display: none;
+    grid-column: 3;
+    grid-row: 1;
+    align-self: center;
+    margin-top: 0;
+    transition: opacity var(--dur-2) var(--ease-paper);
+  }
+  .row[data-active] .inline {
+    opacity: 0.35;
   }
 
   .hairline {
