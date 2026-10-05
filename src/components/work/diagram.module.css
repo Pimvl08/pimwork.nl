@@ -1,0 +1,155 @@
+/* Authored plate diagrams: hairlines, italic labels, one crease ink. */
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.svg text {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 15px;
+  fill: var(--ink-soft);
+  font-variant-numeric: lining-nums;
+}
+
+.svg .fig {
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  fill: var(--ink-mute);
+}
+
+/* Labels sit on a paper halo so hairlines never run through the words. */
+.svg text {
+  paint-order: stroke;
+  stroke: var(--paper-sunk);
+  stroke-width: 4px;
+  stroke-linejoin: round;
+}
+
+.svg .small {
+  font-size: 12.5px;
+  fill: var(--ink-mute);
+}
+
+.svg .mono {
+  font-family: var(--font-mono);
+  font-style: normal;
+  font-size: 11.5px;
+  fill: var(--ink-mute);
+  font-variant-numeric: tabular-nums;
+}
+
+.svg .inkText {
+  fill: var(--ink);
+}
+
+.svg .faintText {
+  fill: var(--ink-faint);
+}
+
+.hair,
+.mute,
+.faint,
+.ink,
+.inkThin {
+  fill: none;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.hair {
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+}
+
+.mute {
+  stroke: var(--ink-mute);
+  stroke-width: 1;
+}
+
+.faint {
+  stroke: var(--ink-faint);
+  stroke-width: 1;
+}
+
+.ink {
+  stroke: var(--ink);
+  stroke-width: 1.6;
+}
+
+.inkThin {
+  stroke: var(--ink);
+  stroke-width: 1;
+}
+
+.dash {
+  stroke-dasharray: 3 4;
+}
+
+.node {
+  fill: var(--paper-sunk);
+  stroke: var(--ink-mute);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.inkNode {
+  fill: var(--paper-sunk);
+  stroke: var(--ink);
+  stroke-width: 1.6;
+  vector-effect: non-scaling-stroke;
+}
+
+.dot {
+  fill: var(--ink);
+}
+
+.speck {
+  fill: var(--ink-faint);
+}
+
+/* Words drawn as strokes: provisional grey, replaced grey, final ink. */
+.words,
+.wordsGone,
+.wordsFinal {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+.words {
+  stroke: var(--ink-mute);
+}
+.wordsGone {
+  stroke: var(--ink-faint);
+  opacity: 0.45;
+}
+.wordsFinal {
+  stroke: var(--ink);
+}
+
+.bar {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke: var(--ink-faint);
+}
+.barInk {
+  fill: none;
+  stroke-width: 3;
+  stroke-linecap: round;
+  stroke: var(--ink-soft);
+}
+.measureBar {
+  fill: none;
+  stroke-width: 5;
+  stroke-linecap: round;
+  stroke: var(--ink-mute);
+}
+
+.cell {
+  fill: var(--ink);
+}

@@ -1,0 +1,280 @@
+/* Terminal: a paper sheet with an arched top. Ink on paper, no glow. */
+
+.dialog {
+  position: fixed;
+  inset: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  max-height: none;
+  background: transparent;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+.dialog::backdrop {
+  background: color-mix(in oklab, var(--paper) 72%, transparent);
+}
+
+.dialog[open] {
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+}
+
+.sheet {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100dvh;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-strong);
+  border-bottom: 0;
+  border-top-left-radius: 50% 28px;
+  border-top-right-radius: 50% 28px;
+  padding-top: max(14px, env(safe-area-inset-top));
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  transform-origin: 50% 0;
+  animation: unfold var(--dur-4) var(--ease-paper) both;
+}
+
+@media (min-width: 640px) {
+  .dialog[open] {
+    align-items: flex-start;
+    padding-top: 10vh;
+  }
+  .sheet {
+    width: min(760px, calc(100% - 2 * var(--gutter, 24px)));
+    height: min(620px, 78vh);
+    border-bottom: 1px solid var(--rule-strong);
+    border-top-left-radius: 50% 44px;
+    border-top-right-radius: 50% 44px;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+  }
+}
+
+@keyframes unfold {
+  from {
+    clip-path: inset(0 0 100% 0);
+    transform: perspective(1200px) rotateX(-14deg);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet {
+    animation: none;
+  }
+}
+
+.crease {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 22px;
+  background: var(--rule-strong);
+}
+
+/* Mode switch: two arched tabs. */
+.tab {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-top-left-radius: 50% 14px;
+  border-top-right-radius: 50% 14px;
+  color: var(--ink-mute);
+  transition: color var(--dur-1) var(--ease-out-expo), border-color var(--dur-1) var(--ease-out-expo);
+}
+.tab:hover {
+  color: var(--ink);
+}
+.tab:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.tab:active {
+  transform: translateY(1px);
+}
+.tab[aria-selected="true"] {
+  color: var(--ink);
+  border-color: var(--rule-strong);
+  border-bottom-color: var(--paper-raised);
+}
+
+.log {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: var(--step--1);
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.entry + .entry {
+  margin-top: 2px;
+}
+
+.list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 20px;
+  color: var(--ink-soft);
+}
+
+.table {
+  border-collapse: collapse;
+  color: var(--ink-soft);
+  font-variant-numeric: tabular-nums;
+}
+.table td,
+.table th {
+  padding: 1px 18px 1px 0;
+  vertical-align: top;
+  text-align: left;
+}
+.table th {
+  font-weight: 400;
+  color: var(--ink-mute);
+}
+.table td:first-child {
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.answer {
+  margin: 8px 0;
+  padding: 10px 0 4px;
+  border-top: 1px dashed var(--rule-strong);
+}
+
+.answerText {
+  font-family: var(--font-bodoni), Georgia, serif;
+  font-size: var(--step-0);
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 66ch;
+}
+
+.caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 2px;
+  vertical-align: -0.12em;
+  background: var(--ink);
+  animation: blink 1s steps(2, start) infinite;
+}
+
+@keyframes blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret {
+    animation: none;
+    opacity: 0.6;
+  }
+}
+
+/* Prompt row: the line the visitor writes on. */
+.promptRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 48px;
+  border-top: 1px solid var(--rule);
+}
+
+.input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: max(16px, var(--step--1));
+  caret-color: var(--ink);
+  border: 0;
+  outline: none;
+}
+.input::placeholder {
+  color: var(--ink-mute);
+}
+
+.promptRow:focus-within {
+  border-top-color: var(--ink);
+}
+
+/* Suggestion chips: small arched buttons. */
+.chip {
+  flex: none;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1px solid var(--rule-strong);
+  border-top-left-radius: 50% 12px;
+  border-top-right-radius: 50% 12px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  color: var(--ink-soft);
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  font-size: var(--step--1);
+  background: var(--paper-raised);
+  transition: color var(--dur-1) var(--ease-out-expo), border-color var(--dur-1) var(--ease-out-expo), background var(--dur-1) var(--ease-out-expo);
+}
+.chip:hover {
+  color: var(--ink);
+  border-color: var(--ink);
+}
+.chip:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.chip:active {
+  background: var(--paper-sunk);
+}
+.chip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.chips {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding: 8px 0;
+}
+.chips::-webkit-scrollbar {
+  display: none;
+}
+
+/* Palette options. */
+.option {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  min-height: 44px;
+  padding: 8px 12px;
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--ink-soft);
+}
+.option[aria-selected="true"] {
+  background: var(--paper-sunk);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px var(--rule-strong);
+}
+.option:hover {
+  color: var(--ink);
+}

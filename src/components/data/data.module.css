@@ -1,0 +1,251 @@
+/* Plate 05: hand-built charts. Ink on paper, theme-aware through tokens only. */
+
+.svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  overflow: visible;
+}
+
+.narrow {
+  max-width: 30rem;
+}
+
+/* --------------------------------------------------------------- text */
+
+.name {
+  font-family: var(--font-serif);
+  font-style: italic;
+  fill: var(--ink-soft);
+}
+
+.note {
+  font-family: var(--font-serif);
+  font-style: italic;
+  fill: var(--ink-mute);
+}
+
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  fill: var(--ink-mute);
+}
+
+.numStrong {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  fill: var(--ink);
+}
+
+/* Paper halo so labels stay legible where they cross a hairline. */
+.halo {
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 5px;
+  stroke-linejoin: round;
+}
+
+/* -------------------------------------------------------------- rules */
+
+.rule {
+  fill: none;
+  stroke: var(--rule);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.ruleStrong {
+  fill: none;
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.leader {
+  fill: none;
+  stroke: var(--ink-faint);
+  stroke-width: 1;
+  vector-effect: non-scaling-stroke;
+}
+
+.hub {
+  fill: none;
+  stroke: var(--ink-mute);
+  stroke-width: 1.25;
+  vector-effect: non-scaling-stroke;
+}
+
+.centre {
+  fill: var(--ink);
+}
+
+.empty {
+  fill: var(--rule-strong);
+}
+
+/* -------------------------------------------------------------- fills */
+
+.fill-solid {
+  fill: var(--ink);
+}
+.fill-tone {
+  fill: var(--shade-3);
+}
+.fill-light {
+  fill: var(--shade-2);
+}
+.fill-hatch45 {
+  fill: url(#pw-fill-hatch45);
+}
+.fill-hatch135 {
+  fill: url(#pw-fill-hatch135);
+}
+.fill-cross {
+  fill: url(#pw-fill-cross);
+}
+.fill-dots {
+  fill: url(#pw-fill-dots);
+}
+
+.patPaper {
+  fill: var(--paper);
+}
+.patInk {
+  stroke: var(--ink);
+  fill: none;
+}
+.patDot {
+  fill: var(--ink);
+}
+
+.dot {
+  fill: var(--ink);
+  stroke: var(--paper);
+  stroke-width: 2;
+}
+
+.band {
+  fill: none;
+  stroke: var(--shade-3);
+  stroke-width: 7;
+  stroke-linecap: round;
+}
+
+/* -------------------------------------------------------------- marks */
+
+.mark {
+  outline: none;
+  cursor: default;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.hit {
+  fill: transparent;
+  stroke: none;
+}
+
+.mark:focus-visible .hit {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  stroke-dasharray: 4 3;
+  vector-effect: non-scaling-stroke;
+}
+
+.dimmable {
+  transition: opacity var(--dur-2) var(--ease-out-expo);
+}
+
+.dimmable[data-dim="true"] {
+  opacity: 0.22;
+}
+
+.mark[data-on="true"] .name {
+  fill: var(--ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dimmable {
+    transition: none;
+  }
+}
+
+/* ------------------------------------------------------------ tooltip */
+
+.tip {
+  position: absolute;
+  z-index: 2;
+  pointer-events: none;
+  min-width: 11rem;
+  max-width: min(18rem, 80vw);
+  padding: 0.6rem 0.75rem 0.65rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 0.6rem 0.6rem 0.25rem 0.25rem;
+  background: var(--paper-raised);
+  color: var(--ink);
+  font-size: var(--step--1);
+  line-height: 1.35;
+  transform: translate(-50%, calc(-100% - 12px));
+}
+
+.tipBelow {
+  transform: translate(-50%, 14px);
+}
+
+.tipRow {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  color: var(--ink-soft);
+}
+
+/* ------------------------------------------------------------- tables */
+
+.tableWrap {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+.table {
+  border-collapse: collapse;
+  min-width: 100%;
+  font-size: var(--step--1);
+}
+
+.table caption {
+  text-align: left;
+  font-style: italic;
+  color: var(--ink-mute);
+  padding-bottom: 0.5rem;
+}
+
+.table th,
+.table td {
+  padding: 0.5rem 0.9rem 0.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  text-align: left;
+  vertical-align: top;
+}
+
+.table thead th {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink-mute);
+  border-bottom-color: var(--rule-strong);
+}
+
+.table tbody th {
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+.table td {
+  color: var(--ink-soft);
+}
+
+.table .r {
+  text-align: right;
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+}

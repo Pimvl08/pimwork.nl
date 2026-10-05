@@ -1,0 +1,238 @@
+/* Plate 07 form fields, drawn like the text input on the quality board:
+   an arched top edge, the label above, a divider and a small arrow. */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.labelRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.box {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  align-items: stretch;
+  min-height: 3.6rem;
+}
+
+.outline {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  pointer-events: none;
+}
+
+.sheet {
+  fill: var(--paper-raised);
+  stroke: var(--rule-strong);
+  stroke-width: 1;
+  transition:
+    stroke var(--dur-2) var(--ease-paper),
+    stroke-width var(--dur-2) var(--ease-paper);
+}
+
+/* A second arc lifts above the field while it has focus, like a pressed crease. */
+.lift {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1;
+  opacity: 0;
+  transform: translateY(5px);
+  transition:
+    opacity var(--dur-2) var(--ease-paper),
+    transform var(--dur-3) var(--ease-out-expo);
+}
+
+@media (hover: hover) {
+  .box:hover .sheet {
+    stroke: var(--ink-mute);
+  }
+}
+
+.box:focus-within .sheet {
+  stroke: var(--ink);
+  stroke-width: 1.75;
+}
+
+.box:focus-within .lift {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.box[data-invalid] .sheet {
+  stroke: var(--ink);
+  stroke-dasharray: 5 4;
+}
+
+.box[data-invalid]:focus-within .sheet {
+  stroke-dasharray: none;
+}
+
+.control {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-size: max(1rem, var(--step-0));
+  line-height: 1.4;
+  padding: 1.15rem 1.1rem 0.8rem;
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.control::placeholder {
+  color: var(--ink-mute);
+  font-style: italic;
+  opacity: 1;
+}
+
+.control:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.textarea {
+  min-height: 11rem;
+  resize: vertical;
+  padding-top: 1.4rem;
+}
+
+.divider {
+  flex: none;
+  width: 1px;
+  margin: 0.95rem 0 0.7rem;
+  background: var(--rule-strong);
+  transition: background var(--dur-2) var(--ease-paper);
+}
+
+.arrow {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 3.1rem;
+  padding-top: 0.2rem;
+  color: var(--ink-mute);
+  transition:
+    color var(--dur-2) var(--ease-paper),
+    transform var(--dur-3) var(--ease-out-expo);
+}
+
+.box:focus-within .divider {
+  background: var(--ink);
+}
+
+.box:focus-within .arrow {
+  color: var(--ink);
+  transform: translate(2px, -2px);
+}
+
+.error {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  color: var(--ink);
+  font-style: italic;
+}
+
+.error::before {
+  content: "";
+  flex: none;
+  width: 1.1rem;
+  height: 1px;
+  background: currentColor;
+  transform: translateY(-0.3em);
+}
+
+/* The honeypot: present for scripts, invisible and unreachable for people. */
+.trap {
+  position: absolute;
+  left: -10000px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Notices and the summary: a sheet with an arched top, never a coloured bar. */
+.notice {
+  position: relative;
+  isolation: isolate;
+  padding: 1.6rem 1.4rem 1.3rem;
+  outline: none;
+}
+
+.notice:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.summaryLink {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+.summaryLink:hover {
+  text-decoration-thickness: 2px;
+}
+
+.summaryLink:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.spinner {
+  width: 1.05rem;
+  height: 1.05rem;
+  animation: turn 1.1s linear infinite;
+}
+
+@keyframes turn {
+  to {
+    transform: rotate(1turn);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .spinner {
+    animation-duration: 3s;
+  }
+  .lift,
+  .arrow,
+  .sheet {
+    transition: none;
+  }
+}
+
+/* Plate frame: keeps the decorative arc behind the content of this plate only. */
+.plate {
+  isolation: isolate;
+}
+
+/* The other channel: set apart by a thin rule, not by a card. */
+.aside {
+  align-self: start;
+  padding-top: 1.6rem;
+  border-top: 1px solid var(--rule-strong);
+}
+
+@media (min-width: 64rem) {
+  .aside {
+    margin-top: 2.2rem;
+  }
+}

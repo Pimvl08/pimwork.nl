@@ -1,0 +1,72 @@
+/* The inline terminal of plate 06: a sheet with an arched top. */
+.panel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule-strong);
+  border-top-left-radius: 50% 36px;
+  border-top-right-radius: 50% 36px;
+  border-bottom-left-radius: 2px;
+  border-bottom-right-radius: 2px;
+  font-family: var(--font-fragment), ui-monospace, monospace;
+  padding-top: 10px;
+  padding-bottom: 4px;
+}
+
+.crease {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 1px;
+  height: 18px;
+  background: var(--rule-strong);
+}
+
+.box {
+  height: clamp(16rem, 52vh, 26rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 12px 16px 16px;
+}
+@media (min-width: 640px) {
+  .box {
+    padding: 12px 24px 16px;
+  }
+}
+.box:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: -2px;
+}
+
+.field {
+  flex: 1;
+  min-width: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  transition: border-color var(--dur-1) var(--ease-out-expo);
+}
+.field:hover {
+  border-bottom-color: var(--ink-mute);
+}
+.field:focus-within {
+  border-bottom-color: var(--ink);
+}
+
+.askInput {
+  width: 100%;
+  min-height: 52px;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-bodoni), Georgia, serif;
+  font-size: max(16px, var(--step-1));
+  font-style: italic;
+  border: 0;
+  outline: none;
+}
+.askInput::placeholder {
+  color: var(--ink-mute);
+}
+.askInput[aria-invalid="true"] {
+  text-decoration: underline wavy var(--ink-mute);
+  text-underline-offset: 6px;
+}

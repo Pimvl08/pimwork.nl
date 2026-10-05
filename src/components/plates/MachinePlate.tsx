@@ -1,10 +1,31 @@
+import { MachineConsole } from "@/components/machine/MachineConsole";
+import { machineCopy as c } from "@/components/machine/copy";
+import { ArcRule } from "@/components/ui/ArcRule";
+import { PlateHeading } from "@/components/ui/PlateHeading";
 import type { Locale } from "@/i18n/config";
 
-/** Placeholder plate, replaced by its feature build. */
+/** Plate 06: AI as Pim's daily tool, and a terminal that can be questioned. */
 export function MachinePlate({ lang }: { lang: Locale }) {
   return (
-    <section id="machine" className="plate" aria-label="Machine" data-lang={lang}>
-      <h2 className="text-[length:var(--step-4)] italic">Machine</h2>
+    <section id="machine" className="plate relative isolate" aria-labelledby="machine-title">
+      <ArcRule className="-z-10 inset-x-0 top-0 h-[40%] opacity-60" />
+      <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+        <div className="flex flex-col gap-8">
+          <PlateHeading numeral="06" id="machine-title" lead={c.lead[lang]}>
+            {c.title[lang]}
+          </PlateHeading>
+          <p className="measure text-ink-soft">{c.body[lang]}</p>
+          <dl className="unfold flex flex-col gap-4 border-t border-rule pt-6">
+            {c.modes[lang].map((m) => (
+              <div key={m.term} className="grid grid-cols-[5.5rem_1fr] gap-4">
+                <dt className="label text-ink">{m.term}</dt>
+                <dd className="text-ink-soft">{m.text}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+        <MachineConsole lang={lang} />
+      </div>
     </section>
   );
 }

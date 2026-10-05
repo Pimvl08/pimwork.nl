@@ -6,7 +6,12 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "stats": "node scripts/collect-stats.mjs"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.131.0",

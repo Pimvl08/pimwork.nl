@@ -1,0 +1,516 @@
+/* Lab plate: arched tabs on an arc, one stage, the question below. */
+
+.tabsWrap {
+  position: relative;
+  margin-top: clamp(3rem, 7vw, 5rem);
+}
+
+.arc {
+  display: none;
+}
+
+.tablist {
+  position: relative;
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  scrollbar-width: none;
+  padding: 0.5rem 2px 1.25rem;
+  margin-inline: -2px;
+}
+.tablist::-webkit-scrollbar {
+  display: none;
+}
+
+.tab {
+  position: relative;
+  flex: none;
+  scroll-snap-align: start;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  min-height: 3.5rem;
+  min-width: 2.75rem;
+  padding: 1.1rem 1.6rem 0.75rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px 999px 0.7rem 0.7rem;
+  background: var(--paper);
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color var(--dur-2) var(--ease-paper),
+    border-color var(--dur-2) var(--ease-paper),
+    color var(--dur-2) var(--ease-paper),
+    transform var(--dur-3) var(--ease-out-expo);
+}
+
+.tabNum {
+  font-style: italic;
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  transition: color var(--dur-2) var(--ease-paper);
+}
+
+.tabName {
+  font-style: italic;
+  font-size: var(--step-0);
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .tab:hover {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+}
+
+.tab:active {
+  transform: translateY(var(--arc-y, 0)) rotate(var(--arc-r, 0)) scale(0.97);
+}
+
+.tab:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 4px;
+}
+
+.tab[aria-selected="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
+}
+.tab[aria-selected="true"] .tabNum {
+  color: var(--on-ink);
+  opacity: 0.78;
+}
+
+@media (min-width: 1024px) {
+  .arc {
+    display: block;
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 1.6rem;
+    height: 4rem;
+    width: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .arc path {
+    fill: none;
+    stroke: var(--rule-strong);
+    stroke-width: 1;
+    vector-effect: non-scaling-stroke;
+  }
+  .tablist {
+    justify-content: center;
+    overflow: visible;
+    gap: clamp(0.5rem, 1.2vw, 1.1rem);
+    padding: 0 0 2.75rem;
+  }
+  .tab {
+    transform: translateY(var(--arc-y, 0)) rotate(var(--arc-r, 0));
+  }
+}
+
+/* The stage: one sheet with an arched top edge. */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  background: var(--paper-raised);
+  border: 1px solid var(--rule);
+  border-radius: 48% 48% 0.9rem 0.9rem / 7% 7% 0.9rem 0.9rem;
+  overflow: hidden;
+  container-type: inline-size;
+}
+
+@media (min-width: 768px) {
+  .stage {
+    aspect-ratio: 16 / 10;
+    border-radius: 48% 48% 1rem 1rem / 9% 9% 1rem 1rem;
+  }
+}
+
+.stage:fullscreen {
+  aspect-ratio: auto;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: 0;
+  background: var(--paper);
+}
+.stage::backdrop {
+  background: var(--paper);
+}
+
+.panel {
+  position: absolute;
+  inset: 0;
+}
+.panel[hidden] {
+  display: none;
+}
+
+.loading {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  gap: 1rem;
+  background: var(--paper-raised);
+  color: var(--ink-mute);
+  font-style: italic;
+}
+
+.loadingArc {
+  width: 3rem;
+  height: 3rem;
+}
+.loadingArc circle {
+  fill: none;
+  stroke: var(--ink-faint);
+  stroke-width: 1;
+}
+.loadingArc path {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.25;
+  stroke-linecap: round;
+  transform-origin: 24px 24px;
+  animation: turn 1.4s linear infinite;
+}
+@keyframes turn {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .loadingArc path {
+    animation: none;
+  }
+}
+
+/* Under the stage. */
+.below {
+  display: grid;
+  gap: 2rem;
+  margin-top: 2rem;
+}
+@media (min-width: 1024px) {
+  .below {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+    align-items: start;
+    gap: clamp(2rem, 4vw, 4rem);
+  }
+}
+
+.question {
+  font-style: italic;
+  font-size: var(--step-1);
+  line-height: 1.3;
+  color: var(--ink);
+  max-width: 34ch;
+}
+
+.how {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 60ch;
+  color: var(--ink-soft);
+}
+.how dt {
+  font-style: italic;
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+}
+.how dd {
+  margin: 0.1rem 0 0;
+}
+
+/* Shared experiment layout. */
+.exp {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.surface {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  touch-action: pan-y;
+  cursor: crosshair;
+  outline: none;
+}
+.surface:focus-visible {
+  box-shadow: inset 0 0 0 1px var(--ink);
+}
+
+.canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.vpointer {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 1.75rem;
+  height: 1.75rem;
+  margin: -0.875rem 0 0 -0.875rem;
+  border: 1px solid var(--ink);
+  border-radius: 50%;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity var(--dur-2) var(--ease-paper);
+}
+.surface:focus-visible .vpointer {
+  opacity: 1;
+}
+
+.controls {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 0.75rem;
+  padding: 0.75rem clamp(0.75rem, 2.4cqi, 1.5rem);
+  border-top: 1px solid var(--rule);
+  background: var(--paper-raised);
+}
+
+.group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  border: 0;
+  margin: 0;
+  padding: 0;
+  min-width: 0;
+}
+
+.groupLabel {
+  font-style: italic;
+  font-size: var(--step--1);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-mute);
+  margin-right: 0.25rem;
+  padding: 0;
+  float: left;
+}
+
+.chip {
+  min-height: 2.75rem;
+  min-width: 2.75rem;
+  padding: 0.6rem 1.05rem 0.45rem;
+  border: 1px solid var(--rule-strong);
+  border-radius: 999px 999px 0.6rem 0.6rem;
+  background: transparent;
+  color: var(--ink-soft);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-0);
+  line-height: 1;
+  cursor: pointer;
+  white-space: nowrap;
+  transition:
+    background-color var(--dur-2) var(--ease-paper),
+    border-color var(--dur-2) var(--ease-paper),
+    color var(--dur-2) var(--ease-paper),
+    transform var(--dur-2) var(--ease-paper);
+}
+@media (hover: hover) {
+  .chip:hover:not(:disabled) {
+    border-color: var(--ink);
+    color: var(--ink);
+  }
+}
+.chip:active:not(:disabled) {
+  transform: scale(0.97);
+}
+.chip:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+.chip[aria-pressed="true"],
+.chip[aria-checked="true"] {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--on-ink);
+}
+.chip:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.input {
+  min-height: 2.75rem;
+  width: 11ch;
+  padding: 0.4rem 0.2rem 0.25rem;
+  border: 0;
+  border-bottom: 1px solid var(--rule-strong);
+  border-radius: 0;
+  background: transparent;
+  color: var(--ink);
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: var(--step-0);
+  transition: border-color var(--dur-2) var(--ease-paper);
+}
+.input::placeholder {
+  color: var(--ink-mute);
+}
+@media (hover: hover) {
+  .input:hover {
+    border-color: var(--ink);
+  }
+}
+.input:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+  border-color: var(--ink);
+}
+
+.range {
+  width: 7.5rem;
+  min-height: 2.75rem;
+  accent-color: var(--ink);
+  cursor: pointer;
+}
+.range:focus-visible {
+  outline: 1px solid var(--ink);
+  outline-offset: 3px;
+}
+
+.caption {
+  margin-left: auto;
+  font-style: italic;
+  color: var(--ink-mute);
+  white-space: nowrap;
+}
+
+.note {
+  position: absolute;
+  left: 1rem;
+  bottom: 0.75rem;
+  font-style: italic;
+  font-size: var(--step--1);
+  color: var(--ink-mute);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* Experiment 05. */
+.massSurface {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(1.5rem, 6cqi, 4rem) clamp(1rem, 5cqi, 4rem);
+  cursor: default;
+  overflow: hidden;
+}
+
+.phrase {
+  margin: 0;
+  font-family: var(--font-serif);
+  font-size: clamp(2.6rem, 10.5cqi, 8.5rem);
+  line-height: 1.08;
+  text-align: center;
+  color: var(--ink);
+  font-variation-settings: "wght" 400, "opsz" 96;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+.letter {
+  display: inline-block;
+  transform-origin: 50% 82%;
+  will-change: transform;
+}
+
+.massStatic .letter {
+  will-change: auto;
+  transition: font-variation-settings var(--dur-3) var(--ease-out-expo);
+}
+@media (hover: hover) {
+  .massStatic .letter:hover {
+    font-variation-settings: "wght" 640, "opsz" 72;
+  }
+}
+
+/* Phones: the 4:5 sheet is a minimum; the controls may lengthen it so the
+   drawing area never shrinks to a strip. */
+@media (max-width: 767.98px) {
+  .stage {
+    aspect-ratio: auto;
+  }
+  .panel {
+    position: relative;
+    aspect-ratio: 4 / 5;
+    display: flex;
+    flex-direction: column;
+  }
+  .exp {
+    position: relative;
+    flex: 1 1 auto;
+  }
+  .surface {
+    min-height: min(84vw, 24rem);
+  }
+  .chip {
+    padding: 0.55rem 0.75rem 0.4rem;
+    font-size: var(--step--1);
+  }
+  .chip :global(svg) {
+    width: 14px;
+    height: 14px;
+  }
+  .controls {
+    gap: 0.4rem 0.6rem;
+    padding: 0.6rem 0.75rem;
+  }
+  .groupLabel {
+    letter-spacing: 0.1em;
+  }
+  .range {
+    width: 6.5rem;
+  }
+  .tab {
+    padding: 0.9rem 1.15rem 0.6rem;
+  }
+}

@@ -298,8 +298,8 @@ a:hover {
 }
 
 /* Native custom cursor is replaced only on fine pointers, see Cursor.tsx. */
-html[data-cursor="custom"],
-html[data-cursor="custom"] * {
+html[data-cursor-root="custom"],
+html[data-cursor-root="custom"] * {
   cursor: none !important;
 }
 
