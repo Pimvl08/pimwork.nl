@@ -51,3 +51,6 @@ next-env.d.ts
 /.impeccable/review/
 /.impeccable/live/
 /.impeccable/config.local.json
+
+# third-party design reference images (impeccable.style), kept local only
+/.impeccable/quality-bar/
