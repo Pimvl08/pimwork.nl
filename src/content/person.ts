@@ -83,7 +83,8 @@ export const interests: Interest[] = [
   },
   {
     id: "automation",
-    title: { nl: "Saai werk wegautomatiseren", en: "Automating the boring parts" },
+    // The soft hyphen (U+00AD) lets the long word break on a narrow sheet.
+    title: { nl: "Saai werk weg\u00ADautomatiseren", en: "Automating the boring parts" },
     body: {
       nl: "Belformulieren, offertes en verkoopkansen: als iets elke dag terugkomt, wordt het een tool.",
       en: "Call forms, quotes and sales leads: if it comes back every day, it becomes a tool.",

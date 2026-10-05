@@ -1,4 +1,5 @@
 import type { Bilingual, Locale } from "@/i18n/config";
+import { EXPERIMENT_COUNT } from "@/components/lab/logic";
 import { countWord } from "./logic";
 
 /** The phrase in the intro line cycles through real project categories. */
@@ -16,10 +17,10 @@ export const introPhrases: IntroPhrase[] = [
 ];
 
 /**
- * Number of Lab experiments (src/components/lab). There is no shared list
- * of experiments yet, so the count lives here until one exists.
+ * Number of Lab experiments, taken from the Lab's own pure module (the same
+ * count its tabs and deep links use), so the intro line follows the Lab.
  */
-export const LAB_EXPERIMENT_COUNT = 5;
+export const LAB_EXPERIMENT_COUNT = EXPERIMENT_COUNT;
 
 export const heroCopy = {
   lead: { nl: "bouwt", en: "builds" },

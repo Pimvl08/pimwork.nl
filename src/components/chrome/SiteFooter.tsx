@@ -18,7 +18,8 @@ export function SiteFooter() {
 
   return (
     <footer className={styles.footer}>
-      <ArcRule className="inset-0 h-full w-full" d="M-40 700 A 1250 1250 0 0 1 1040 180" draw />
+      {/* Below lg the links stack under the statement, so the arc keeps to the top band there. */}
+      <ArcRule className="inset-x-0 top-0 h-[34%] w-full lg:h-full" d="M-40 700 A 1250 1250 0 0 1 1040 180" draw />
       <div className={styles.footerInner}>
         <p className={styles.footerLine}>{t.line}</p>
 

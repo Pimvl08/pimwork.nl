@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Fragment_Mono } from "next/font/google";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import type { ReactNode } from "react";
 import { SiteChrome } from "@/components/chrome/SiteChrome";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { htmlLang, isLocale, locales, type Locale } from "@/i18n/config";

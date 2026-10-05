@@ -238,6 +238,9 @@ a:hover {
     padding-inline: var(--gutter);
     padding-left: calc(var(--rail) + var(--gutter));
     scroll-margin-top: 4rem;
+    /* Decorative arcs and rings may bleed past the edge by design; clip them
+       sideways (not vertically) so no plate ever scrolls horizontally. */
+    overflow-x: clip;
   }
 }
 

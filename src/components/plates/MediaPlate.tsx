@@ -27,7 +27,8 @@ export function MediaPlate({ lang }: { lang: Locale }) {
 
   return (
     <section id="media" className="plate relative" aria-labelledby="media-title">
-      <ArcRule className="pointer-events-none inset-x-0 top-0 h-[40vh] opacity-60" draw />
+      {/* The arc lives in the plate's top padding band, so it never crosses the heading or content. */}
+      <ArcRule className="pointer-events-none inset-x-0 top-0 h-[var(--section-y)] w-full opacity-60" d="M-20 960 A 1500 1500 0 0 1 1020 60" draw />
       <PlateHeading numeral="04" id="media-title" lead={t.lead}>
         {t.title}
       </PlateHeading>

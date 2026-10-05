@@ -6,8 +6,9 @@ import { easeOutExpo, formatMeasured, parseMeasured } from "./logic";
 
 /**
  * A measured value that counts up once when it scrolls into view. The server
- * renders the final value (no-JS, SEO); counting only starts from zero when
- * the number is still off-screen at hydration, so nothing visibly jumps.
+ * renders the final value (no-JS, SEO) and that value stays on screen until the
+ * number actually enters the viewport; only then does it restart from zero and
+ * count up. A number that is already visible at hydration never animates.
  * A word unit ("6 dagen") is set smaller than the figure itself.
  */
 export function CountUp({ raw, lang, delay = 0 }: { raw: string; lang: Locale; delay?: number }) {
@@ -25,9 +26,11 @@ export function CountUp({ raw, lang, delay = 0 }: { raw: string; lang: Locale; d
     let frame = 0;
     let timer = 0;
     const run = () => {
+      setCurrent(0);
       const start = performance.now();
       const tick = (now: number) => {
-        const t = Math.min(1, (now - start) / 1100);
+        // rAF time can sit just before `start`; clamp so the figure never reads "-0".
+        const t = Math.min(1, Math.max(0, (now - start) / 1100));
         setCurrent(t >= 1 ? null : measured.value * easeOutExpo(t));
         if (t < 1) frame = requestAnimationFrame(tick);
       };
@@ -41,11 +44,8 @@ export function CountUp({ raw, lang, delay = 0 }: { raw: string; lang: Locale; d
       },
       { rootMargin: "0px 0px -12% 0px" },
     );
-    // Start from zero on the next frame, still off-screen, then wait for view.
-    frame = requestAnimationFrame(() => {
-      setCurrent(0);
-      observer.observe(node);
-    });
+    // The final value stays visible until the number is really in view.
+    observer.observe(node);
     return () => {
       observer.disconnect();
       window.clearTimeout(timer);

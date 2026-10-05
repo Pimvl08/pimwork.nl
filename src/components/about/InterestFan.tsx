@@ -14,7 +14,7 @@ const ROMAN = ["i", "ii", "iii", "iv", "v", "vi", "vii", "viii"];
 const TILT = 7;
 
 /**
- * Six interest sheets fanned around one pivot like papers on a desk.
+ * Six interest sheets fanned like papers on a desk (a snapping row below 80rem).
  * Lift, straighten and the neighbours leaning away are pure CSS (hover and
  * focus-within); this component only adds the pointer tilt on desktop and,
  * on touch, marks the sheet that snapped to the centre of the row.
@@ -25,7 +25,7 @@ export function InterestFan({ lang }: { lang: Locale }) {
   const [snapped, setSnapped] = useState(0);
   const fine = useFinePointer();
   const reduced = useReducedMotion();
-  const wide = useMediaQuery("(min-width: 64rem)");
+  const wide = useMediaQuery("(min-width: 80rem)");
   const tilt = fine && wide && !reduced;
 
   // Row mode: the sheet closest to the centre of the scroller is the active one.
@@ -105,7 +105,7 @@ export function InterestFan({ lang }: { lang: Locale }) {
                     <path d="M 2 9.5 Q 50 -4 98 9.5" fill="none" stroke="currentColor" strokeWidth={1} vectorEffect="non-scaling-stroke" />
                   </svg>
                 </span>
-                <span id={`${id}-title`} className="text-[length:var(--step-1)] italic leading-tight text-ink">
+                <span id={`${id}-title`} className={`${styles.sheetTitle} italic text-ink`}>
                   {interest.title[lang]}
                 </span>
                 <span id={`${id}-body`} className="text-[length:var(--step--1)] leading-relaxed text-ink-soft">

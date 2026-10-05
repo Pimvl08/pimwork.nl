@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import path from "node:path";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -40,6 +41,7 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  turbopack: { root: path.resolve(__dirname) },
   reactStrictMode: true,
   experimental: {
     globalNotFound: true,

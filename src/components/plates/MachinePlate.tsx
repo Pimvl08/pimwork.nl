@@ -8,8 +8,9 @@ import type { Locale } from "@/i18n/config";
 export function MachinePlate({ lang }: { lang: Locale }) {
   return (
     <section id="machine" className="plate relative isolate" aria-labelledby="machine-title">
-      <ArcRule className="-z-10 inset-x-0 top-0 h-[40%] opacity-60" />
-      <div className="grid gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
+      {/* The arc lives in the plate's top padding band, so it never crosses the heading or content. */}
+      <ArcRule className="-z-10 inset-x-0 top-0 h-[var(--section-y)] w-full opacity-60" d="M-20 960 A 1500 1500 0 0 1 1020 60" />
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-12 lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-16">
         <div className="flex flex-col gap-8">
           <PlateHeading numeral="06" id="machine-title" lead={c.lead[lang]}>
             {c.title[lang]}

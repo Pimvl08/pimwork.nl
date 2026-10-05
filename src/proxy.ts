@@ -68,7 +68,7 @@ export const config = {
   matcher: [
     {
       // Everything except API routes, Next internals and files with an extension.
-      source: "/((?!api/|_next/static|_next/image|media/|.*\\.[^/]+$).*)",
+      source: "/((?!api/|_next/static|_next/image|media/|apple-icon|icon|opengraph-image|.*\\.[^/]+$).*)",
       missing: [
         { type: "header", key: "next-router-prefetch" },
         { type: "header", key: "purpose", value: "prefetch" },

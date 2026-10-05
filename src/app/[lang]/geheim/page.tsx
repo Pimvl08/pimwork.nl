@@ -23,7 +23,7 @@ export default async function SecretPage({ params }: { params: Promise<{ lang: s
 
   return (
     <main id="main" className="plate relative isolate min-h-[100dvh] pt-[calc(var(--section-y)+3rem)]">
-      <ArcRule className="-z-10 inset-x-0 top-0 h-[55%] opacity-60" draw />
+      <ArcRule className="-z-10 inset-x-0 top-0 h-[55%] w-full opacity-60" draw />
       <div className="flex max-w-[72rem] flex-col gap-12">
         <PlateHeading numeral="99" as="h1" lead={t.lead}>
           {t.title}

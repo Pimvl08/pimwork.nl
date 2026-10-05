@@ -12,7 +12,8 @@ import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 
 /** One compass arc from the top centre, sweeping down through the name. */
-const COVER_ARC = "M520 -10 A1150 1150 0 0 0 60 1010";
+const COVER_ARC = "M480 -10 A1150 1150 0 0 0 20 1010";
+const COVER_ARC_NARROW = "M1010 40 A1300 1300 0 0 1 560 1010";
 
 /** The resting outline of the shell, computed once per server process. */
 const silhouette = shellSilhouette(STAGE_ASPECT);
@@ -34,7 +35,9 @@ export function HeroPlate({ lang }: { lang: Locale }) {
   return (
     <section id="cover" className={cn("plate", styles.cover)} aria-labelledby="cover-title">
       <div className={styles.arcLayer} data-depth="-10">
-        <ArcRule className={cn("inset-0 h-full w-full", styles.arc)} d={COVER_ARC} />
+        <ArcRule className={cn("inset-0 hidden h-full w-full lg:block", styles.arc)} d={COVER_ARC} />
+        {/* Single column: the arc keeps to the right edge so it never crosses the copy or the buttons. */}
+        <ArcRule className={cn("inset-0 h-full w-full lg:hidden", styles.arc)} d={COVER_ARC_NARROW} />
       </div>
       <div className={styles.grid}>
         <div className={styles.copy}>

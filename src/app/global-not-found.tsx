@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -14,7 +15,7 @@ export default function GlobalNotFound() {
           <h1 className="text-[length:var(--step-4)] italic">404</h1>
           <p className="measure">Deze plaat is uit het boek gescheurd. This plate was torn out of the book.</p>
           <p>
-            <a href="/">Naar de omslag · To the cover</a>
+            <Link href="/">Naar de omslag · To the cover</Link>
           </p>
         </main>
       </body>

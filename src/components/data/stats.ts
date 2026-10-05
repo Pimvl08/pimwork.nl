@@ -363,13 +363,19 @@ export function formatDay(iso: string, lang: "nl" | "en", withYear = true): stri
 
 /* ------------------------------------------------------------ geometry */
 
-/** Point on a circle; degrees counter-clockwise from 3 o'clock, y down (SVG). */
+/**
+ * Round an SVG coordinate to two decimals. Math.sin/cos may differ in the last
+ * bits between the server (Node) and the browser engine, so every coordinate
+ * that is rendered on both sides goes through this to keep hydration exact.
+ */
+export const round2 = (n: number) => Math.round(n * 100) / 100;
+const f = round2;
+
+/** Point on a circle; degrees counter-clockwise from 3 o'clock, y down (SVG). Rounded to 2 decimals. */
 export function polar(cx: number, cy: number, r: number, deg: number): [number, number] {
   const a = (deg * Math.PI) / 180;
-  return [cx + r * Math.cos(a), cy - r * Math.sin(a)];
+  return [f(cx + r * Math.cos(a)), f(cy - r * Math.sin(a))];
 }
-
-const f = (n: number) => Math.round(n * 100) / 100;
 
 /** Arc from angle a0 to a1 (degrees, either direction) on radius r. */
 export function arcPath(cx: number, cy: number, r: number, a0: number, a1: number): string {

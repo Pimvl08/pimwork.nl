@@ -170,6 +170,12 @@
   scale: 0.985;
 }
 
+.sheetTitle {
+  font-size: var(--step-1);
+  line-height: 1.15;
+  overflow-wrap: break-word;
+}
+
 .sheetArc {
   display: block;
   width: 100%;
@@ -191,8 +197,9 @@
   transition: color var(--dur-1) ease;
 }
 
-/* Phone and tablet: a horizontal row that snaps, the centred sheet lies straight. */
-@media (max-width: 63.999rem) {
+/* Phone, tablet and small laptops: a horizontal row that snaps, the centred
+   sheet lies straight. Six readable sheets only fit side by side from 80rem. */
+@media (max-width: 79.999rem) {
   .fan {
     display: flex;
     gap: 1rem;
@@ -248,31 +255,40 @@
   }
 }
 
-/* Desktop: six sheets fanned around one pivot far below, like papers on a desk. */
-@media (min-width: 64rem) {
+/*
+ * Desktop: six sheets fanned like papers on a desk. The step between sheets
+ * follows the width of the fan (container units), so every title sits in the
+ * strip of its sheet that the next sheet leaves uncovered; the title is held
+ * to that strip and scales down a little when the strip is narrow.
+ */
+@media (min-width: 80rem) {
   .fan {
-    --sheet-w: 13.5rem;
+    --sheet-w: 14.5rem;
     --sheet-h: 19.5rem;
-    --step: 6.6deg;
-    --pivot: 56rem;
+    --tilt: 4deg;
     position: relative;
-    height: calc(var(--sheet-h) + 9rem);
+    height: calc(var(--sheet-h) + 7.5rem);
+    container-type: inline-size;
   }
   .slot {
-    --fan: calc((var(--i) - 2.5) * var(--step));
+    --o: calc(var(--i) - 2.5);
+    --s: min(calc(var(--sheet-w) - 1.25rem), calc((100cqi - var(--sheet-w) - 3.5rem) / 5));
+    --fan: calc(var(--o) * var(--tilt));
     position: absolute;
-    top: 3.5rem;
-    left: calc(50% - var(--sheet-w) / 2);
+    top: calc(2.75rem + var(--o) * var(--o) * 0.45rem);
+    left: calc(50% - var(--sheet-w) / 2 + var(--o) * var(--s));
     width: var(--sheet-w);
     height: var(--sheet-h);
-    transform-origin: 50% calc(var(--sheet-h) / 2 + var(--pivot));
     rotate: var(--fan);
     z-index: var(--z, auto);
     /* Hold the raised stacking until the sheet has settled back down. */
     transition: z-index 0s linear var(--dur-2);
   }
+  .sheetTitle {
+    max-width: calc(var(--s) - 1.5rem);
+    font-size: min(var(--step-1), calc((var(--s) - 1.6rem) / 6.6));
+  }
   .nudge {
-    transform-origin: 50% calc(var(--sheet-h) / 2 + var(--pivot));
     transition: transform var(--dur-3) var(--about-paper);
   }
   .slot:is(:hover, :focus-within) {
@@ -281,10 +297,10 @@
   }
   /* Neighbours lean away so the lifted sheet has room. */
   .slot:is(:hover, :focus-within) ~ .slot .nudge {
-    transform: rotate(2.4deg);
+    transform: translateX(1.75rem) rotate(1.5deg);
   }
   .slot:has(~ .slot:is(:hover, :focus-within)) .nudge {
-    transform: rotate(-2.4deg);
+    transform: translateX(-1.75rem) rotate(-1.5deg);
   }
   .slot:is(:hover, :focus-within) .sheet {
     translate: 0 -2.25rem;
@@ -300,30 +316,23 @@
   }
 }
 
-@media (min-width: 80rem) {
-  .fan {
-    --sheet-w: 14.5rem;
-    --step: 7.4deg;
-    --pivot: 60rem;
-  }
-}
-
-/* The fan opens from a loose stack as it scrolls in (CSS only). */
+/* The fan settles into place as it scrolls in (CSS only). Sheets keep their
+   spread and stay opaque, so no text ever shows through another sheet, and
+   the motion is finished once the whole fan is on screen. */
 @supports (animation-timeline: view()) {
-  @media (min-width: 64rem) and (prefers-reduced-motion: no-preference) {
+  @media (min-width: 80rem) and (prefers-reduced-motion: no-preference) {
     .slot {
       animation: fan-open linear both;
       animation-timeline: view();
-      animation-range: entry 15% cover 42%;
+      animation-range: entry 0% entry 100%;
     }
   }
 }
 
 @keyframes fan-open {
   from {
-    rotate: calc((var(--i) - 2.5) * 0.9deg);
-    translate: 0 3rem;
-    opacity: 0.4;
+    rotate: calc(var(--o) * 1.2deg);
+    translate: 0 2.5rem;
   }
 }
 

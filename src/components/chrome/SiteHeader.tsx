@@ -69,6 +69,7 @@ export function SiteHeader({ onHome }: { onHome: boolean }) {
         className={styles.brand}
         aria-label={homeLabel}
         data-cursor="link"
+        data-egg="logo"
         onClick={(event) => onPlateLinkClick(event, "cover")}
       >
         <CreaseMark size={30} />

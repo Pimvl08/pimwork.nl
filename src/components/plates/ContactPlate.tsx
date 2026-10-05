@@ -20,12 +20,15 @@ export function ContactPlate({ lang }: { lang: Locale }) {
   const renderedAt = renderTime();
   return (
     <section id="contact" className={`plate relative ${styles.plate}`} aria-labelledby="contact-title">
-      <ArcRule className="inset-0 -z-10 hidden md:block" d="M560 -10 A 760 760 0 0 0 1010 620" draw />
+      {/* A fixed square in the top-right corner: the arc sweeps from the top edge
+          to the right edge above the two columns, so it never crosses the lead,
+          the aside or its button (the columns only sit side by side from lg). */}
+      <ArcRule className="right-0 top-0 -z-10 hidden h-[28rem] w-[28rem] lg:block" d="M150 -10 A 900 900 0 0 1 1010 820" draw />
       <PlateHeading numeral="07" id="contact-title" lead={copy.lead[lang]}>
         {copy.title[lang]}
       </PlateHeading>
 
-      <div className="mt-12 grid gap-14 md:mt-16 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-20">
+      <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-14 md:mt-16 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-20">
         <ContactForm lang={lang} renderedAt={renderedAt} githubHref={person.github.href} />
 
         <aside aria-labelledby="contact-alt-title" className={styles.aside}>

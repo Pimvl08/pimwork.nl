@@ -237,3 +237,14 @@ describe("snapshot", () => {
     expect(formatInt(21762, "en")).toBe("21,762");
   });
 });
+
+describe("svg coordinates are hydration safe", () => {
+  it("rounds polar points to two decimals so server and browser agree", async () => {
+    const { polar, round2 } = await import("@/components/data/stats");
+    const [x, y] = polar(500, 400, 233.3333, 47.123);
+    expect(x).toBe(round2(x));
+    expect(y).toBe(round2(y));
+    expect(String(x).split(".")[1]?.length ?? 0).toBeLessThanOrEqual(2);
+    expect(round2(200.89798450530986)).toBe(round2(200.89798450530992));
+  });
+});

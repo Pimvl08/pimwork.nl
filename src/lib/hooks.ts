@@ -28,11 +28,11 @@ export function useFinePointer(): boolean {
   return useMediaQuery("(hover: hover) and (pointer: fine)", false);
 }
 
-/** True once the component has mounted in the browser. */
+const noopSubscribe = () => () => {};
+
+/** True in the browser after hydration, false during server render. */
 export function useMounted(): boolean {
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  return mounted;
+  return useSyncExternalStore(noopSubscribe, () => true, () => false);
 }
 
 /** Runs `callback` once the element scrolls near the viewport. */
