@@ -14,7 +14,7 @@ export function OpenSlot({ lang, what, className, compact = false }: { lang: Loc
   const t = copy[lang];
   if (compact) {
     return (
-      <span className={cn("inline-flex items-center gap-2 italic text-ink-mute", className)}>
+      <span className={cn("inline-flex items-center gap-2 text-ink-mute", className)}>
         <span aria-hidden="true" className="inline-block h-px w-6 border-t border-dashed border-ink-faint" />
         {t.open}
       </span>
@@ -29,7 +29,7 @@ export function OpenSlot({ lang, what, className, compact = false }: { lang: Loc
     >
       <div className="flex flex-col items-center gap-2">
         <span className="label text-ink-mute">{t.open}</span>
-        {what ? <span className="text-[length:var(--step-1)] italic text-ink">{what}</span> : null}
+        {what ? <span className="text-[length:var(--step-1)] text-ink">{what}</span> : null}
         <span className="max-w-[24ch] text-[length:var(--step--1)] text-ink-mute">{t.hint}</span>
       </div>
     </div>

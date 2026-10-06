@@ -202,7 +202,7 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
             <NoticeSheet labelledBy="contact-success-title">
               <div className="flex flex-col items-start gap-5 px-1 pb-2 pt-2 md:px-4 md:pt-4">
                 <Icon name="crease" size={40} className="text-ink" />
-                <h2 id="contact-success-title" ref={successRef} tabIndex={-1} className="text-[length:var(--step-2)] italic leading-tight outline-none focus-visible:underline">
+                <h2 id="contact-success-title" ref={successRef} tabIndex={-1} className="text-[length:var(--step-2)] leading-tight outline-none focus-visible:underline">
                   {copy.success.title[lang]}
                 </h2>
                 <p className="measure text-ink-soft">{copy.success.body[lang]}</p>
@@ -228,7 +228,7 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
           >
             {summaryFields.length > 0 ? (
               <NoticeSheet labelledBy="contact-summary-title" sheetRef={summaryRef}>
-                <h2 id="contact-summary-title" className="text-[length:var(--step-1)] italic">
+                <h2 id="contact-summary-title" className="text-[length:var(--step-1)] ">
                   {copy.summary.title[lang](summaryFields.length)}
                 </h2>
                 <ul className="mt-3 flex flex-col gap-2">
@@ -334,7 +334,7 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
 
             {notice ? (
               <NoticeSheet labelledBy="contact-notice-title" sheetRef={noticeRef} live>
-                <h2 id="contact-notice-title" className="text-[length:var(--step-1)] italic">
+                <h2 id="contact-notice-title" className="text-[length:var(--step-1)] ">
                   {copy.notices[notice.notice].title[lang]}
                 </h2>
                 <p className="measure mt-2 text-ink-soft">

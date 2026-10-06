@@ -33,7 +33,7 @@ export function AboutPage({ lang }: { lang: Locale }) {
           </div>
         ) : null}
         <div className="order-1 flex flex-col gap-8 lg:order-2">
-          <h1 className="text-[length:var(--step-4)] italic leading-[1.02]">{c.title[lang]}</h1>
+          <h1 className="text-[length:var(--step-4)] leading-[1.02]">{c.title[lang]}</h1>
           {first ? <p className="measure text-[length:var(--step-1)] leading-[1.45] text-ink">{first}</p> : null}
           {rest.map((paragraph, i) => (
             <p key={i} className="measure text-ink-soft">
@@ -49,7 +49,7 @@ export function AboutPage({ lang }: { lang: Locale }) {
       <HowIWork lang={lang} />
 
       <section aria-labelledby="about-next" className={styles.closing}>
-        <h2 id="about-next" className="text-[length:var(--step-3)] italic leading-tight">
+        <h2 id="about-next" className="text-[length:var(--step-3)] leading-tight">
           {c.closing.title[lang]}
         </h2>
         <p className="measure mt-5 text-ink-soft">{c.closing.body[lang]}</p>

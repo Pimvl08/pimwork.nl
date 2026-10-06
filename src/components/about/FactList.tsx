@@ -17,7 +17,7 @@ export function FactList({ lang }: { lang: Locale }) {
         {shown.map((fact) => (
           <div key={fact.id} className={styles.fact}>
             <dt className="label text-ink-mute">{fact.label}</dt>
-            <dd className="mt-1.5 text-[length:var(--step-0)] italic leading-snug text-ink">{fact.value}</dd>
+            <dd className="mt-1.5 text-[length:var(--step-0)] leading-snug text-ink">{fact.value}</dd>
           </div>
         ))}
       </dl>

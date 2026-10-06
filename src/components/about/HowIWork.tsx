@@ -12,7 +12,7 @@ export function HowIWork({ lang }: { lang: Locale }) {
   const how = about.howIWork;
   return (
     <section aria-labelledby="how-title" className={styles.how}>
-      <h2 id="how-title" className="text-[length:var(--step-3)] italic leading-tight">
+      <h2 id="how-title" className="text-[length:var(--step-3)] leading-tight">
         {how.title[lang]}
       </h2>
       <p className="measure mt-6 text-[length:var(--step-1)] leading-snug text-ink">{how.lead[lang]}</p>
@@ -22,7 +22,7 @@ export function HowIWork({ lang }: { lang: Locale }) {
         ))}
       </div>
 
-      <h3 id="how-principles" className="mt-[clamp(3rem,6vw,4.5rem)] text-[length:var(--step-2)] italic leading-tight">
+      <h3 id="how-principles" className="mt-[clamp(3rem,6vw,4.5rem)] text-[length:var(--step-2)] leading-tight">
         {aboutCopy.principles.title[lang]}
       </h3>
       <ol className={styles.principles} aria-labelledby="how-principles">
@@ -35,7 +35,7 @@ export function HowIWork({ lang }: { lang: Locale }) {
               <span className="numeral text-[length:var(--step-0)] text-ink-mute" aria-hidden="true">
                 {figureNumeral(i)}
               </span>
-              <span className="text-[length:var(--step-1)] italic leading-snug text-ink">{principle.title[lang]}</span>
+              <span className="text-[length:var(--step-1)] leading-snug text-ink">{principle.title[lang]}</span>
             </h4>
             <p className="mt-3 text-ink-soft">{principle.body[lang]}</p>
           </li>

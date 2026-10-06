@@ -15,7 +15,7 @@ interface Drop {
 }
 
 /**
- * "Letterregen": columns of falling Bodoni italic letters and Fragment Mono
+ * "Letterregen": columns of falling Bodoni letters and Fragment Mono
  * digits, ink on paper. Esc, a click or the close button ends it. Reduced
  * motion gets one still frame.
  */
@@ -86,7 +86,7 @@ export function LetterRain({ onClose, label, closeLabel, hint }: { onClose: () =
       drops.forEach((drop, i) => {
         const digit = Math.random() < 0.28;
         const glyph = digit ? DIGITS[(Math.random() * DIGITS.length) | 0] : LETTERS[(Math.random() * LETTERS.length) | 0];
-        ctx.font = digit ? `${Math.round(size * 0.82)}px ${mono}` : `italic ${size}px ${serif}`;
+        ctx.font = digit ? `${Math.round(size * 0.82)}px ${mono}` : `${size}px ${serif}`;
         ctx.fillText(glyph, i * size * 0.95, drop.y * size);
         drop.y += drop.speed;
         if (drop.y * size > height && Math.random() > 0.96) drop.y = -Math.random() * 6;

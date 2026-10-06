@@ -34,7 +34,7 @@ export function EggLedger({ lang }: { lang: Locale }) {
               <span className="numeral text-[length:var(--step-1)] text-ink-mute" aria-hidden="true">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <h2 className="flex items-center gap-2 text-[length:var(--step-1)] italic text-ink">
+              <h2 className="flex items-center gap-2 text-[length:var(--step-1)] text-ink">
                 <Icon name={isFound ? "unlock" : "lock"} size={18} />
                 <span>{isFound ? egg.name[lang] : t.hidden}</span>
                 <span className="sr-only">{isFound ? `, ${t.found}` : ""}</span>

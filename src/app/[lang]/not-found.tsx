@@ -8,7 +8,7 @@ import { ArchButton } from "@/components/ui/ArchButton";
 export default function NotFound() {
   return (
     <main id="main" className="plate grid min-h-[80svh] content-center justify-items-start gap-6">
-      <h1 className="text-[length:var(--step-4)] italic leading-tight text-ink">Deze pagina bestaat niet.</h1>
+      <h1 className="text-[length:var(--step-4)] leading-tight text-ink">Deze pagina bestaat niet.</h1>
       <p className="measure text-[length:var(--step-1)] text-ink-soft">
         Misschien is de link verouderd. <span lang="en">This page does not exist, the link may be out of date.</span>
       </p>

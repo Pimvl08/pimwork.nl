@@ -24,7 +24,7 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
     <main id="main" className={`plate relative isolate pt-[calc(var(--section-y)+3rem)] ${styles.plate}`}>
       <div className="grid grid-cols-[minmax(0,1fr)] gap-x-20 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         <header className="flex flex-col gap-5">
-          <h1 className="text-[length:var(--step-4)] italic leading-[1.02]">{copy.title[lang]}</h1>
+          <h1 className="text-[length:var(--step-4)] leading-[1.02]">{copy.title[lang]}</h1>
           <p className="measure text-[length:var(--step-1)] leading-snug text-ink-soft">{copy.lead[lang]}</p>
         </header>
         {/* The arc lives in the empty cell beside the heading, so it never
@@ -40,7 +40,7 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
         </div>
 
         <aside aria-labelledby="contact-alt-title" className={`${styles.aside} ${sending ? "" : "order-1 lg:order-2"}`}>
-          <h2 id="contact-alt-title" className="text-[length:var(--step-2)] italic leading-tight">
+          <h2 id="contact-alt-title" className="text-[length:var(--step-2)] leading-tight">
             {note.heading[lang]}
           </h2>
           <p className="measure mt-4 text-ink-soft">{note.body[lang]}</p>
@@ -57,7 +57,7 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
               {note.mail[lang]}
             </ArchButton>
           </div>
-          <h3 className="mt-12 text-[length:var(--step-1)] italic leading-tight">{privacy.title[lang]}</h3>
+          <h3 className="mt-12 text-[length:var(--step-1)] leading-tight">{privacy.title[lang]}</h3>
           <p className="measure mt-3 text-ink-soft">{privacy.body[lang].join(" ")}</p>
         </aside>
       </div>

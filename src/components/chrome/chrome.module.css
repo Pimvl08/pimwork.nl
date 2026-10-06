@@ -15,7 +15,6 @@
   border-radius: 50% 50% 0.9rem 0.9rem / 0.9rem 0.9rem 0.9rem 0.9rem;
   background: var(--ink);
   color: var(--on-ink);
-  font-style: italic;
   text-decoration: none;
   transform: translateY(calc(-100% - 1.5rem));
   transition: transform var(--dur-2) var(--ease-out-expo);
@@ -51,13 +50,14 @@
 }
 
 .brand {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   display: inline-flex;
   align-items: center;
   gap: 0.6rem;
   min-height: 2.75rem;
   padding-right: 0.35rem;
   color: var(--ink);
-  font-style: italic;
   font-size: var(--step-1);
   line-height: 1;
   letter-spacing: -0.01em;
@@ -163,7 +163,6 @@
 .lang {
   display: inline-flex;
   align-items: center;
-  font-style: italic;
   font-size: var(--step--1);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -268,7 +267,6 @@
   min-width: 2.75rem;
   padding: 0 0.45rem;
   color: var(--ink-mute);
-  font-style: italic;
   font-size: var(--step-0);
   line-height: 1;
   white-space: nowrap;
@@ -314,7 +312,6 @@
   background: var(--ink);
   color: var(--on-ink);
   font: inherit;
-  font-style: italic;
   font-size: var(--step-0);
   line-height: 1;
   cursor: pointer;
@@ -381,6 +378,8 @@
   border-radius: 50% 50% 0 0 / 100% 100% 0 0;
 }
 .sheetTitle {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   margin: 0;
   color: var(--ink-mute);
   font-size: var(--step--1);
@@ -423,7 +422,8 @@
   transform: scale(0.985);
 }
 .menuName {
-  font-style: italic;
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   font-size: clamp(1.9rem, 1.3rem + 3vw, 2.8rem);
   line-height: 1.1;
   letter-spacing: -0.01em;
@@ -512,8 +512,9 @@
   gap: 1rem;
 }
 .cardTitle {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   margin: 0;
-  font-style: italic;
   font-size: var(--step-2);
 }
 .cardLead {
@@ -540,7 +541,6 @@
 }
 .keyJoin {
   color: var(--ink-mute);
-  font-style: italic;
   font-size: var(--step--1);
   padding-inline: 0.15rem;
 }
@@ -601,12 +601,13 @@
   gap: 0.6rem;
 }
 .footerName {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   display: inline-flex;
   align-items: center;
   gap: 0.7rem;
   margin: 0;
   color: var(--ink);
-  font-style: italic;
   font-size: var(--step-3);
   line-height: 1;
   letter-spacing: -0.02em;
@@ -638,7 +639,6 @@
   min-height: 2.75rem;
   min-width: 2.75rem;
   color: var(--ink-soft);
-  font-style: italic;
   text-decoration-line: underline;
   text-decoration-color: transparent;
   text-underline-offset: 0.25em;
@@ -677,5 +677,4 @@
   border-top: 1px solid var(--rule);
   color: var(--ink-mute);
   font-size: var(--step--1);
-  font-style: italic;
 }

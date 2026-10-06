@@ -142,7 +142,7 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
         <footer className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between sm:gap-8">
           <div id={captionId} className="measure">
             <p className="text-[length:var(--step-0)] leading-snug text-ink">
-              <span className="italic">{projectName(image.project)}</span>
+              <span className="">{projectName(image.project)}</span>
               <span aria-hidden="true" className="text-ink-faint">
                 {" "}
                 &middot;{" "}
@@ -151,7 +151,7 @@ export function Lightbox({ lang, images, index, projectName, onIndex, onClose }:
             </p>
           </div>
           <div className="flex shrink-0 items-center gap-3">
-            <span className="hidden text-[length:var(--step--1)] italic text-ink-mute lg:inline">{t.hint}</span>
+            <span className="hidden text-[length:var(--step--1)] text-ink-mute lg:inline">{t.hint}</span>
             <CircleButton icon="arrowLeft" label={t.previous} onClick={() => go(-1)} disabled={total < 2} />
             <CircleButton icon="arrowRight" label={t.next} onClick={() => go(1)} disabled={total < 2} />
           </div>

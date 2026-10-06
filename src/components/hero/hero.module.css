@@ -55,8 +55,9 @@
 }
 
 .name {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   margin: 0 0 0 -0.05em;
-  font-style: italic;
   font-weight: 400;
   font-size: var(--step-name);
   line-height: 0.84;
@@ -90,7 +91,6 @@
   user-select: none;
 }
 .ghostPhrase {
-  font-style: italic;
 }
 .introLead {
   color: var(--ink);
@@ -100,7 +100,6 @@
    underline is the one line that marks the live element. */
 .phrase {
   color: var(--ink);
-  font-style: italic;
   cursor: pointer;
   text-decoration-line: underline;
   text-decoration-color: var(--ink);
@@ -139,7 +138,6 @@
   gap: 0.4rem;
   min-height: 2.75rem;
   color: var(--ink-mute);
-  font-style: italic;
   font-size: var(--step-0);
   text-decoration-line: underline;
   text-decoration-color: var(--rule-strong);

@@ -1,17 +1,13 @@
 import { SLUGS, expect, gotoReady, test } from "./fixtures";
 
 test.describe("about", () => {
-  test('shows the "Hoe ik werk" block, the only place that names Claude Code', async ({ page }) => {
+  test('shows the "Hoe ik werk" block without naming the tools behind it', async ({ page }) => {
     await gotoReady(page, "/nl/over");
     await expect(page.getByRole("heading", { level: 1, name: "Over mij" })).toBeVisible();
     const how = page.getByRole("region", { name: "Hoe ik werk" });
     await expect(how).toBeVisible();
-    await expect(how).toContainText("Claude Code");
-
-    const count = (s: string) => s.split("Claude Code").length - 1;
-    const all = count(await page.locator("body").innerText());
-    const inside = count(await how.innerText());
-    expect(all, "mentions of Claude Code outside Hoe ik werk").toBe(inside);
+    await expect(how).toContainText("kleine, gecontroleerde stappen");
+    expect(await page.locator("body").innerText()).not.toMatch(/Claude|AI-tool/);
   });
 
   test("only filled facts are shown", async ({ page }) => {

@@ -69,6 +69,7 @@
   --color-on-ink: var(--on-ink);
 
   --font-serif: var(--font-bodoni), "Bodoni 72", "Didot", Georgia, serif;
+  --font-sans: var(--font-hanken), "Helvetica Neue", Arial, system-ui, sans-serif;
   --font-mono: var(--font-fragment), ui-monospace, "SF Mono", Menlo, monospace;
 
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
@@ -83,7 +84,7 @@
   --section-y: clamp(6rem, 13vw, 12rem);
   --measure: 66ch;
 
-  /* Type scale (Bodoni Moda, optical size follows font-size automatically). */
+  /* Type scale: Hanken Grotesk for text, Bodoni Moda (opsz 18) for headings. */
   --step--1: clamp(0.82rem, 0.78rem + 0.2vw, 0.9rem);
   --step-0: clamp(1.02rem, 0.96rem + 0.3vw, 1.18rem);
   --step-1: clamp(1.25rem, 1.12rem + 0.6vw, 1.55rem);
@@ -118,12 +119,12 @@ html {
 body {
   min-height: 100svh;
   background: var(--paper);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: var(--step-0);
   line-height: 1.6;
   font-optical-sizing: auto;
   font-kerning: normal;
-  font-variant-numeric: oldstyle-nums proportional-nums;
+  font-variant-numeric: lining-nums proportional-nums;
   overflow-x: clip;
   transition:
     background-color var(--dur-3) var(--ease-paper),
@@ -196,19 +197,27 @@ a:hover {
   border: 3px solid var(--paper);
 }
 
+/* Headings: Bodoni Moda upright at optical size 18 (sturdier hairlines, no gap after the W); running text in Hanken Grotesk. */
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
+  font-weight: 500;
+}
+
 /* ------------------------------------------------------------- utilities */
 
 @layer components {
   /* Geometer's label: inclined capitals, tracked. Not an eyebrow. */
   .label {
-    font-style: italic;
     font-size: var(--step--1);
     letter-spacing: 0.14em;
     text-transform: uppercase;
     font-variant-numeric: lining-nums;
   }
   .numeral {
-    font-style: italic;
     font-variant-numeric: lining-nums tabular-nums;
     letter-spacing: 0;
   }

@@ -32,7 +32,7 @@ Every project, number and image on the site comes from Pim's own disk: real repo
 ## Capabilities and Constraints
 
 - Only Pim's own, relevant projects are shown (confirmed 2026-10-05): TeamSync, Strength Tracker and OfferteVlot featured, plus Belhulp, the coloring book and Solana Forensics. CapCraft (an example for a friend) and PaletteForge (a school assignment) are excluded.
-- No AI chatbot, no custom cursor, no single long scroll, no dates or internal metrics; Claude Code is named only in the about page's "Hoe ik werk" (Pim, 2026-10-05).
+- No AI chatbot, no custom cursor, no single long scroll, no dates or internal metrics; The tools behind the work (AI, Claude Code) are not named anywhere on the site (Pim, 2026-10-06; earlier only in "Hoe ik werk").
 - No invented personal facts. Missing facts (photo of Pim, location, age, school name) stay open and get clearly marked, easy-to-fill slots.
 - No secrets in the repository or client bundle. Never publish e-mail addresses, phone numbers, client or campaign names, wallet addresses or internal ids from project folders.
 - Must respect prefers-reduced-motion, keyboard use and screen readers.

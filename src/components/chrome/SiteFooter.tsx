@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArcRule } from "@/components/ui/ArcRule";
 import { CreaseMark } from "@/components/ui/CreaseMark";
 import { Icon } from "@/components/ui/Icon";
+import { BrandName } from "@/components/ui/BrandName";
 import { person } from "@/content/person";
 import { pageHref, pages } from "@/content/sections";
 import { pick } from "@/i18n/config";
@@ -26,7 +27,9 @@ export function SiteFooter() {
         <div className={styles.footerBrand}>
           <p className={styles.footerName}>
             <CreaseMark size={30} />
-            <span>{person.brand}</span>
+            <span>
+              <BrandName />
+            </span>
           </p>
           <p className={styles.footerLine}>{t.line}</p>
         </div>

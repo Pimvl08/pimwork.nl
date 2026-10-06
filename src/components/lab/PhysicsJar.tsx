@@ -566,24 +566,24 @@ export default function PhysicsJar({
 
   const table = (
     <table className="w-full border-collapse text-left text-[length:var(--step--1)]">
-      <caption className="pb-2 text-left italic text-ink-mute">
+      <caption className="pb-2 text-left text-ink-mute">
         {copy.tableCaption[lang]}
       </caption>
       <thead>
         <tr className="border-b border-rule-strong">
           <th
             scope="col"
-            className="py-1.5 pr-3 font-normal italic text-ink-mute"
+            className="py-1.5 pr-3 font-normal text-ink-mute"
           >
             {copy.colTech[lang]}
           </th>
           <th
             scope="col"
-            className="py-1.5 pr-3 font-normal italic text-ink-mute"
+            className="py-1.5 pr-3 font-normal text-ink-mute"
           >
             {copy.colCount[lang]}
           </th>
-          <th scope="col" className="py-1.5 font-normal italic text-ink-mute">
+          <th scope="col" className="py-1.5 font-normal text-ink-mute">
             {copy.colWhere[lang]}
           </th>
         </tr>
@@ -677,7 +677,7 @@ export default function PhysicsJar({
           </button>
         </div>
         <p
-          className="min-w-0 truncate px-4 pb-2 text-[length:var(--step--1)] italic text-ink-mute md:ml-auto md:pb-0 md:pr-5"
+          className="min-w-0 truncate px-4 pb-2 text-[length:var(--step--1)] text-ink-mute md:ml-auto md:pb-0 md:pr-5"
           aria-hidden="true"
         >
           {hoveredTech ? (

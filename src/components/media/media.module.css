@@ -17,7 +17,6 @@
 .note {
   margin-top: 0.8rem;
   max-width: var(--measure);
-  font-style: italic;
   font-size: var(--step--1);
   line-height: 1.5;
   color: var(--ink-mute);
@@ -76,7 +75,6 @@
 
 .thumbCaption {
   margin-top: 0.6rem;
-  font-style: italic;
   font-size: var(--step--1);
   line-height: 1.4;
   color: var(--ink-mute);

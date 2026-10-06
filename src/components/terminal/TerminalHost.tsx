@@ -277,7 +277,7 @@ export default function TerminalHost() {
                     >
                       <span className="w-[4.5rem] shrink-0 text-[length:var(--step--1)] text-ink-mute">{t.groups[item.group]}</span>
                       <span className="shrink-0 text-[length:var(--step--1)] text-ink">{item.label}</span>
-                      <span className="min-w-0 truncate font-serif text-[length:var(--step--1)] italic text-ink-mute">{item.hint}</span>
+                      <span className="min-w-0 truncate font-sans text-[length:var(--step--1)] text-ink-mute">{item.hint}</span>
                     </li>
                   ))
                 )}

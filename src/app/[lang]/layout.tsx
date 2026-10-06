@@ -1,7 +1,7 @@
 import { Analytics } from "@vercel/analytics/next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import { Bodoni_Moda, Fragment_Mono } from "next/font/google";
+import { Bodoni_Moda, Fragment_Mono, Hanken_Grotesk } from "next/font/google";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { SiteChrome } from "@/components/chrome/SiteChrome";
@@ -13,9 +13,16 @@ import "../globals.css";
 
 const bodoni = Bodoni_Moda({
   subsets: ["latin"],
-  style: ["normal", "italic"],
+  style: ["normal"],
   axes: ["opsz"],
   variable: "--font-bodoni",
+  display: "swap",
+});
+
+const hanken = Hanken_Grotesk({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  variable: "--font-hanken",
   display: "swap",
 });
 
@@ -88,7 +95,7 @@ export default async function RootLayout({ children, params, modal }: LayoutProp
   const theme = parseTheme((await cookies()).get(THEME_COOKIE)?.value);
 
   return (
-    <html lang={htmlLang[lang]} data-theme={theme} className={`${bodoni.variable} ${fragment.variable}`}>
+    <html lang={htmlLang[lang]} data-theme={theme} className={`${bodoni.variable} ${hanken.variable} ${fragment.variable}`}>
       <body>
         <LocaleProvider lang={lang}>
           <SiteChrome lang={lang} initialTheme={theme}>

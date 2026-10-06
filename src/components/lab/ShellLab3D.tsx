@@ -215,7 +215,7 @@ export default function ShellLab3D({
       >
         {failed && (
           <p
-            className="absolute inset-x-6 top-1/2 -translate-y-1/2 text-center italic text-ink-mute measure mx-auto"
+            className="absolute inset-x-6 top-1/2 -translate-y-1/2 text-center text-ink-mute measure mx-auto"
             role="alert"
           >
             {copy.noWebgl[lang]}

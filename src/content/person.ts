@@ -131,16 +131,16 @@ export const about = {
   howIWork: {
     title: { nl: "Hoe ik werk", en: "How I work" },
     lead: {
-      nl: "Ik bouw met AI-tools, vooral Claude Code. Dat maakt me snel, maar het verschil zit in hoe je ze inzet.",
-      en: "I build with AI tools, mostly Claude Code. That makes me fast, but the difference is in how you use them.",
+      nl: "Ik werk in kleine, gecontroleerde stappen. Zo weet je op elk moment waar je aan toe bent, en werkt wat ik oplever ook echt.",
+      en: "I work in small, checked steps. That way you always know where you stand, and what I deliver actually works.",
     },
     body: {
       nl: [
-        "Een AI-tool schrijft code die er overtuigend uitziet, ook als hij niet klopt. Daarom laat ik nooit iets ongecontroleerd door. Ik maak eerst scherp wat er precies moet gebeuren, laat het in kleine stappen bouwen, en controleer elke stap met tests en door het zelf te bekijken en te gebruiken.",
+        "Ik maak eerst scherp wat er precies moet gebeuren en hoe we weten dat het gelukt is. Daarna bouw ik in kleine stappen, en controleer ik elke stap met tests en door het zelf te bekijken en te gebruiken. Ik laat niets ongecontroleerd door.",
         "Zo bouwde ik TeamSync, een complete desktopapp voor Mac en Windows met een eigen sync-engine. Met tests voor de engine, voor de toegangsregels van de database en voor twee laptops die tegelijk werken.",
       ],
       en: [
-        "An AI tool writes code that looks convincing, even when it is wrong. That is why I never let anything through unchecked. I first make it sharp what exactly needs to happen, have it built in small steps, and check every step with tests and by looking at it and using it myself.",
+        "I first make it sharp what exactly needs to happen and how we will know it worked. Then I build in small steps, and check every step with tests and by looking at it and using it myself. I never let anything through unchecked.",
         "That is how I built TeamSync, a complete desktop app for Mac and Windows with its own sync engine. With tests for the engine, for the database access rules, and for two laptops working at the same time.",
       ],
     },
