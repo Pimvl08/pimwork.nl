@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { isLocale, type Locale } from "@/i18n/config";
 
-export const alt = "Pim: software die werk uit handen neemt / software that takes work off your hands";
+export const alt = "PimWork: software die werk uit handen neemt / software that takes work off your hands";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -64,7 +64,7 @@ export default async function Image({ params }: { params: Promise<{ lang: string
             height: "100%",
           }}
         >
-          <div style={{ display: "flex", fontSize: 196, lineHeight: 1, letterSpacing: "-0.03em" }}>Pim</div>
+          <div style={{ display: "flex", fontSize: 160, lineHeight: 1, letterSpacing: "-0.03em" }}>PimWork</div>
           <div style={{ display: "flex", marginTop: 26, maxWidth: 640, fontSize: 46, lineHeight: 1.15, color: INK }}>{t.tagline}</div>
           <div style={{ display: "flex", marginTop: 14, fontSize: 28, color: INK_MUTE }}>{t.line}</div>
         </div>

@@ -30,12 +30,12 @@ test.describe("header navigation (wide screens)", () => {
 
 test("the logo leads home and is current there", async ({ page }) => {
   await gotoReady(page, "/nl/over");
-  const logo = page.getByRole("link", { name: "Pim, naar de homepagina" });
+  const logo = page.getByRole("link", { name: "PimWork, naar de homepagina" });
   await expect(logo).not.toHaveAttribute("aria-current", "page");
   await logo.click();
   await expect(page).toHaveURL(/\/nl$/);
   await expect(logo).toHaveAttribute("aria-current", "page");
-  await expect(page.getByRole("heading", { level: 1, name: "Pim" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeVisible();
 });
 
 test.describe("keyboard shortcuts", () => {
@@ -113,5 +113,5 @@ test("the 404 page offers a way home", async ({ page }) => {
   await home.click();
   // The link goes to /, which picks the language from the cookie or the browser.
   await expect(page).toHaveURL(/\/(nl|en)$/);
-  await expect(page.getByRole("heading", { level: 1, name: "Pim" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeVisible();
 });

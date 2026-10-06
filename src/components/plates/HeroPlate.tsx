@@ -19,7 +19,7 @@ const COVER_ARC_NARROW = "M1010 40 A1300 1300 0 0 1 560 1010";
 const silhouette = shellSilhouette(STAGE_ASPECT);
 
 /**
- * The opening of the home page. "Pim" is server rendered (the LCP element, no
+ * The opening of the home page. "PimWork" is server rendered (the LCP element, no
  * JS needed to see it); the folding example and the live shell hydrate on
  * top of complete HTML.
  */
@@ -38,7 +38,7 @@ export function HeroPlate({ lang }: { lang: Locale }) {
       <div className={styles.grid}>
         <div className={styles.copy}>
           <h1 id="cover-title" className={styles.name} data-depth="5">
-            {person.name}
+            {person.brand}
           </h1>
           <IntroLine lang={lang} projectNames={projectNames} />
           <div className={styles.actions}>

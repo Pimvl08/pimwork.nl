@@ -8,7 +8,7 @@ import { escapeHtml, headerSafe, stripLineBreaks } from "@/lib/escape";
  */
 
 export const RESEND_ENDPOINT = "https://api.resend.com/emails";
-export const CONTACT_SUBJECT = "Bericht via de site van Pim";
+export const CONTACT_SUBJECT = "Bericht via pimwork.nl";
 const TIMEOUT_MS = 10_000;
 
 export interface MailConfig {

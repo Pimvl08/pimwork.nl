@@ -26,7 +26,7 @@ export function SiteFooter() {
         <div className={styles.footerBrand}>
           <p className={styles.footerName}>
             <CreaseMark size={30} />
-            <span>{person.name}</span>
+            <span>{person.brand}</span>
           </p>
           <p className={styles.footerLine}>{t.line}</p>
         </div>
@@ -64,7 +64,7 @@ export function SiteFooter() {
         </nav>
 
         <p className={styles.footerBase}>
-          <span>{person.name}</span>
+          <span>{person.brand}</span>
           <span className="data">{year}</span>
         </p>
       </div>

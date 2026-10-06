@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: LabRouteProps, parent: Resolv
   return {
     title,
     description,
-    openGraph: { ...inherited, title: `${title} | Pim`, description, url: `/${locale}/lab` },
+    openGraph: { ...inherited, title: `${title} | PimWork`, description, url: `/${locale}/lab` },
     alternates: {
       canonical: `/${locale}/lab`,
       languages: { "nl-NL": "/nl/lab", "en-GB": "/en/lab", "x-default": "/nl/lab" },

@@ -29,7 +29,7 @@ export const workCopy: Bilingual<{
   nl: {
     title: "Werk",
     lead: "Dit heb ik gebouwd, van een desktopapp voor een heel team tot een drukklaar kleurboek. Bij elk project lees je voor wie het is, welk probleem het oplost en hoe ik het heb aangepakt.",
-    metaDescription: "Projecten van Pim: apps, tools en werkstromen die hij bouwde, met voor wie ze zijn, welk probleem ze oplossen en hoe ze werken.",
+    metaDescription: "Projecten van PimWork: apps, tools en werkstromen die hij bouwde, met voor wie ze zijn, welk probleem ze oplossen en hoe ze werken.",
     listLabel: "Projecten",
     featuredTitle: "Uitgelicht werk",
     featuredLead: "Drie projecten die laten zien wat ik bouw: voor een team, voor de sportschool en voor een vakman die snel een offerte wil sturen.",
@@ -54,7 +54,7 @@ export const workCopy: Bilingual<{
   en: {
     title: "Work",
     lead: "This is what I have built, from a desktop app for a whole team to a print-ready coloring book. For each project you can read who it is for, which problem it solves and how I approached it.",
-    metaDescription: "Projects by Pim: apps, tools and workflows he built, with who they are for, which problem they solve and how they work.",
+    metaDescription: "Projects by PimWork: apps, tools and workflows he built, with who they are for, which problem they solve and how they work.",
     listLabel: "Projects",
     featuredTitle: "Selected work",
     featuredLead: "Three projects that show what I build: for a team, for the gym and for a tradesperson who wants to send a quote fast.",
