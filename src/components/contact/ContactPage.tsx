@@ -2,24 +2,16 @@ import { ArchButton } from "@/components/ui/ArchButton";
 import { ArcRule } from "@/components/ui/ArcRule";
 import { person, privacy } from "@/content/person";
 import type { Locale } from "@/i18n/config";
-import { mailConfig } from "@/lib/mail";
 import { ContactForm } from "./ContactForm";
 import { contactCopy as copy } from "./copy";
 import styles from "./contact.module.css";
 
-/** True when the server has a mail connection; only this boolean leaves the server. */
-function canSend(): boolean {
-  return mailConfig() !== null;
-}
-
 /**
- * The contact page: the form posts to /api/contact, phone and email stay beside it as
- * the channels that always work. While no mail connection is set up, the side
- * note says so plainly and moves above the form on small screens.
+ * The contact page: the form posts to /api/contact, phone and email stay
+ * beside it for people who would rather call or write directly.
  */
 export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: number }) {
-  const sending = canSend();
-  const note = sending ? copy.alt : copy.offline;
+  const note = copy.alt;
   return (
     <main id="main" className={`plate relative isolate pt-[calc(var(--section-y)+3rem)] ${styles.plate}`}>
       <div className="grid grid-cols-[minmax(0,1fr)] gap-x-20 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
@@ -35,11 +27,11 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
       </div>
 
       <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-14 md:mt-16 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-20">
-        <div className={sending ? undefined : "order-2 lg:order-1"}>
+        <div>
           <ContactForm lang={lang} renderedAt={renderedAt} />
         </div>
 
-        <aside aria-labelledby="contact-alt-title" className={`${styles.aside} ${sending ? "" : "order-1 lg:order-2"}`}>
+        <aside aria-labelledby="contact-alt-title" className={styles.aside}>
           <h2 id="contact-alt-title" className="text-[length:var(--step-2)] leading-tight">
             {note.heading[lang]}
           </h2>

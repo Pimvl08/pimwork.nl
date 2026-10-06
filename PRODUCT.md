@@ -27,7 +27,7 @@ Every project, number and image on the site comes from Pim's own disk: real repo
 - Pim builds with Claude Code on a 2017 Intel MacBook Pro (i7-7820HQ, macOS Ventura). Many hard problems in his projects came from that machine (Whisper speed, Homebrew Tier 3).
 - Shared as a link via chat apps, so the first visit is often on mobile.
 - Bilingual: Dutch default with a real switch to English (confirmed).
-- Contact: a contact form with server-side validation and rate limiting plus phone and email (GitHub is not a contact channel for clients). Mail delivery only goes live once Pim adds a mail API key in the environment; until then the form says so honestly (confirmed).
+- Contact: a contact form with server-side validation and rate limiting plus phone and email (GitHub is not a contact channel for clients). Mail delivery runs through Resend on pimwork.nl (keys in Vercel, Production); messages are not stored and visitors get no automatic reply (Pim, 2026-10-06).
 
 ## Capabilities and Constraints
 

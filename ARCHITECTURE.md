@@ -63,7 +63,7 @@ One motion grammar: paper unfolding from a crease and arcs being drawn, with exp
 
 ## Integrations
 
-- **Resend** (optional) delivers contact messages. Without its keys the endpoint answers `503 not_configured` and the form says plainly that it does not send yet.
+- **Resend** delivers contact messages through the `resend` SDK (`src/lib/mail.ts`): subject "Nieuw bericht via pimwork.nl van {naam}", reply-to set to the visitor, plain text plus escaped HTML. Nothing is stored and no confirmation goes to the visitor. Without its keys the endpoint logs the missing variable names and answers `500 server_error`; the form then suggests calling or emailing. A filled honeypot or a form sent within 3 seconds gets a quiet `200` and nothing is sent.
 - No other external services, scripts, fonts or images are loaded by the browser. Fonts are self-hosted through `next/font`.
 
 ## Security
