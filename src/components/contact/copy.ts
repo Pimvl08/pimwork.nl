@@ -14,8 +14,8 @@ export const contactCopy = {
   alt: {
     heading: { nl: "Liever zonder formulier", en: "Rather without a form" },
     body: {
-      nl: "Bel of mail me gerust. Ik reageer zo snel ik kan.",
-      en: "Feel free to call or email me. I reply as soon as I can.",
+      nl: "Je kunt me ook gewoon bellen of mailen.",
+      en: "You can also just call or email me.",
     },
     call: { nl: "Bel me", en: "Call me" },
     mail: { nl: "Mail me", en: "Email me" },
@@ -44,7 +44,7 @@ export const contactCopy = {
     name: {
       required: { nl: "Vul je naam in.", en: "Fill in your name." },
       too_short: { nl: "Vul je naam in.", en: "Fill in your name." },
-      too_long: { nl: "Je naam mag hoogstens 80 tekens zijn.", en: "Your name can be 80 characters at most." },
+      too_long: { nl: "Je naam mag hoogstens 100 tekens zijn.", en: "Your name can be 100 characters at most." },
       invalid: { nl: "Je naam bevat tekens die niet kunnen.", en: "Your name contains characters that are not allowed." },
     },
     email: {
@@ -69,46 +69,32 @@ export const contactCopy = {
   submit: { nl: "Verstuur", en: "Send" },
   submitting: { nl: "Bezig met versturen", en: "Sending" },
   notices: {
-    not_configured: {
-      title: { nl: "Je bericht is niet verstuurd", en: "Your message was not sent" },
-      body: {
-        nl: "Dit formulier is nog niet gekoppeld aan mijn mailbox, dus berichten komen nog niet aan. Je tekst staat er nog. Bel of mail me tot die tijd.",
-        en: "This form is not connected to my inbox yet, so messages do not arrive. Your text is still here. Until then, call or email me.",
-      },
-    },
     rate_limited: {
       title: { nl: "Even wachten", en: "Please wait a moment" },
       body: {
-        nl: (wait: string) => `Er zijn kort na elkaar veel berichten verstuurd. Je bericht is niet verstuurd. Probeer het over ${wait} opnieuw.`,
-        en: (wait: string) => `Many messages were sent in a short time. Your message was not sent. Try again in ${wait}.`,
+        nl: (wait: string) => `Er zijn kort na elkaar veel berichten verstuurd. Je bericht is niet verstuurd. Probeer het over ${wait} opnieuw, of bel of mail me.`,
+        en: (wait: string) => `Many messages were sent in a short time. Your message was not sent. Try again in ${wait}, or call or email me.`,
       },
     },
     network: {
       title: { nl: "Geen verbinding", en: "No connection" },
       body: {
-        nl: "Je bericht kon de server niet bereiken en is niet verstuurd. Controleer je verbinding en probeer het opnieuw. Je tekst staat er nog.",
-        en: "Your message could not reach the server and was not sent. Check your connection and try again. Your text is still here.",
-      },
-    },
-    too_fast: {
-      title: { nl: "Dat ging erg snel", en: "That was very quick" },
-      body: {
-        nl: "Het formulier werd binnen een paar seconden verstuurd, zo snel typt bijna niemand. Wacht even en verstuur opnieuw.",
-        en: "The form was sent within a few seconds, almost nobody types that fast. Wait a moment and send it again.",
+        nl: "Je bericht kon de server niet bereiken en is niet verstuurd. Je tekst staat er nog. Controleer je verbinding en probeer het opnieuw, of bel of mail me.",
+        en: "Your message could not reach the server and was not sent. Your text is still here. Check your connection and try again, or call or email me.",
       },
     },
     expired: {
       title: { nl: "Het formulier is verlopen", en: "The form has expired" },
       body: {
-        nl: "Deze pagina staat al langer dan een dag open. Kopieer je tekst, ververs de pagina en verstuur opnieuw.",
-        en: "This page has been open for more than a day. Copy your text, reload the page and send it again.",
+        nl: "Deze pagina staat al langer dan een dag open. Kopieer je tekst, ververs de pagina en verstuur opnieuw. Bellen of mailen kan ook.",
+        en: "This page has been open for more than a day. Copy your text, reload the page and send it again. Calling or emailing works too.",
       },
     },
     failed: {
-      title: { nl: "Niet verstuurd", en: "Not sent" },
+      title: { nl: "Je bericht is niet verstuurd", en: "Your message was not sent" },
       body: {
-        nl: "Er ging iets mis bij het versturen. Je bericht is niet aangekomen. Probeer het later opnieuw of bel of mail me.",
-        en: "Something went wrong while sending. Your message did not arrive. Try again later or call or email me.",
+        nl: "Er ging iets mis bij het versturen. Je tekst staat er nog, dus je kunt het zo nog een keer proberen. Lukt het niet, bel of mail me dan gerust.",
+        en: "Something went wrong while sending. Your text is still here, so you can try again in a moment. If it still fails, feel free to call or email me.",
       },
     },
   },
@@ -117,21 +103,11 @@ export const contactCopy = {
     en: (seconds: number) => (seconds < 60 ? `${seconds} seconds` : `${Math.ceil(seconds / 60)} ${Math.ceil(seconds / 60) === 1 ? "minute" : "minutes"}`),
   },
   success: {
-    title: { nl: "Dank je, je bericht is verstuurd", en: "Thank you, your message has been sent" },
+    title: { nl: "Bedankt, je bericht is verstuurd", en: "Thank you, your message has been sent" },
     body: {
-      nl: "Het staat nu in mijn mailbox. Ik antwoord op het e-mailadres dat je opgaf.",
-      en: "It is now in my inbox. I will reply to the email address you gave.",
+      nl: "Ik reageer zo snel mogelijk, op het e-mailadres dat je opgaf.",
+      en: "I will reply as soon as I can, to the email address you gave.",
     },
     again: { nl: "Nog een bericht", en: "Another message" },
-  },
-  /** Shown above the form while no mail connection is set up on the server. */
-  offline: {
-    heading: { nl: "Het formulier verstuurt nog geen berichten", en: "This form does not send messages yet" },
-    body: {
-      nl: "De koppeling met mijn mailbox staat nog niet aan. Wil je me nu iets laten weten, bel of mail me dan.",
-      en: "The connection to my inbox is not switched on yet. If you want to reach me now, call or email me.",
-    },
-    call: { nl: "Bel me", en: "Call me" },
-    mail: { nl: "Mail me", en: "Email me" },
   },
 };

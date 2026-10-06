@@ -10,7 +10,8 @@ Open an issue on GitHub (github.com/pimdaanbram-prog) with the label `security`,
 
 - No secret is ever stored in the repository. `.env*` is ignored by git, only `.env.example` (empty values) is committed.
 - The only optional secret (`RESEND_API_KEY`) is read **only in the server route handler** (`src/app/api/contact`). It is never prefixed with `NEXT_PUBLIC_`, so Next.js cannot inline it into client bundles.
-- Without it the site still works: the contact form validates and says honestly that delivery is not configured.
+- Without it the site still works: the contact form validates, a send answers a general 500, and the server log names the missing variable (never its value).
+- Contact messages are never stored and never logged; they exist only as the email to Pim. The visitor gets no automatic email, so the form cannot be used to mail third parties.
 - The site has no AI features and calls no AI service.
 - Check before every release: `git grep -nE "sk-ant-|re_[A-Za-z0-9]{10,}|BEGIN (RSA|EC|OPENSSH) PRIVATE KEY"` must return nothing, and `grep -r "RESEND_API_KEY" .next/static` must return nothing after a build.
 

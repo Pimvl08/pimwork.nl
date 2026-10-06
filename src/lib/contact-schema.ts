@@ -7,7 +7,7 @@ import { z } from "zod";
  */
 
 export const CONTACT_LIMITS = {
-  name: { min: 1, max: 80 },
+  name: { min: 1, max: 100 },
   email: { max: 120 },
   message: { min: 10, max: 2000 },
 } as const;

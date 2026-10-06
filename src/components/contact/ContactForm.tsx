@@ -6,13 +6,13 @@ import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
 import { person } from "@/content/person";
 import type { Locale } from "@/i18n/config";
-import { CONTACT_LIMITS, validateContactFields, type ContactField, type FieldErrorCode, type FieldErrors } from "@/lib/contact-schema";
+import { CONTACT_LIMITS, MIN_FILL_MS, validateContactFields, type ContactField, type FieldErrorCode, type FieldErrors } from "@/lib/contact-schema";
 import { useReducedMotion } from "@/lib/hooks";
 import { contactCopy as copy } from "./copy";
 import styles from "./contact.module.css";
 
 type Values = Record<ContactField, string>;
-type NoticeKind = "not_configured" | "rate_limited" | "network" | "too_fast" | "expired" | "failed";
+type NoticeKind = "rate_limited" | "network" | "expired" | "failed";
 type Status =
   | { kind: "idle" }
   | { kind: "submitting" }
@@ -54,8 +54,6 @@ async function readOutcome(response: Response): Promise<{ status: Status; fields
     const seconds = Number.isFinite(header) && header > 0 ? header : Number.isFinite(fromBody) ? fromBody : 600;
     return { status: { kind: "notice", notice: "rate_limited", retryAfter: Math.max(1, Math.ceil(seconds)) } };
   }
-  if (error === "not_configured") return { status: { kind: "notice", notice: "not_configured" } };
-  if (error === "too_fast") return { status: { kind: "notice", notice: "too_fast" } };
   if (error === "expired") return { status: { kind: "notice", notice: "expired" } };
   if (error === "invalid") {
     const fields = serverFieldErrors(body.fields);
@@ -75,10 +73,25 @@ function Outline({ tall = false }: { tall?: boolean }) {
   );
 }
 
-/** A notice sheet with an arched top, used for the summary and server outcomes. */
-function NoticeSheet({ children, labelledBy, sheetRef, live }: { children: ReactNode; labelledBy: string; sheetRef?: React.Ref<HTMLDivElement>; live?: boolean }) {
+/**
+ * A notice sheet with an arched top, used for the summary and server outcomes.
+ * `live` announces it: "assertive" for problems (role alert), "polite" for the
+ * confirmation (role status).
+ */
+function NoticeSheet({
+  children,
+  labelledBy,
+  sheetRef,
+  live,
+}: {
+  children: ReactNode;
+  labelledBy: string;
+  sheetRef?: React.Ref<HTMLDivElement>;
+  live?: "polite" | "assertive";
+}) {
+  const role = live === "assertive" ? "alert" : live === "polite" ? "status" : "region";
   return (
-    <div ref={sheetRef} tabIndex={-1} className={styles.notice} aria-labelledby={labelledBy} role={live ? "alert" : "region"}>
+    <div ref={sheetRef} tabIndex={-1} className={styles.notice} aria-labelledby={labelledBy} role={role} aria-live={live}>
       <svg className={styles.outline} viewBox="0 0 400 120" preserveAspectRatio="none" aria-hidden="true">
         <path className={styles.sheet} d="M0.5 119.5 V12 Q200 -2 399.5 12 V119.5 Z" vectorEffect="non-scaling-stroke" />
       </svg>
@@ -101,6 +114,11 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
   const successRef = useRef<HTMLHeadingElement>(null);
   const honeypotRef = useRef<HTMLInputElement>(null);
   const firstFieldRef = useRef<HTMLInputElement>(null);
+  /** When the form appeared in this browser; a send waits until a person could have typed it. */
+  const mountedAt = useRef(0);
+  useEffect(() => {
+    mountedAt.current = Date.now();
+  }, []);
 
   const clientErrors = validateContactFields(values);
   const visible: FieldErrors = {};
@@ -145,6 +163,10 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
     }
 
     setStatus({ kind: "submitting" });
+    // The server treats a form sent within MIN_FILL_MS of rendering as a bot.
+    // A fast person (autofill, paste) simply waits a moment here instead.
+    const wait = MIN_FILL_MS + 250 - (Date.now() - mountedAt.current);
+    if (wait > 0) await new Promise((resolve) => setTimeout(resolve, wait));
     let next: { status: Status; fields?: FieldErrors };
     try {
       const response = await fetch("/api/contact", {
@@ -166,6 +188,10 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
     } else if (next.status.kind === "notice") {
       setFocusTarget((prev) => ({ to: "notice", n: (prev?.n ?? 0) + 1 }));
     } else if (next.status.kind === "success") {
+      // Sent: nothing of the message stays behind in the page.
+      setValues(EMPTY);
+      setTouched({});
+      setAttempted(false);
       setFocusTarget((prev) => ({ to: "success", n: (prev?.n ?? 0) + 1 }));
     }
   };
@@ -199,7 +225,7 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
       <AnimatePresence mode="wait" initial={false}>
         {status.kind === "success" ? (
           <motion.div key="success" style={{ transformOrigin: "50% 0%" }} {...fold} transition={transition}>
-            <NoticeSheet labelledBy="contact-success-title">
+            <NoticeSheet labelledBy="contact-success-title" live="polite">
               <div className="flex flex-col items-start gap-5 px-1 pb-2 pt-2 md:px-4 md:pt-4">
                 <Icon name="crease" size={40} className="text-ink" />
                 <h2 id="contact-success-title" ref={successRef} tabIndex={-1} className="text-[length:var(--step-2)] leading-tight outline-none focus-visible:underline">
@@ -228,7 +254,7 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
           >
             {summaryFields.length > 0 ? (
               <NoticeSheet labelledBy="contact-summary-title" sheetRef={summaryRef}>
-                <h2 id="contact-summary-title" className="text-[length:var(--step-1)] ">
+                <h2 id="contact-summary-title" className="text-[length:var(--step-1)]">
                   {copy.summary.title[lang](summaryFields.length)}
                 </h2>
                 <ul className="mt-3 flex flex-col gap-2">
@@ -333,8 +359,8 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
             <input type="hidden" name="renderedAt" value={renderedAt} />
 
             {notice ? (
-              <NoticeSheet labelledBy="contact-notice-title" sheetRef={noticeRef} live>
-                <h2 id="contact-notice-title" className="text-[length:var(--step-1)] ">
+              <NoticeSheet labelledBy="contact-notice-title" sheetRef={noticeRef} live="assertive">
+                <h2 id="contact-notice-title" className="text-[length:var(--step-1)]">
                   {copy.notices[notice.notice].title[lang]}
                 </h2>
                 <p className="measure mt-2 text-ink-soft">
@@ -342,16 +368,14 @@ export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: nu
                     ? copy.notices.rate_limited.body[lang](copy.wait[lang](notice.retryAfter ?? 600))
                     : copy.notices[notice.notice].body[lang]}
                 </p>
-                {notice.notice === "not_configured" || notice.notice === "failed" ? (
-                  <div className="mt-5 flex flex-wrap gap-4">
-                    <ArchButton variant="secondary" icon="phone" href={person.phone.href}>
-                      {copy.offline.call[lang]}
-                    </ArchButton>
-                    <ArchButton variant="secondary" icon="mail" href={`mailto:${person.email}`}>
-                      {copy.offline.mail[lang]}
-                    </ArchButton>
-                  </div>
-                ) : null}
+                <div className="mt-5 flex flex-wrap gap-4">
+                  <ArchButton variant="secondary" icon="phone" href={person.phone.href}>
+                    {copy.alt.call[lang]}
+                  </ArchButton>
+                  <ArchButton variant="secondary" icon="mail" href={`mailto:${person.email}`}>
+                    {copy.alt.mail[lang]}
+                  </ArchButton>
+                </div>
               </NoticeSheet>
             ) : null}
 

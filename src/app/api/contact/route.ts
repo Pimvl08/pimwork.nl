@@ -1,11 +1,15 @@
 import { checkFormAge, parseContactRequest } from "@/lib/contact-schema";
-import { mailConfig, sendContactMail } from "@/lib/mail";
+import { mailConfig, missingMailSettings, sendContactMail } from "@/lib/mail";
 import { createRateLimiter } from "@/lib/rate-limit";
 import { RequestError, clientKey, isSameOrigin, json, readJsonBody } from "@/lib/request-guard";
 
 export const runtime = "nodejs";
 
-/** Contact form endpoint. Logs only status codes, never content or addresses. */
+/**
+ * Contact form endpoint: validates, filters bots and sends one email through
+ * Resend. Nothing is stored. Logs only status codes and missing setting names,
+ * never content or addresses.
+ */
 
 const limiter = createRateLimiter({ limit: 5, windowMs: 10 * 60_000 });
 const MAX_BODY_BYTES = 8192;
@@ -33,21 +37,28 @@ export async function POST(request: Request): Promise<Response> {
     return json({ error: "invalid", fields: parsed.fields }, 400);
   }
 
-  // Honeypot filled: answer like a success so a bot learns nothing, send nothing.
+  // Honeypot filled, or sent faster than a person can type: answer like a
+  // success so a bot learns nothing, and send nothing.
   if (parsed.data.website.trim().length > 0) return json({ ok: true }, 200);
-
   const age = checkFormAge(parsed.data.renderedAt);
-  if (age !== "ok") return json({ error: age }, 400);
+  if (age === "too_fast") return json({ ok: true }, 200);
+  if (age === "expired") return json({ error: "expired" }, 400);
 
   const config = mailConfig();
-  if (!config) return json({ error: "not_configured" }, 503);
+  if (!config) {
+    console.error(
+      `[api/contact] Mail is not configured: missing ${missingMailSettings().join(", ")}. ` +
+        "Set these environment variables in the Vercel project and redeploy.",
+    );
+    return json({ error: "server_error" }, 500);
+  }
 
   const { name, email, message } = parsed.data;
   const result = await sendContactMail({ name, email, message }, config);
   if (result.ok) return json({ ok: true }, 200);
 
-  console.error(`[api/contact] Mail provider did not accept the message (status ${result.status}).`);
-  return json({ error: "delivery_failed" }, 502);
+  console.error(`[api/contact] Resend did not accept the message (status ${result.status}, ${result.reason}).`);
+  return json({ error: "server_error" }, 500);
 }
 
 const notAllowed = () => json({ error: "method_not_allowed" }, 405, { allow: "POST" });

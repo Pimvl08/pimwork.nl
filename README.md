@@ -23,12 +23,12 @@ npm run start
 
 ### Environment variables
 
-All optional. Without them the site works fully; only contact delivery stays off and says so.
+Without the Resend settings the site works fully, except that sending the contact form fails with a general error (the server log names the missing variable). Visitors can always call or email instead.
 
 | Variable | Purpose |
 |---|---|
 | `NEXT_PUBLIC_SITE_URL` | Public base URL for canonical links, sitemap and social images |
-| `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | Turn on real delivery of the contact form through Resend |
+| `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | Delivery of the contact form through the `resend` SDK. Set them in Vercel and redeploy after a change |
 
 ## Scripts
 

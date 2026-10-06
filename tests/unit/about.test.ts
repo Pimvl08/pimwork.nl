@@ -50,7 +50,7 @@ describe("copy", () => {
 
   it("speaks in the first person on the contact page", () => {
     expect(JSON.stringify(contactCopy)).not.toMatch(/\bPim\b/);
-    expect(contactCopy.offline.heading.nl).toMatch(/nog geen berichten/);
+    expect(JSON.stringify(contactCopy)).not.toMatch(/nog geen berichten/);
   });
 });
 
