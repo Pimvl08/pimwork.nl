@@ -26,7 +26,6 @@
 .caption {
   margin-top: 0.9rem;
   max-width: var(--measure);
-  font-style: italic;
   font-size: var(--step--1);
   line-height: 1.5;
   color: var(--ink-mute);
@@ -102,7 +101,6 @@
   grid-column: 1;
   grid-row: 1;
   padding-top: 0.2em;
-  font-style: italic;
   font-size: var(--step-1);
   line-height: 1;
   color: var(--ink-mute);
@@ -117,6 +115,8 @@
 }
 
 .nameStack {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   display: inline-grid;
   max-width: 100%;
   font-size: var(--step-3);
@@ -129,7 +129,6 @@
   grid-area: 1 / 1;
 }
 .nameItalic {
-  font-style: italic;
   transition: color var(--dur-2) var(--ease-paper);
 }
 .nameRoman {
@@ -157,11 +156,9 @@
   color: var(--ink-mute);
 }
 .category {
-  font-style: italic;
   color: var(--ink-soft);
 }
 .status {
-  font-style: italic;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   font-variant-numeric: lining-nums;
@@ -171,7 +168,6 @@
 }
 .stack {
   flex-basis: 100%;
-  font-style: italic;
   color: var(--ink-mute);
 }
 
@@ -481,7 +477,6 @@
   gap: 0.6rem;
   min-height: 44px;
   padding-right: 0.5rem;
-  font-style: italic;
   color: var(--ink-soft);
   text-decoration: none;
   transition: color var(--dur-2) var(--ease-paper);
@@ -506,7 +501,6 @@
   flex-wrap: wrap;
   gap: 0.2rem 0.6rem;
   margin-top: 1.4rem;
-  font-style: italic;
   color: var(--ink-mute);
 }
 /* The dot trails each item, so a wrapped line never starts with one. */
@@ -553,14 +547,14 @@
 }
 
 .sectionTitle {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   font-size: var(--step-2);
-  font-style: italic;
 }
 
 .lede {
   max-width: 58ch;
   font-size: var(--step-1);
-  font-style: italic;
   line-height: 1.4;
   color: var(--ink);
 }
@@ -593,14 +587,12 @@
   overflow: visible;
 }
 .figureNo {
-  font-style: italic;
   font-size: var(--step-2);
   line-height: 1;
   color: var(--ink);
   font-variant-numeric: lining-nums;
 }
 .figureNoSoft {
-  font-style: italic;
   font-size: var(--step-1);
   line-height: 1.2;
   color: var(--ink-mute);
@@ -633,7 +625,6 @@
   padding: 0.3rem 0.95rem 0.35rem;
   border: 1px solid var(--rule-strong);
   border-radius: 999px 999px 0.4rem 0.4rem;
-  font-style: italic;
   font-size: var(--step--1);
   color: var(--ink-soft);
 }
@@ -680,7 +671,6 @@
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  font-style: italic;
   font-size: var(--step--1);
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -698,7 +688,8 @@
   }
 }
 .pagerName {
-  font-style: italic;
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   font-size: var(--step-2);
   line-height: 1.1;
   color: var(--ink);
@@ -710,7 +701,6 @@
 }
 
 .pagerKind {
-  font-style: italic;
   font-size: var(--step--1);
   color: var(--ink-mute);
 }
@@ -809,8 +799,9 @@
 }
 .pageTitle,
 .featuredTitle {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   font-size: var(--step-4);
-  font-style: italic;
   line-height: 1;
   letter-spacing: -0.015em;
 }
@@ -864,8 +855,9 @@
   min-width: 0;
 }
 .featureName {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 18;
   font-size: var(--step-3);
-  font-style: italic;
   line-height: 1;
   letter-spacing: -0.015em;
 }
@@ -895,7 +887,6 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.15rem 0.6rem;
-  font-style: italic;
   font-size: var(--step--1);
   color: var(--ink-mute);
 }
@@ -909,7 +900,6 @@
   align-items: center;
   gap: 0.5rem;
   margin-top: 0.35rem;
-  font-style: italic;
   font-size: var(--step--1);
   letter-spacing: 0.14em;
   text-transform: uppercase;

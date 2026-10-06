@@ -4,7 +4,7 @@
  *
  *   npm run catalogue
  *
- * Fonts are local static instances of Bodoni Moda and Fragment Mono (SIL OFL),
+ * Fonts are local static instances of Bodoni Moda, Hanken Grotesk and Fragment Mono (SIL OFL),
  * because react-pdf cannot load remote or variable fonts.
  */
 import path from "node:path";
@@ -21,8 +21,16 @@ Font.register({
   fonts: [
     { src: path.join(fonts, "BodoniModa-Regular.ttf"), fontWeight: 400, fontStyle: "normal" },
     { src: path.join(fonts, "BodoniModa-SemiBold.ttf"), fontWeight: 600, fontStyle: "normal" },
-    { src: path.join(fonts, "BodoniModa-Italic-Text.ttf"), fontWeight: 400, fontStyle: "italic" },
-    { src: path.join(fonts, "BodoniModa-Italic-Display.ttf"), fontWeight: 500, fontStyle: "italic" },
+    { src: path.join(fonts, "BodoniModa-Italic-Text.ttf"), fontWeight: 400 },
+    { src: path.join(fonts, "BodoniModa-Italic-Display.ttf"), fontWeight: 500 },
+  ],
+});
+Font.register({
+  family: "Hanken",
+  fonts: [
+    { src: path.join(fonts, "HankenGrotesk-Regular.ttf"), fontWeight: 400 },
+    { src: path.join(fonts, "HankenGrotesk-Medium.ttf"), fontWeight: 500 },
+    { src: path.join(fonts, "HankenGrotesk-SemiBold.ttf"), fontWeight: 600 },
   ],
 });
 Font.register({ family: "Fragment", src: path.join(fonts, "FragmentMono-Regular.ttf") });
@@ -35,13 +43,13 @@ const rule = "#cfcabe";
 const paper = "#fbfaf6";
 
 const s = StyleSheet.create({
-  page: { backgroundColor: paper, color: soft, fontFamily: "Bodoni", fontSize: 10.5, lineHeight: 1.5, paddingTop: 64, paddingBottom: 64, paddingHorizontal: 64 },
-  footer: { position: "absolute", bottom: 30, left: 64, right: 64, flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: mute, fontStyle: "italic" },
-  label: { fontStyle: "italic", fontSize: 8, letterSpacing: 1.4, textTransform: "uppercase", color: mute },
-  h1: { fontStyle: "italic", fontWeight: 500, fontSize: 120, color: ink, lineHeight: 1 },
-  h2: { fontStyle: "italic", fontWeight: 500, fontSize: 40, color: ink, lineHeight: 1.05 },
-  h3: { fontStyle: "italic", fontSize: 14, color: ink, marginTop: 18, marginBottom: 6 },
-  lead: { fontStyle: "italic", fontSize: 14, color: ink, lineHeight: 1.4 },
+  page: { backgroundColor: paper, color: soft, fontFamily: "Hanken", fontSize: 10, lineHeight: 1.5, paddingTop: 64, paddingBottom: 64, paddingHorizontal: 64 },
+  footer: { position: "absolute", bottom: 30, left: 64, right: 64, flexDirection: "row", justifyContent: "space-between", fontSize: 8, color: mute },
+  label: { fontSize: 8, letterSpacing: 1.4, textTransform: "uppercase", color: mute },
+  h1: { fontFamily: "Bodoni", fontWeight: 400, fontSize: 120, color: ink, lineHeight: 1 },
+  h2: { fontFamily: "Bodoni", fontWeight: 400, fontSize: 40, color: ink, lineHeight: 1.05 },
+  h3: { fontFamily: "Bodoni", fontSize: 14, color: ink, marginTop: 18, marginBottom: 6 },
+  lead: { fontSize: 14, color: ink, lineHeight: 1.4 },
   rule: { borderBottomWidth: 0.6, borderBottomColor: rule, marginVertical: 14 },
   mono: { fontFamily: "Fragment", fontSize: 8.5 },
 });
@@ -119,7 +127,7 @@ function Bullets({ items, marker }: { items: readonly string[]; marker: (n: numb
     <>
       {items.map((line, n) => (
         <View key={n} style={{ flexDirection: "row", marginBottom: 4 }} wrap={false}>
-          <Text style={{ width: 22, fontStyle: "italic", color: mute }}>{marker(n)}</Text>
+          <Text style={{ width: 22, color: mute }}>{marker(n)}</Text>
           <Text style={{ flex: 1 }}>{line}</Text>
         </View>
       ))}
@@ -158,16 +166,16 @@ function Catalogue({ lang }: { lang: Lang }) {
           {facts.filter((fact) => fact.value).map((fact) => (
             <View key={fact.id} style={{ flexDirection: "row", paddingVertical: 5, borderBottomWidth: 0.5, borderBottomColor: rule }}>
               <Text style={[s.label, { width: 110 }]}>{fact.label[lang]}</Text>
-              <Text style={{ flex: 1, fontStyle: "italic", color: ink }}>{fact.value?.[lang]}</Text>
+              <Text style={{ flex: 1, color: ink }}>{fact.value?.[lang]}</Text>
             </View>
           ))}
         </View>
         <Text style={[s.h3, { marginTop: 28 }]}>{t.servicesTitle}</Text>
         {services.map((service) => (
           <View key={service.id} style={{ marginBottom: 10 }} wrap={false}>
-            <Text style={{ fontStyle: "italic", fontSize: 12, color: ink }}>{service.title[lang]}</Text>
+            <Text style={{ fontSize: 12, color: ink }}>{service.title[lang]}</Text>
             <Text>{service.body[lang]}</Text>
-            <Text style={{ fontSize: 9, color: mute, fontStyle: "italic" }}>
+            <Text style={{ fontSize: 9, color: mute }}>
               {t.proof}: {service.proof.map((slug) => byslug.get(slug)).join(", ")}
             </Text>
           </View>
@@ -181,8 +189,8 @@ function Catalogue({ lang }: { lang: Lang }) {
         {projects.map((project, i) => (
           <Link key={project.slug} src={`#${project.slug}`} style={{ textDecoration: "none", color: soft }}>
             <View style={{ flexDirection: "row", alignItems: "baseline", paddingVertical: 9, borderBottomWidth: 0.5, borderBottomColor: rule }}>
-              <Text style={{ width: 42, fontStyle: "italic", color: mute }}>{roman[i]}</Text>
-              <Text style={{ flex: 1, fontStyle: "italic", fontSize: 18, color: ink }}>{project.name}</Text>
+              <Text style={{ width: 42, color: mute }}>{roman[i]}</Text>
+              <Text style={{ flex: 1, fontSize: 18, color: ink }}>{project.name}</Text>
               <Text style={{ fontSize: 9, color: mute }}>{project.kind[lang]}</Text>
             </View>
           </Link>
@@ -193,7 +201,7 @@ function Catalogue({ lang }: { lang: Lang }) {
       {projects.map((project, i) => (
         <Page key={project.slug} size="A4" style={s.page} id={project.slug}>
           <View style={{ flexDirection: "row", alignItems: "baseline" }}>
-            <Text style={{ fontStyle: "italic", fontSize: 16, color: mute, marginRight: 10 }}>{roman[i]}</Text>
+            <Text style={{ fontSize: 16, color: mute, marginRight: 10 }}>{roman[i]}</Text>
             <Text style={s.h2}>{project.name}</Text>
           </View>
           <Text style={[s.label, { marginTop: 14 }]}>

@@ -71,11 +71,11 @@ function targetsFor(word: string, width: number, height: number, count: number, 
   const ctx = off.getContext("2d", { willReadFrequently: true });
   if (!ctx) return new Float32Array(count * 2);
   const family = fontFamily();
-  ctx.font = `italic 400 100px ${family}`;
+  ctx.font = `400 100px ${family}`;
   const m = ctx.measureText(word);
   const ratio = (m.actualBoundingBoxAscent + m.actualBoundingBoxDescent) / 100 || 0.8;
   const size = Math.min((h * 0.66) / ratio, ((w * 0.84) / Math.max(m.width, 1)) * 100);
-  ctx.font = `italic 400 ${size}px ${family}`;
+  ctx.font = `400 ${size}px ${family}`;
   const mm = ctx.measureText(word);
   ctx.textAlign = "center";
   ctx.fillStyle = "black";
@@ -265,9 +265,9 @@ function createEngine(canvas: HTMLCanvasElement, opts: { word: string; reducedMo
   window.addEventListener("pim:theme", onTheme);
   canvas.width = Math.round(width * dpr);
   canvas.height = Math.round(height * dpr);
-  // Bodoni italic may still be loading; resample once it is there.
+  // Bodoni may still be loading; resample once it is there.
   retarget(opts.reducedMotion);
-  document.fonts?.load(`italic 400 100px ${fontFamily()}`).then(() => {
+  document.fonts?.load(`400 100px ${fontFamily()}`).then(() => {
     if (!disposed) retarget(opts.reducedMotion);
   }).catch(() => {});
 

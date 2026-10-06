@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { CreaseMark } from "@/components/ui/CreaseMark";
-import { person } from "@/content/person";
+import { BrandName } from "@/components/ui/BrandName";
 import { pageHref, pages } from "@/content/sections";
 import { pick } from "@/i18n/config";
 import { useCopy, useLang } from "@/i18n/LocaleProvider";
@@ -71,7 +71,9 @@ export function SiteHeader() {
         data-egg="logo"
       >
         <CreaseMark size={30} />
-        <span aria-hidden="true">{person.brand}</span>
+        <span aria-hidden="true">
+          <BrandName />
+        </span>
       </Link>
 
       <nav aria-label={navLabel} className={styles.nav}>

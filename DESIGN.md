@@ -121,6 +121,8 @@ components:
 
 # Design System: Pim
 
+> Typography update (Pim, 2026-10-06): headings in Bodoni Moda upright at optical size 18, running text and UI in Hanken Grotesk, no italics anywhere. Where this file still mentions italic Bodoni, this note wins.
+
 ## Overview
 
 **Creative North Star: "Gevouwen Schaal" (the curved crease shell)**

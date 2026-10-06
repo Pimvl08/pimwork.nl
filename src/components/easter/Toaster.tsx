@@ -64,7 +64,7 @@ function ToastView({ item, paused, closeLabel }: { item: ToastItem; paused: bool
       onPointerCancel={onPointerUp}
     >
       <div className="min-w-0 flex-1">
-        <p className="text-[length:var(--step-0)] italic text-ink">{item.title}</p>
+        <p className="text-[length:var(--step-0)] text-ink">{item.title}</p>
         {item.description ? <p className="mt-1 text-[length:var(--step--1)] text-ink-soft">{item.description}</p> : null}
       </div>
       <CircleButton icon="close" label={closeLabel} size="sm" onClick={() => setLeaving(true)} />

@@ -85,7 +85,7 @@
   border-radius: 0;
   background: transparent;
   color: var(--ink);
-  font-family: var(--font-serif);
+  font-family: var(--font-sans);
   font-size: max(1rem, var(--step-0));
   line-height: 1.4;
   padding: 1.15rem 1.1rem 0.8rem;
@@ -96,7 +96,6 @@
 
 .control::placeholder {
   color: var(--ink-mute);
-  font-style: italic;
   opacity: 1;
 }
 
@@ -145,7 +144,6 @@
   align-items: baseline;
   gap: 0.6rem;
   color: var(--ink);
-  font-style: italic;
 }
 
 .error::before {

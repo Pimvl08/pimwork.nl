@@ -44,9 +44,8 @@ describe("copy", () => {
     expect(all).not.toMatch(DASHES);
   });
 
-  it("names Claude Code only in the how-I-work block", () => {
-    expect(JSON.stringify({ aboutCopy, contactCopy, labCopy, intro: about.intro })).not.toMatch(/claude/i);
-    expect(JSON.stringify(about.howIWork.lead)).toMatch(/Claude Code/);
+  it("never names the tools behind the work (Pim, 2026-10-06)", () => {
+    expect(JSON.stringify({ aboutCopy, contactCopy, labCopy, about })).not.toMatch(/claude|AI-tool|AI tool/i);
   });
 
   it("speaks in the first person on the contact page", () => {

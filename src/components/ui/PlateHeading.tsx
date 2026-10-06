@@ -18,7 +18,7 @@ interface PlateHeadingProps {
 export function PlateHeading({ numeral, children, id, as: Tag = "h2", className, lead }: PlateHeadingProps) {
   return (
     <div className={cn("flex flex-col gap-5", className)}>
-      <Tag id={id} className="flex items-baseline gap-[0.35em] text-[length:var(--step-4)] italic">
+      <Tag id={id} className="flex items-baseline gap-[0.35em] text-[length:var(--step-4)] ">
         <span className="numeral text-[0.38em] text-ink-mute" aria-hidden="true">
           {numeral}
         </span>

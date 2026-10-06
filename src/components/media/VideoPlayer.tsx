@@ -146,7 +146,7 @@ export function VideoPlayer({ lang, video }: VideoPlayerProps) {
         <Image src={video.poster} alt="" fill sizes="(min-width: 56rem) 60vw, 100vw" className="object-cover opacity-40" />
         <div className="absolute inset-0 grid place-items-center p-6 text-center">
           <div className="flex flex-col items-center gap-3 bg-paper px-6 py-5">
-            <p className="text-[length:var(--step-1)] italic text-ink">{t.unavailable}</p>
+            <p className="text-[length:var(--step-1)] text-ink">{t.unavailable}</p>
           </div>
         </div>
       </div>

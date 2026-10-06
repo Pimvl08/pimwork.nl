@@ -6,7 +6,7 @@ import { heroCopy, introPhrases } from "@/components/hero/copy";
 import styles from "@/components/hero/hero.module.css";
 import { ArcRule } from "@/components/ui/ArcRule";
 import { ArchButton } from "@/components/ui/ArchButton";
-import { person } from "@/content/person";
+import { BrandName } from "@/components/ui/BrandName";
 import { getProject } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
@@ -38,7 +38,7 @@ export function HeroPlate({ lang }: { lang: Locale }) {
       <div className={styles.grid}>
         <div className={styles.copy}>
           <h1 id="cover-title" className={styles.name} data-depth="5">
-            {person.brand}
+            <BrandName />
           </h1>
           <IntroLine lang={lang} projectNames={projectNames} />
           <div className={styles.actions}>

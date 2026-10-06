@@ -136,7 +136,6 @@
   min-height: 2.75rem;
   margin-top: 1.25rem;
   color: var(--ink-soft);
-  font-style: italic;
   text-decoration-line: underline;
   text-decoration-color: var(--rule-strong);
   text-decoration-thickness: 1px;
