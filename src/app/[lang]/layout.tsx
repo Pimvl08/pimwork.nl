@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Fragment_Mono } from "next/font/google";
 import { cookies } from "next/headers";
@@ -94,6 +95,7 @@ export default async function RootLayout({ children, params, modal }: LayoutProp
             {modal}
           </SiteChrome>
         </LocaleProvider>
+        <Analytics />
       </body>
     </html>
   );
