@@ -13,7 +13,7 @@ export function LabPage({ lang }: { lang: Locale }) {
         <h1 id="lab-title" className="text-[length:var(--step-4)] leading-[1.02]">
           {labCopy.title[lang]}
         </h1>
-        <p className="measure text-[length:var(--step-1)] leading-snug text-ink-soft">{labCopy.lead[lang]}</p>
+        <p className="measure font-serif text-[length:var(--step-1)] leading-snug text-ink-soft">{labCopy.lead[lang]}</p>
       </header>
       <LabStage lang={lang} />
     </main>

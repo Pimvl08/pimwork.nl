@@ -24,7 +24,7 @@ export function PlateHeading({ numeral, children, id, as: Tag = "h2", className,
         </span>
         <span>{children}</span>
       </Tag>
-      {lead ? <p className="measure text-[length:var(--step-1)] leading-snug text-ink-soft">{lead}</p> : null}
+      {lead ? <p className="measure font-serif text-[length:var(--step-1)] leading-snug text-ink-soft">{lead}</p> : null}
     </div>
   );
 }

@@ -19,6 +19,8 @@
   text-wrap: balance;
 }
 .lead {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 10;
   max-width: 38ch;
   margin: 1.25rem 0 0;
   color: var(--ink-soft);
