@@ -1,4 +1,5 @@
 import { Analytics } from "@vercel/analytics/next";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Fragment_Mono } from "next/font/google";
 import { cookies } from "next/headers";
@@ -96,6 +97,7 @@ export default async function RootLayout({ children, params, modal }: LayoutProp
           </SiteChrome>
         </LocaleProvider>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
