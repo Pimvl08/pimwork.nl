@@ -27,7 +27,7 @@ Every project, number and image on the site comes from Pim's own disk: real repo
 - Pim builds with Claude Code on a 2017 Intel MacBook Pro (i7-7820HQ, macOS Ventura). Many hard problems in his projects came from that machine (Whisper speed, Homebrew Tier 3).
 - Shared as a link via chat apps, so the first visit is often on mobile.
 - Bilingual: Dutch default with a real switch to English (confirmed).
-- Contact: a contact form with server-side validation and rate limiting plus a GitHub link (github.com/pimdaanbram-prog). Mail delivery only goes live once Pim adds a mail API key in the environment; until then the form says so honestly (confirmed).
+- Contact: a contact form with server-side validation and rate limiting plus phone and email (GitHub is not a contact channel for clients). Mail delivery only goes live once Pim adds a mail API key in the environment; until then the form says so honestly (confirmed).
 
 ## Capabilities and Constraints
 
@@ -36,12 +36,12 @@ Every project, number and image on the site comes from Pim's own disk: real repo
 - No invented personal facts. Missing facts (photo of Pim, location, age, school name) stay open and get clearly marked, easy-to-fill slots.
 - No secrets in the repository or client bundle. Never publish e-mail addresses, phone numbers, client or campaign names, wallet addresses or internal ids from project folders.
 - Must respect prefers-reduced-motion, keyboard use and screen readers.
-- Undecided: final domain and hosting (Netlify and Vercel are both used in his other projects); whether to wire a real LLM to the AI terminal (only when Pim adds a key server-side).
+- Domain: pimwork.nl. Undecided: hosting (Netlify and Vercel are both used in his other projects); whether to wire a real LLM to the AI terminal (only when Pim adds a key server-side).
 
 ## Brand Commitments
 
 - Never use the em dash or en dash anywhere: UI copy, code comments, docs (standing rule from Pim). Use commas, colons, periods, parentheses, a middle dot (·) in meta lines and a vertical bar in page titles.
-- Name shown as "Pim". GitHub handle: pimdaanbram-prog.
+- The site presents the business "PimWork" (domain pimwork.nl, decided by Pim on 2026-10-06). Pim is still named where the text is about the person (about page, terminal). GitHub handle: pimdaanbram-prog (not a contact channel).
 
 ## Evidence on Hand
 
