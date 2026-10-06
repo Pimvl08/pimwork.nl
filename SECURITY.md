@@ -51,12 +51,12 @@ Trade-offs, stated honestly:
 
 - `npm audit --omit=dev` must report zero vulnerabilities for runtime dependencies.
 - Current dev-only advisory: `eslint-config-next` pulls in an old `braces` through `fast-glob` (stack exhaustion on malicious glob patterns). It only runs on the developer machine against our own files, not in the deployed site. Re-check on every `eslint-config-next` upgrade.
-- No third-party scripts, fonts, images or analytics are loaded by the browser. Fonts are self-hosted by `next/font`; the PDF fonts in `assets/fonts` are SIL OFL licensed.
+- No third-party scripts, fonts or images are loaded by the browser. The only script beyond the site itself is Vercel Web Analytics, served from the site's own origin (`/_vercel/insights`). Fonts are self-hosted by `next/font`; the PDF fonts in `assets/fonts` are SIL OFL licensed.
 
 ## Privacy
 
 - No cookies except two first-party preference cookies without personal data: `pim-theme` (dark or light) and `pim-lang` (nl or en), both `SameSite=Lax` and `Secure` on HTTPS.
-- No tracking, no analytics, no fingerprinting.
+- Only cookieless, anonymous page view counts through Vercel Web Analytics (no personal data, no cross-site tracking, no fingerprinting).
 - Project content was collected read-only from Pim's own folders. Client names, campaign names, e-mail addresses, phone numbers, wallet addresses, API keys and pen names are deliberately excluded. Screenshots were checked by eye for personal data before they were added.
 
 ## Checks to run

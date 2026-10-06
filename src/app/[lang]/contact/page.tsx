@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: ContactRouteProps, parent: Re
   return {
     title,
     description,
-    openGraph: { ...inherited, title: `${title} | Pim`, description, url: `/${locale}/contact` },
+    openGraph: { ...inherited, title: `${title} | PimWork`, description, url: `/${locale}/contact` },
     alternates: {
       canonical: `/${locale}/contact`,
       languages: { "nl-NL": "/nl/contact", "en-GB": "/en/contact", "x-default": "/nl/contact" },

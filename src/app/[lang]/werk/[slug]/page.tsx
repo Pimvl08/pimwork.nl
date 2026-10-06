@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: ProjectRouteProps, parent: Re
   return {
     title: project.name,
     description: project.tagline[locale],
-    openGraph: { ...inherited, title: `${project.name} | Pim`, description: project.tagline[locale], url: `/${locale}/werk/${slug}` },
+    openGraph: { ...inherited, title: `${project.name} | PimWork`, description: project.tagline[locale], url: `/${locale}/werk/${slug}` },
     alternates: {
       canonical: `/${locale}/werk/${slug}`,
       languages: { "nl-NL": `/nl/werk/${slug}`, "en-GB": `/en/werk/${slug}`, "x-default": `/nl/werk/${slug}` },

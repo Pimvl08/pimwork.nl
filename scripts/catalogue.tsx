@@ -63,7 +63,7 @@ const copy = {
     stack: "Gebouwd met",
     links: "Links",
     page: (n: number, t: number) => `pagina ${n} van ${t}`,
-    contact: "Meer werk en contact: github.com/pimdaanbram-prog",
+    contact: "pimwork.nl, pvanleeuwen08@icloud.com, 06 15 91 37 13",
   },
   en: {
     title: "Portfolio",
@@ -81,7 +81,7 @@ const copy = {
     stack: "Built with",
     links: "Links",
     page: (n: number, t: number) => `page ${n} of ${t}`,
-    contact: "More work and contact: github.com/pimdaanbram-prog",
+    contact: "pimwork.nl, pvanleeuwen08@icloud.com, 06 15 91 37 13",
   },
 } as const;
 
@@ -108,7 +108,7 @@ function Footer({ lang }: { lang: Lang }) {
   const t = copy[lang];
   return (
     <View style={s.footer} fixed>
-      <Text>Pim · {t.title}</Text>
+      <Text>PimWork · {t.title}</Text>
       <Text render={({ pageNumber, totalPages }) => t.page(pageNumber, totalPages)} />
     </View>
   );
@@ -131,13 +131,13 @@ function Catalogue({ lang }: { lang: Lang }) {
   const t = copy[lang];
   const byslug = new Map(projects.map((p) => [p.slug, p.name]));
   return (
-    <Document title={`Pim · ${t.title}`} author="Pim" subject={t.subtitle} language={lang === "nl" ? "nl-NL" : "en-GB"} creator="pim-world scripts/catalogue.tsx">
+    <Document title={`PimWork · ${t.title}`} author="Pim" subject={t.subtitle} language={lang === "nl" ? "nl-NL" : "en-GB"} creator="pim-world scripts/catalogue.tsx">
       <Page size="A4" style={s.page}>
         <View style={{ flex: 1, justifyContent: "space-between" }}>
           <View>
             <Text style={s.label}>{t.title}</Text>
             <View style={{ marginTop: 120 }}>
-              <Text style={s.h1}>Pim</Text>
+              <Text style={s.h1}>PimWork</Text>
               <Text style={[s.lead, { marginTop: 18, maxWidth: 320 }]}>{t.subtitle}</Text>
             </View>
           </View>

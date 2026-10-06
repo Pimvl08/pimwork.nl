@@ -14,10 +14,11 @@ export const contactCopy = {
   alt: {
     heading: { nl: "Liever zonder formulier", en: "Rather without a form" },
     body: {
-      nl: "Mijn projecten staan op GitHub. Daar kun je me ook bereiken.",
-      en: "My projects live on GitHub. You can reach me there too.",
+      nl: "Bel of mail me gerust. Ik reageer zo snel ik kan.",
+      en: "Feel free to call or email me. I reply as soon as I can.",
     },
-    button: { nl: "Naar mijn GitHub", en: "Go to my GitHub" },
+    call: { nl: "Bel me", en: "Call me" },
+    mail: { nl: "Mail me", en: "Email me" },
   },
   formLabel: { nl: "Contactformulier", en: "Contact form" },
   fields: {
@@ -71,8 +72,8 @@ export const contactCopy = {
     not_configured: {
       title: { nl: "Je bericht is niet verstuurd", en: "Your message was not sent" },
       body: {
-        nl: "Dit formulier is nog niet gekoppeld aan mijn mailbox, dus berichten komen nog niet aan. Je tekst staat er nog. Bereik me tot die tijd via GitHub.",
-        en: "This form is not connected to my inbox yet, so messages do not arrive. Your text is still here. Until then, reach me through GitHub.",
+        nl: "Dit formulier is nog niet gekoppeld aan mijn mailbox, dus berichten komen nog niet aan. Je tekst staat er nog. Bel of mail me tot die tijd.",
+        en: "This form is not connected to my inbox yet, so messages do not arrive. Your text is still here. Until then, call or email me.",
       },
     },
     rate_limited: {
@@ -106,8 +107,8 @@ export const contactCopy = {
     failed: {
       title: { nl: "Niet verstuurd", en: "Not sent" },
       body: {
-        nl: "Er ging iets mis bij het versturen. Je bericht is niet aangekomen. Probeer het later opnieuw of bereik me via GitHub.",
-        en: "Something went wrong while sending. Your message did not arrive. Try again later or reach me through GitHub.",
+        nl: "Er ging iets mis bij het versturen. Je bericht is niet aangekomen. Probeer het later opnieuw of bel of mail me.",
+        en: "Something went wrong while sending. Your message did not arrive. Try again later or call or email me.",
       },
     },
   },
@@ -123,14 +124,14 @@ export const contactCopy = {
     },
     again: { nl: "Nog een bericht", en: "Another message" },
   },
-  github: { nl: "GitHub", en: "GitHub" },
   /** Shown above the form while no mail connection is set up on the server. */
   offline: {
     heading: { nl: "Het formulier verstuurt nog geen berichten", en: "This form does not send messages yet" },
     body: {
-      nl: "De koppeling met mijn mailbox staat nog niet aan. Wil je me nu iets laten weten, bereik me dan via GitHub.",
-      en: "The connection to my inbox is not switched on yet. If you want to reach me now, use GitHub.",
+      nl: "De koppeling met mijn mailbox staat nog niet aan. Wil je me nu iets laten weten, bel of mail me dan.",
+      en: "The connection to my inbox is not switched on yet. If you want to reach me now, call or email me.",
     },
-    button: { nl: "Bereik me via GitHub", en: "Reach me on GitHub" },
+    call: { nl: "Bel me", en: "Call me" },
+    mail: { nl: "Mail me", en: "Email me" },
   },
 };

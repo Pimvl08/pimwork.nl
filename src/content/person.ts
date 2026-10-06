@@ -7,7 +7,13 @@ import type { Bilingual } from "@/i18n/config";
  */
 
 export const person = {
+  /** The company name shown as the brand across the site. */
+  brand: "PimWork",
+  /** Pim himself, used where the text is about the person. */
   name: "Pim",
+  domain: "pimwork.nl",
+  email: "pvanleeuwen08@icloud.com",
+  phone: { display: "06 15 91 37 13", href: "tel:+31615913713" },
   github: { handle: "pimdaanbram-prog", href: "https://github.com/pimdaanbram-prog" },
   portrait: null as null | { src: string; width: number; height: number; alt: Bilingual<string> },
 };

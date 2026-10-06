@@ -125,6 +125,13 @@ export function useTerminalSession(lang: Locale, initial: () => Entry[]) {
 
 function LinkLine({ text, href, external }: { text: string; href: string; external?: boolean }) {
   const cls = "underline decoration-[var(--rule-strong)] underline-offset-4 hover:decoration-[var(--ink)] focus-visible:outline-2";
+  if (/^(mailto|tel):/.test(href)) {
+    return (
+      <a href={href} className={cls}>
+        {text}
+      </a>
+    );
+  }
   if (external || /^https?:\/\//.test(href)) {
     return (
       <a href={href} target="_blank" rel="noopener noreferrer" className={cls}>

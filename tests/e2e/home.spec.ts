@@ -3,7 +3,7 @@ import { SLUGS, expect, gotoReady, test, trackErrors } from "./fixtures";
 test.describe("home", () => {
   test("the hero shows the name and two actions", async ({ page }) => {
     await gotoReady(page, "/nl");
-    await expect(page.getByRole("heading", { level: 1, name: "Pim" })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeVisible();
     const cover = page.locator("#cover");
     await expect(cover.getByRole("link", { name: "Bekijk mijn werk" })).toHaveAttribute("href", "/nl/werk");
     await expect(cover.getByRole("link", { name: "Neem contact op" })).toHaveAttribute("href", "/nl/contact");
@@ -42,7 +42,7 @@ test.describe("home", () => {
     await expect(sheet).toBeVisible();
     await expect(sheet.getByRole("heading", { name: "Het probleem" })).toBeVisible();
     // The home page stays underneath.
-    await expect(page.getByRole("heading", { level: 1, name: "Pim" })).toBeAttached();
+    await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeAttached();
 
     await page.keyboard.press("Escape");
     await expect(sheet).toBeHidden();

@@ -33,7 +33,7 @@ describe("site metadata routes", () => {
 
   it("manifest uses the graphite paper colours and the svg icon", () => {
     const out = manifest();
-    expect(out).toMatchObject({ name: "Pim", short_name: "Pim", start_url: "/nl", display: "standalone" });
+    expect(out).toMatchObject({ name: "PimWork", short_name: "PimWork", start_url: "/nl", display: "standalone" });
     expect(out.background_color).toBe("#121211");
     expect(out.icons?.[0]?.src).toBe("/icon.svg");
   });

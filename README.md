@@ -1,6 +1,6 @@
-# Pim
+# PimWork (pimwork.nl)
 
-The personal website of Pim: a professional introduction for businesses and people who want to know what he can build. Dutch first, with a full English version.
+The website of PimWork, the one-person software business of Pim van Leeuwen: a professional introduction for businesses and people who want to know what he can build. Dutch first, with a full English version.
 
 The site shows six real projects (TeamSync, Strength Tracker, OfferteVlot, Belhulp, a print-ready coloring book and Solana Forensics), what Pim can build for others, how he works, a lab with interactive experiments, and a contact form. Every text and image comes from his own project folders; nothing is invented.
 

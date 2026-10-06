@@ -13,8 +13,8 @@ function canSend(): boolean {
 }
 
 /**
- * The contact page: the form posts to /api/contact, GitHub stays beside it as
- * the channel that always works. While no mail connection is set up, the side
+ * The contact page: the form posts to /api/contact, phone and email stay beside it as
+ * the channels that always work. While no mail connection is set up, the side
  * note says so plainly and moves above the form on small screens.
  */
 export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: number }) {
@@ -36,7 +36,7 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
 
       <div className="mt-12 grid grid-cols-[minmax(0,1fr)] gap-14 md:mt-16 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:gap-20">
         <div className={sending ? undefined : "order-2 lg:order-1"}>
-          <ContactForm lang={lang} renderedAt={renderedAt} githubHref={person.github.href} />
+          <ContactForm lang={lang} renderedAt={renderedAt} />
         </div>
 
         <aside aria-labelledby="contact-alt-title" className={`${styles.aside} ${sending ? "" : "order-1 lg:order-2"}`}>
@@ -44,10 +44,17 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
             {note.heading[lang]}
           </h2>
           <p className="measure mt-4 text-ink-soft">{note.body[lang]}</p>
-          <p className="data mt-5 text-[length:var(--step--1)] text-ink-mute">github.com/{person.github.handle}</p>
-          <div className="mt-7">
-            <ArchButton variant="secondary" icon="github" href={person.github.href}>
-              {note.button[lang]}
+          <p className="data mt-5 text-[length:var(--step--1)] text-ink-mute">
+            {person.phone.display}
+            <br />
+            {person.email}
+          </p>
+          <div className="mt-7 flex flex-wrap gap-4">
+            <ArchButton variant="secondary" icon="phone" href={person.phone.href}>
+              {note.call[lang]}
+            </ArchButton>
+            <ArchButton variant="secondary" icon="mail" href={`mailto:${person.email}`}>
+              {note.mail[lang]}
             </ArchButton>
           </div>
         </aside>

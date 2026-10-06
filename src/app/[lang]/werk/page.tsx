@@ -21,7 +21,7 @@ export async function generateMetadata({ params }: WorkRouteProps, parent: Resol
   return {
     title: t.title,
     description: t.metaDescription,
-    openGraph: { ...inherited, title: `${t.title} | Pim`, description: t.metaDescription, url: `/${locale}/werk` },
+    openGraph: { ...inherited, title: `${t.title} | PimWork`, description: t.metaDescription, url: `/${locale}/werk` },
     alternates: {
       canonical: `/${locale}/werk`,
       languages: { "nl-NL": "/nl/werk", "en-GB": "/en/werk", "x-default": "/nl/werk" },

@@ -1,3 +1,4 @@
+import { Analytics } from "@vercel/analytics/next";
 import type { Metadata, Viewport } from "next";
 import { Bodoni_Moda, Fragment_Mono } from "next/font/google";
 import { cookies } from "next/headers";
@@ -27,12 +28,12 @@ const fragment = Fragment_Mono({
 
 const meta = {
   nl: {
-    title: "Pim | Software die werk uit handen neemt",
+    title: "PimWork | Software die werk uit handen neemt",
     description:
       "Ik bouw web-apps, desktopsoftware en slimme tools die werk uit handen nemen. Bekijk mijn werk en neem contact op.",
   },
   en: {
-    title: "Pim | Software that takes work off your hands",
+    title: "PimWork | Software that takes work off your hands",
     description:
       "I build web apps, desktop software and smart tools that take work off your hands. See my work and get in touch.",
   },
@@ -48,9 +49,9 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
   const t = meta[locale];
   return {
     metadataBase: new URL(siteUrl()),
-    title: { default: t.title, template: "%s | Pim" },
+    title: { default: t.title, template: "%s | PimWork" },
     description: t.description,
-    applicationName: "Pim",
+    applicationName: "PimWork",
     authors: [{ name: "Pim", url: "https://github.com/pimdaanbram-prog" }],
     alternates: {
       canonical: `/${locale}`,
@@ -58,7 +59,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
     },
     openGraph: {
       type: "website",
-      siteName: "Pim",
+      siteName: "PimWork",
       title: t.title,
       description: t.description,
       locale: htmlLang[locale].replace("-", "_"),
@@ -94,6 +95,7 @@ export default async function RootLayout({ children, params, modal }: LayoutProp
             {modal}
           </SiteChrome>
         </LocaleProvider>
+        <Analytics />
       </body>
     </html>
   );

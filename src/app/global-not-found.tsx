@@ -3,7 +3,7 @@ import Link from "next/link";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "404 | Pim",
+  title: "404 | PimWork",
   description: "Deze pagina bestaat niet. This page does not exist.",
 };
 

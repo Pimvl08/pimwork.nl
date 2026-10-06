@@ -6,7 +6,7 @@ export const languageNames: Record<Locale, string> = { nl: "Nederlands", en: "En
 /** All visible chrome text, Dutch first. */
 export const chromeCopy = {
   skip: { nl: "Naar de inhoud", en: "Skip to content" },
-  home: { nl: "Pim, naar de homepagina", en: "Pim, to the home page" },
+  home: { nl: "PimWork, naar de homepagina", en: "PimWork, to the home page" },
   mainNav: { nl: "Hoofdmenu", en: "Main menu" },
   pages: { nl: "Pagina's", en: "Pages" },
   language: { nl: "Taal", en: "Language" },
@@ -49,15 +49,11 @@ export const chromeCopy = {
     nl: {
       line: "Software die werk uit handen neemt.",
       nav: "Voettekst",
-      github: "GitHub",
-      githubNote: "opent in een nieuw tabblad",
       portfolio: "Download mijn portfolio (PDF)",
     },
     en: {
       line: "Software that takes work off your hands.",
       nav: "Footer",
-      github: "GitHub",
-      githubNote: "opens in a new tab",
       portfolio: "Download my portfolio (PDF)",
     },
   },

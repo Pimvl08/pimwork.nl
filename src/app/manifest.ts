@@ -3,9 +3,9 @@ import type { MetadataRoute } from "next";
 /** Install metadata. Colours are the graphite theme's paper tokens. */
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Pim",
-    short_name: "Pim",
-    description: "Wat Pim bouwt met code en AI.",
+    name: "PimWork",
+    short_name: "PimWork",
+    description: "Software die werk uit handen neemt.",
     start_url: "/nl",
     scope: "/",
     display: "standalone",

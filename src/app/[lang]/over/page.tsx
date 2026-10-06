@@ -19,7 +19,7 @@ export async function generateMetadata({ params }: AboutRouteProps, parent: Reso
   return {
     title,
     description,
-    openGraph: { ...inherited, title: `${title} | Pim`, description, url: `/${locale}/over` },
+    openGraph: { ...inherited, title: `${title} | PimWork`, description, url: `/${locale}/over` },
     alternates: {
       canonical: `/${locale}/over`,
       languages: { "nl-NL": "/nl/over", "en-GB": "/en/over", "x-default": "/nl/over" },

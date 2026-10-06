@@ -12,7 +12,7 @@ import styles from "./chrome.module.css";
 import { useActivePage } from "./controls";
 import { chromeCopy } from "./copy";
 
-/** The close of every page: who, what in one line, the pages, GitHub, the portfolio PDF and the year. */
+/** The close of every page: who, what in one line, the pages, phone and email, the portfolio PDF and the year. */
 export function SiteFooter() {
   const lang = useLang();
   const active = useActivePage();
@@ -26,7 +26,7 @@ export function SiteFooter() {
         <div className={styles.footerBrand}>
           <p className={styles.footerName}>
             <CreaseMark size={30} />
-            <span>{person.name}</span>
+            <span>{person.brand}</span>
           </p>
           <p className={styles.footerLine}>{t.line}</p>
         </div>
@@ -43,10 +43,15 @@ export function SiteFooter() {
           </ul>
           <ul className={styles.footerLinks}>
             <li>
-              <a href={person.github.href} className={styles.footerLink} target="_blank" rel="noopener noreferrer">
-                <span>{t.github}</span>
-                <Icon name="arrowNE" size={16} />
-                <span className="sr-only"> ({t.githubNote})</span>
+              <a href={`mailto:${person.email}`} className={styles.footerLink}>
+                <Icon name="mail" size={16} />
+                <span>{person.email}</span>
+              </a>
+            </li>
+            <li>
+              <a href={person.phone.href} className={styles.footerLink}>
+                <Icon name="phone" size={16} />
+                <span>{person.phone.display}</span>
               </a>
             </li>
             <li>
@@ -59,7 +64,7 @@ export function SiteFooter() {
         </nav>
 
         <p className={styles.footerBase}>
-          <span>{person.name}</span>
+          <span>{person.brand}</span>
           <span className="data">{year}</span>
         </p>
       </div>
