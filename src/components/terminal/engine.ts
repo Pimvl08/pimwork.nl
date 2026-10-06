@@ -149,7 +149,8 @@ function virtualFile(file: string, lang: Locale): string[] | null {
       ...about.intro[lang],
       "",
       ...facts.filter((f) => f.value).map((f) => `${f.label[lang]}: ${f.value![lang]}`),
-      `GitHub: ${person.github.href}`,
+      `E-mail: ${person.email}`,
+      `${lang === "nl" ? "Telefoon" : "Phone"}: ${person.phone.display}`,
     ];
   }
   if (file === "projecten.md") {
@@ -235,8 +236,9 @@ export function runCommand(raw: string, ctx: CommandContext): CommandResult {
       return out(name, [
         { kind: "text", text: t.contactIntro },
         { kind: "link", text: `/${lang}/contact`, href: `/${lang}/contact` },
-        { kind: "muted", text: t.contactGithub },
-        { kind: "link", text: `github.com/${person.github.handle}`, href: person.github.href, external: true },
+        { kind: "muted", text: t.contactDirect },
+        { kind: "link", text: person.email, href: `mailto:${person.email}` },
+        { kind: "link", text: person.phone.display, href: person.phone.href },
       ]);
 
     case "theme": {

@@ -204,7 +204,7 @@ describe("POST /api/contact", () => {
 });
 
 describe("server render of the contact page", () => {
-  it("says plainly that the form does not send yet and points to GitHub", async () => {
+  it("says plainly that the form does not send yet and points to phone and email", async () => {
     vi.stubEnv("RESEND_API_KEY", "");
     vi.stubEnv("CONTACT_TO_EMAIL", "");
     vi.stubEnv("CONTACT_FROM_EMAIL", "");
@@ -219,7 +219,8 @@ describe("server render of the contact page", () => {
       expect(html.match(/<h1/g)).toHaveLength(1);
       expect(html).toContain(contactCopy.title[lang]);
       expect(html).toContain(contactCopy.offline.heading[lang]);
-      expect(html).toContain(`href="${person.github.href}"`);
+      expect(html).toContain(`href="${person.phone.href}"`);
+      expect(html).toContain(`href="mailto:${person.email}"`);
       expect(html).toContain("<form");
       expect(html).not.toContain("numeral");
       expect(html).not.toMatch(new RegExp(`[${String.fromCharCode(0x2013)}${String.fromCharCode(0x2014)}]`));

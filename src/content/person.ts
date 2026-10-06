@@ -8,6 +8,8 @@ import type { Bilingual } from "@/i18n/config";
 
 export const person = {
   name: "Pim",
+  email: "pvanleeuwen08@icloud.com",
+  phone: { display: "06 15 91 37 13", href: "tel:+31615913713" },
   github: { handle: "pimdaanbram-prog", href: "https://github.com/pimdaanbram-prog" },
   portrait: null as null | { src: string; width: number; height: number; alt: Bilingual<string> },
 };

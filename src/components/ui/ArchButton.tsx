@@ -45,6 +45,13 @@ export function ArchButton(props: ButtonProps | LinkProps) {
 
   if (typeof rest.href === "string") {
     const { href, ...anchorRest } = rest as LinkProps;
+    if (/^(mailto|tel):/.test(href)) {
+      return (
+        <a href={href} className={classes} {...anchorRest}>
+          {inner}
+        </a>
+      );
+    }
     const external = /^https?:\/\//.test(href);
     if (external) {
       return (

@@ -63,7 +63,7 @@ const copy = {
     stack: "Gebouwd met",
     links: "Links",
     page: (n: number, t: number) => `pagina ${n} van ${t}`,
-    contact: "Meer werk en contact: github.com/pimdaanbram-prog",
+    contact: "Contact: pvanleeuwen08@icloud.com, 06 15 91 37 13",
   },
   en: {
     title: "Portfolio",
@@ -81,7 +81,7 @@ const copy = {
     stack: "Built with",
     links: "Links",
     page: (n: number, t: number) => `page ${n} of ${t}`,
-    contact: "More work and contact: github.com/pimdaanbram-prog",
+    contact: "Contact: pvanleeuwen08@icloud.com, 06 15 91 37 13",
   },
 } as const;
 

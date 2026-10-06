@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from "react";
 import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
+import { person } from "@/content/person";
 import type { Locale } from "@/i18n/config";
 import { CONTACT_LIMITS, validateContactFields, type ContactField, type FieldErrorCode, type FieldErrors } from "@/lib/contact-schema";
 import { useReducedMotion } from "@/lib/hooks";
@@ -86,7 +87,7 @@ function NoticeSheet({ children, labelledBy, sheetRef, live }: { children: React
   );
 }
 
-export function ContactForm({ lang, renderedAt, githubHref }: { lang: Locale; renderedAt: number; githubHref: string }) {
+export function ContactForm({ lang, renderedAt }: { lang: Locale; renderedAt: number }) {
   const reduced = useReducedMotion();
   const [values, setValues] = useState<Values>(EMPTY);
   const [touched, setTouched] = useState<Partial<Record<ContactField, boolean>>>({});
@@ -342,9 +343,12 @@ export function ContactForm({ lang, renderedAt, githubHref }: { lang: Locale; re
                     : copy.notices[notice.notice].body[lang]}
                 </p>
                 {notice.notice === "not_configured" || notice.notice === "failed" ? (
-                  <div className="mt-5">
-                    <ArchButton variant="secondary" icon="arrowNE" href={githubHref}>
-                      {copy.github[lang]}
+                  <div className="mt-5 flex flex-wrap gap-4">
+                    <ArchButton variant="secondary" icon="phone" href={person.phone.href}>
+                      {copy.offline.call[lang]}
+                    </ArchButton>
+                    <ArchButton variant="secondary" icon="mail" href={`mailto:${person.email}`}>
+                      {copy.offline.mail[lang]}
                     </ArchButton>
                   </div>
                 ) : null}
