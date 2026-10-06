@@ -207,6 +207,12 @@ h4 {
   font-weight: 500;
 }
 
+/* Bodoni as running display text (leads, taglines): a small optical size keeps
+   the hairlines sturdy enough to read comfortably at these sizes. */
+.font-serif {
+  font-variation-settings: "opsz" 10;
+}
+
 /* ------------------------------------------------------------- utilities */
 
 @layer components {

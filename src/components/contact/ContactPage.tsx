@@ -25,7 +25,7 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
       <div className="grid grid-cols-[minmax(0,1fr)] gap-x-20 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)]">
         <header className="flex flex-col gap-5">
           <h1 className="text-[length:var(--step-4)] leading-[1.02]">{copy.title[lang]}</h1>
-          <p className="measure text-[length:var(--step-1)] leading-snug text-ink-soft">{copy.lead[lang]}</p>
+          <p className="measure font-serif text-[length:var(--step-1)] leading-snug text-ink-soft">{copy.lead[lang]}</p>
         </header>
         {/* The arc lives in the empty cell beside the heading, so it never
             crosses the heading, the form or the side note. */}

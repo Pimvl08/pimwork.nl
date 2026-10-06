@@ -73,6 +73,8 @@
 }
 
 .introLine {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 12;
   display: grid;
   margin: 0;
   max-width: 25ch;
@@ -90,7 +92,10 @@
   pointer-events: none;
   user-select: none;
 }
-.ghostPhrase {
+/* The example is the one italic on the site: it marks the live, changing part. */
+.ghostPhrase,
+.phrase {
+  font-style: italic;
 }
 .introLead {
   color: var(--ink);

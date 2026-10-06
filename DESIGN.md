@@ -121,7 +121,7 @@ components:
 
 # Design System: Pim
 
-> Typography update (Pim, 2026-10-06): headings in Bodoni Moda upright at optical size 18, running text and UI in Hanken Grotesk, no italics anywhere. Where this file still mentions italic Bodoni, this note wins.
+> Typography update (Pim, 2026-10-06): headings in Bodoni Moda upright (opsz 18); the hero sentence, buttons, leads and taglines in Bodoni at a small optical size (opsz 10 to 12); body text, navigation, labels, form fields and diagram labels in Hanken Grotesk. The only italic is the changing example in the hero. Where this file still says otherwise, this note wins.
 
 ## Overview
 
