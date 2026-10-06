@@ -2,7 +2,7 @@ import Link from "next/link";
 import { ArcRule } from "@/components/ui/ArcRule";
 import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
-import { about, services } from "@/content/person";
+import { about, privacy, services } from "@/content/person";
 import { getProject } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
@@ -10,7 +10,7 @@ import { homeCopy } from "./copy";
 import styles from "./home.module.css";
 
 /**
- * "Wat ik voor je kan bouwen": the four kinds of software Pim builds, each
+ * "Wat ik voor je kan bouwen": the five kinds of software Pim builds, each
  * with the real projects that prove it. A sticky introduction on the left,
  * an editorial list on the right, every item lifted by a short arc.
  */
@@ -50,6 +50,26 @@ export function Services({ lang }: { lang: Locale }) {
             );
           })}
         </ul>
+      </div>
+    </section>
+  );
+}
+
+/** How client data is handled: AVG, nothing leaves the company, an NDA without discussion. */
+export function Privacy({ lang }: { lang: Locale }) {
+  return (
+    <section id="gegevens" className={cn(styles.section, "unfold")} aria-labelledby="privacy-title">
+      <div className={styles.aboutGrid}>
+        <h2 id="privacy-title" className={styles.heading}>
+          {privacy.title[lang]}
+        </h2>
+        <div className={styles.aboutText}>
+          {privacy.body[lang].map((paragraph) => (
+            <p key={paragraph} className={cn(styles.lead, styles.privacyText)}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
       </div>
     </section>
   );

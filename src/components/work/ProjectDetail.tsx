@@ -157,9 +157,11 @@ export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailPro
           </Section>
         ) : null}
 
-        <Section id={id("challenge")} title={t.challenge} as={H}>
-          <p className={styles.lede}>{project.challenge[lang]}</p>
-        </Section>
+        {project.challenge[lang] ? (
+          <Section id={id("challenge")} title={t.challenge} as={H}>
+            <p className={styles.lede}>{project.challenge[lang]}</p>
+          </Section>
+        ) : null}
 
         {images.length > 0 || video ? (
           <Section id={id("media")} title={t.media} as={H}>

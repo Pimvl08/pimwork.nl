@@ -23,10 +23,10 @@ test.describe("home", () => {
     await expect(page.getByRole("form", { name: "Contactformulier" })).toBeVisible();
   });
 
-  test("featured work shows TeamSync, Strength Tracker and OfferteVlot", async ({ page }) => {
+  test("featured work shows ExactTool, TeamSync and OfferteVlot", async ({ page }) => {
     await gotoReady(page, "/nl");
     const featured = page.getByRole("region", { name: "Uitgelicht werk" });
-    for (const name of ["TeamSync", "Strength Tracker", "OfferteVlot"]) {
+    for (const name of ["ExactTool", "TeamSync", "OfferteVlot"]) {
       await expect(featured.getByRole("link", { name, exact: true })).toBeVisible();
     }
     await expect(featured.getByRole("listitem")).toHaveCount(3);
@@ -68,8 +68,8 @@ test.describe("home", () => {
 
   test("the close button of the sheet also returns to home", async ({ page }) => {
     await gotoReady(page, "/nl");
-    await page.getByRole("region", { name: "Uitgelicht werk" }).getByRole("link", { name: "Strength Tracker", exact: true }).click();
-    const sheet = page.getByRole("dialog", { name: /Strength Tracker/ });
+    await page.getByRole("region", { name: "Uitgelicht werk" }).getByRole("link", { name: "OfferteVlot", exact: true }).click();
+    const sheet = page.getByRole("dialog", { name: /OfferteVlot/ });
     await expect(sheet).toBeVisible();
     await sheet.getByRole("button", { name: "Sluiten" }).first().click();
     await expect(sheet).toBeHidden();

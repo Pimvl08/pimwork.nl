@@ -32,7 +32,7 @@ export const workCopy: Bilingual<{
     metaDescription: "Projecten van PimWork: apps, tools en werkstromen die hij bouwde, met voor wie ze zijn, welk probleem ze oplossen en hoe ze werken.",
     listLabel: "Projecten",
     featuredTitle: "Uitgelicht werk",
-    featuredLead: "Drie projecten die laten zien wat ik bouw: voor een team, voor de sportschool en voor een vakman die snel een offerte wil sturen.",
+    featuredLead: "Drie projecten die laten zien wat ik bouw: voor een belteam, voor een team dat samen bestanden deelt en voor een vakman die snel een offerte wil sturen.",
     allProjects: "Alle projecten",
     view: "Bekijk",
     audience: "Voor wie",
@@ -57,7 +57,7 @@ export const workCopy: Bilingual<{
     metaDescription: "Projects by PimWork: apps, tools and workflows he built, with who they are for, which problem they solve and how they work.",
     listLabel: "Projects",
     featuredTitle: "Selected work",
-    featuredLead: "Three projects that show what I build: for a team, for the gym and for a tradesperson who wants to send a quote fast.",
+    featuredLead: "Three projects that show what I build: for a calling team, for a team that shares files and for a tradesperson who wants to send a quote fast.",
     allProjects: "All projects",
     view: "View",
     audience: "Who it is for",
@@ -84,6 +84,54 @@ export const workCopy: Bilingual<{
  * or internal numbers.
  */
 export const diagramCopy = {
+  "exact-online": {
+    nl: {
+      caption: "Bedrijven uit openbare bronnen, als verkoopkans in Exact Online gezet.",
+      alt: "Diagram: drie openbare bronnen leveren bedrijfsgegevens aan. De tool haalt ze op en houdt alleen over wat bruikbaar is. Daarna zet hij elk bedrijf als nieuwe verkoopkans in Exact Online, met bedrijf en contactpersoon. Zo staat de lijst klaar als de dag begint.",
+      sources: "openbare bronnen",
+      fetch: "ophalen",
+      sift: "wat bruikbaar is",
+      exact: "Exact Online",
+      company: "bedrijf",
+      contact: "contact",
+      opportunity: "nieuwe verkoopkans",
+      ready: "klaar als de dag begint",
+    },
+    en: {
+      caption: "Companies from public sources, put into Exact Online as sales opportunities.",
+      alt: "Diagram: three public sources supply company details. The tool collects them and keeps only what is useful. It then puts each company into Exact Online as a new sales opportunity, with company and contact person. That way the list is ready when the day starts.",
+      sources: "public sources",
+      fetch: "collect",
+      sift: "what is useful",
+      exact: "Exact Online",
+      company: "company",
+      contact: "contact",
+      opportunity: "new opportunity",
+      ready: "ready when the day starts",
+    },
+  },
+  "wordpress-koppeling": {
+    nl: {
+      caption: "Portalsites zijn het begin: bijna alles met een koppeling kan aan WordPress hangen.",
+      alt: "Diagram: WordPress in het midden. Een portalsite is er met een doorgetrokken lijn aan gekoppeld en wisselt gegevens in twee richtingen uit; dat is gebouwd. Met stippellijnen hangen er andere systemen omheen die op dezelfde manier gekoppeld kunnen worden: een CRM, een spreadsheet, een webshop, een formulier en een mailbox.",
+      hub: "WordPress",
+      portal: "portalsite",
+      others: ["CRM", "spreadsheet", "webshop", "formulier", "mailbox"],
+      built: "gebouwd",
+      could: "kan ook",
+      both: "twee kanten op",
+    },
+    en: {
+      caption: "Portal sites are the start: almost anything with an interface can connect to WordPress.",
+      alt: "Diagram: WordPress in the middle. A portal site is connected to it with a solid line and exchanges data both ways; that is built. Around it, with dotted lines, are other systems that can be connected the same way: a CRM, a spreadsheet, a web shop, a form and a mailbox.",
+      hub: "WordPress",
+      portal: "portal site",
+      others: ["CRM", "spreadsheet", "web shop", "form", "mailbox"],
+      built: "built",
+      could: "possible too",
+      both: "both ways",
+    },
+  },
   teamsync: {
     nl: {
       caption: "Drie feiten per bestand, precies één actie.",

@@ -148,6 +148,10 @@
   align-items: flex-start;
   gap: 1.75rem;
 }
+.privacyText {
+  margin: 0;
+}
+
 .aboutQuote {
   max-width: 34ch;
   margin: 0;

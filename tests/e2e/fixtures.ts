@@ -36,7 +36,7 @@ export function trackErrors(page: Page): string[] {
 }
 
 /** The six projects that belong on the site (CapCraft and PaletteForge are gone). */
-export const SLUGS = ["teamsync", "strength-tracker", "offerte-pdf-generator", "belhulp", "kdp-kleurboek", "solana-forensics"] as const;
+export const SLUGS = ["exact-online", "teamsync", "offerte-pdf-generator", "wordpress-koppeling", "strength-tracker", "belhulp", "kdp-kleurboek", "solana-forensics"] as const;
 
 /** Every page path below /<lang> (home is the empty path). */
 export const PAGES = ["", "/werk", "/over", "/lab", "/contact"] as const;

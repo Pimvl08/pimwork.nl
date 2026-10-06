@@ -96,8 +96,13 @@ export default async function RootLayout({ children, params, modal }: LayoutProp
             {modal}
           </SiteChrome>
         </LocaleProvider>
-        <Analytics />
-        <SpeedInsights />
+        {/* Only on Vercel: elsewhere the /_vercel scripts do not exist and would 404. */}
+        {process.env.VERCEL ? (
+          <>
+            <Analytics />
+            <SpeedInsights />
+          </>
+        ) : null}
       </body>
     </html>
   );

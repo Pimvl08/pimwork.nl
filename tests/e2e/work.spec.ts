@@ -1,16 +1,18 @@
 import { SLUGS, expect, gotoReady, test, trackErrors } from "./fixtures";
 
-const NAMES = ["TeamSync", "Strength Tracker", "OfferteVlot", "Belhulp", "Kleurboek", "Solana Forensics"];
+const NAMES = ["ExactTool", "TeamSync", "OfferteVlot", "WordPress-koppeling", "Strength Tracker", "Belhulp", "Kleurboek", "Solana Forensics"];
+/** Projects whose "hardest part" is not written yet; the section is hidden until it is. */
+const NO_CHALLENGE = new Set<string>(["exact-online", "wordpress-koppeling"]);
 const SECTIONS = ["Voor wie", "Het probleem", "Wat ik bouwde", "Wat het oplevert", "Onder de motorkap", "Het lastigste stuk"];
 /** A plausible calendar year (1980 to 2039) standing on its own. */
 const YEAR = /(?<![\d.,])(19[89]\d|20[0-3]\d)(?![\d.,])/;
 
 test.describe("work index", () => {
-  test("lists the six projects and nothing else", async ({ page }) => {
+  test("lists the eight projects and nothing else", async ({ page }) => {
     await gotoReady(page, "/nl/werk");
     const list = page.getByRole("list", { name: "Projecten" });
     await expect(list).toBeVisible();
-    await expect(list.getByRole("listitem")).toHaveCount(6);
+    await expect(list.getByRole("listitem")).toHaveCount(8);
     for (const name of NAMES) {
       await expect(list.getByRole("link", { name: new RegExp(name) })).toBeVisible();
     }
@@ -32,10 +34,10 @@ test.describe("work index", () => {
 
 test.describe("project pages", () => {
   for (const slug of SLUGS) {
-    test(`${slug}: all six sections and no years`, async ({ page }) => {
+    test(`${slug}: all sections and no years`, async ({ page }) => {
       await gotoReady(page, `/nl/werk/${slug}`);
       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-      for (const title of SECTIONS) {
+      for (const title of SECTIONS.filter((s) => !NO_CHALLENGE.has(slug) || s !== "Het lastigste stuk")) {
         await expect(page.getByRole("heading", { level: 2, name: title, exact: true }), `section ${title}`).toBeVisible();
       }
       const text = await page.getByRole("main").innerText();
