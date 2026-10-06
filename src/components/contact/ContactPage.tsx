@@ -1,6 +1,6 @@
 import { ArchButton } from "@/components/ui/ArchButton";
 import { ArcRule } from "@/components/ui/ArcRule";
-import { person } from "@/content/person";
+import { person, privacy } from "@/content/person";
 import type { Locale } from "@/i18n/config";
 import { mailConfig } from "@/lib/mail";
 import { ContactForm } from "./ContactForm";
@@ -57,6 +57,8 @@ export function ContactPage({ lang, renderedAt }: { lang: Locale; renderedAt: nu
               {note.mail[lang]}
             </ArchButton>
           </div>
+          <h3 className="mt-12 text-[length:var(--step-1)] italic leading-tight">{privacy.title[lang]}</h3>
+          <p className="measure mt-3 text-ink-soft">{privacy.body[lang].join(" ")}</p>
         </aside>
       </div>
     </main>

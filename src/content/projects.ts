@@ -31,7 +31,7 @@ export interface Project {
   benefits: Bilingual<string[]>;
   /** How it is built, readable for non-developers. */
   craft: Bilingual<string[]>;
-  /** The hardest problem and how it was solved. */
+  /** The hardest problem and how it was solved. Empty hides the section. */
   challenge: Bilingual<string>;
   stack: string[];
   links: ProjectLink[];
@@ -40,6 +40,56 @@ export interface Project {
 }
 
 export const projects: Project[] = [
+  {
+    slug: "exact-online",
+    name: "ExactTool",
+    featured: true,
+    kind: { nl: "Automatisering voor Exact Online", en: "Automation for Exact Online" },
+    tagline: {
+      nl: "Zoekt bedrijven en contactgegevens op en zet ze automatisch als verkoopkans in Exact Online, klaar om te bellen.",
+      en: "Looks up companies and contact details and puts them into Exact Online as sales opportunities automatically, ready to call.",
+    },
+    audience: {
+      nl: "Een belteam dat koude acquisitie doet en zijn verkoopkansen in Exact Online bijhoudt. De klantgegevens zijn hier geanonimiseerd.",
+      en: "A calling team that does cold outreach and keeps its sales opportunities in Exact Online. The client details are anonymised here.",
+    },
+    problem: {
+      nl: "Bij koud bellen gaat een groot deel van de dag niet op aan bellen, maar aan voorbereiden: uitzoeken welk bedrijf je belt, wie de juiste persoon is, en dat daarna met de hand in het CRM typen. Dat is werk dat een computer sneller en consistenter doet.",
+      en: "In cold calling, a large part of the day does not go to calling but to preparing: finding out which company to call, who the right person is, and then typing it all into the CRM by hand. That is work a computer does faster and more consistently.",
+    },
+    solution: {
+      nl: "ExactTool achterhaalt bedrijven, haalt hun gegevens en contactpersonen op uit openbare bronnen en zet ze als verkoopkans in Exact Online, het systeem waarin het team al werkt. Niemand hoeft een nieuw programma te leren: de lijst staat klaar op de plek waar ze al werken.",
+      en: "ExactTool finds companies, collects their details and contact persons from public sources and puts them into Exact Online as sales opportunities, the system the team already works in. Nobody has to learn a new program: the list is ready where they already work.",
+    },
+    benefits: {
+      nl: [
+        "Geen bedrijfsgegevens meer met de hand overtypen in Exact Online.",
+        "Het team begint met een lijst die klaarstaat, in plaats van met zoekwerk.",
+        "Meer tijd voor de gesprekken zelf.",
+        "Het werkt in het systeem dat het team al gebruikt.",
+      ],
+      en: [
+        "No more typing company details into Exact Online by hand.",
+        "The team starts with a list that is ready, instead of with searching.",
+        "More time for the calls themselves.",
+        "It works inside the system the team already uses.",
+      ],
+    },
+    craft: {
+      nl: [
+        "De tool werkt in Exact Online via de browser, op dezelfde manier als een medewerker dat zou doen.",
+        "Het draait als gewone app op de Mac, met een eigen browser erbij, zodat er niets apart geïnstalleerd hoeft te worden.",
+      ],
+      en: [
+        "The tool works in Exact Online through the browser, the same way an employee would.",
+        "It runs as a regular app on the Mac, with its own browser included, so nothing needs to be installed separately.",
+      ],
+    },
+    challenge: { nl: "", en: "" },
+    stack: ["Python", "Playwright", "Flask", "PyInstaller", "Exact Online"],
+    links: [],
+    status: { nl: "Gebouwd voor een belteam", en: "Built for a calling team" },
+  },
   {
     slug: "teamsync",
     name: "TeamSync",
@@ -98,64 +148,6 @@ export const projects: Project[] = [
     status: { nl: "Opgeleverd", en: "Delivered" },
   },
   {
-    slug: "strength-tracker",
-    name: "Strength Tracker",
-    featured: true,
-    kind: { nl: "Installeerbare web-app", en: "Installable web app" },
-    tagline: {
-      nl: "Mijn eigen trainingsapp: workouts loggen op telefoon en laptop, ook zonder bereik, met elke week een concreet advies.",
-      en: "My own training app: log workouts on phone and laptop, even without signal, with concrete advice every week.",
-    },
-    audience: {
-      nl: "Mijn trainingspartner en ik. Ik gebruik hem nog elke week.",
-      en: "My training partner and me. I still use it every week.",
-    },
-    problem: {
-      nl: "Trainingsapps zijn vaak Engelstalig, werken slecht zonder internet of laten je niet met twee mensen tegelijk loggen. Ik wilde één app die op telefoon en laptop hetzelfde laat zien, in de sportschool zonder bereik gewoon werkt en na elke week zegt welk gewicht ik de volgende keer pak.",
-      en: "Training apps are often English-only, work poorly without internet, or do not let two people log at the same time. I wanted one app that shows the same on phone and laptop, simply works in a gym without signal, and tells me after each week which weight to use next time.",
-    },
-    solution: {
-      nl: "Strength Tracker is een web-app die je installeert als een gewone app. Je logt sets, gewichten en herhalingen, alleen of samen met je trainingspartner. Alles staat eerst op je eigen toestel en gaat daarna vanzelf naar je andere apparaten. Er zit een bibliotheek van ruim honderd oefeningen in, een 3D-figuur die laat zien welke spieren je deze week trainde, en elke week een advies voor je volgende gewichten.",
-      en: "Strength Tracker is a web app you install like a regular app. You log sets, weights and reps, alone or together with your training partner. Everything is stored on your own device first and then syncs to your other devices by itself. It includes a library of over a hundred exercises, a 3D figure that shows which muscles you trained this week, and weekly advice for your next weights.",
-    },
-    benefits: {
-      nl: [
-        "Werkt offline in de sportschool en synchroniseert zodra er weer bereik is.",
-        "Samen trainen: meerdere profielen in één sessie.",
-        "Elke week een concreet gewichtsadvies op basis van de week ervoor.",
-        "Installeerbaar op telefoon en laptop, gewoon via de browser.",
-      ],
-      en: [
-        "Works offline in the gym and syncs as soon as there is signal again.",
-        "Train together: several profiles in one session.",
-        "Concrete weight advice every week, based on the week before.",
-        "Installable on phone and laptop, straight from the browser.",
-      ],
-    },
-    craft: {
-      nl: [
-        "Gegevens eerst lokaal, daarna realtime gesynchroniseerd tussen apparaten.",
-        "Een eigen service worker, zodat de app ook zonder internet opent.",
-        "In tien stappen omgebouwd tot een snelle app die alleen laadt wat je nodig hebt, met 110 automatische tests.",
-      ],
-      en: [
-        "Data stored locally first, then synced in real time between devices.",
-        "A custom service worker, so the app also opens without internet.",
-        "Rebuilt in ten steps into a fast app that only loads what you need, with 110 automated tests.",
-      ],
-    },
-    challenge: {
-      nl: "Op een nieuw apparaat bleef de app leeg, terwijl de gegevens wel binnenkwamen: het actieve profiel verwees naar een profiel dat alleen lokaal bestond. Nu kiest de app na het samenvoegen automatisch een geldig profiel, en laat een duidelijke melding zien als de synchronisatie ergens vastloopt.",
-      en: "On a new device the app stayed empty while the data did arrive: the active profile pointed to a profile that only existed locally. Now the app picks a valid profile automatically after merging, and shows a clear message when syncing gets stuck somewhere.",
-    },
-    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "Three.js"],
-    links: [
-      { label: { nl: "Open de app", en: "Open the app" }, href: "https://strengttracker.netlify.app" },
-      { label: { nl: "Broncode op GitHub", en: "Source on GitHub" }, href: "https://github.com/pimdaanbram-prog/strength-tracker" },
-    ],
-    status: { nl: "Live en in gebruik", en: "Live and in use" },
-  },
-  {
     slug: "offerte-pdf-generator",
     name: "OfferteVlot",
     featured: true,
@@ -211,6 +203,114 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "jsPDF"],
     links: [],
     status: { nl: "Klaar voor gebruik, zonder server", en: "Ready to use, no server needed" },
+  },
+  {
+    slug: "wordpress-koppeling",
+    name: "WordPress-koppeling",
+    featured: false,
+    kind: { nl: "Koppeling tussen systemen", en: "Link between systems" },
+    tagline: {
+      nl: "Laat portalsites automatisch gegevens uitwisselen met WordPress. Hetzelfde werkt voor bijna alles wat je aan WordPress wilt hangen.",
+      en: "Lets portal sites exchange data with WordPress automatically. The same works for almost anything you want to connect to WordPress.",
+    },
+    audience: {
+      nl: "Bedrijven met een WordPress-site die gegevens uit andere systemen op hun site willen hebben, of andersom, zonder ze over te typen.",
+      en: "Companies with a WordPress site who want data from other systems on their site, or the other way round, without retyping it.",
+    },
+    problem: {
+      nl: "Systemen die niet met elkaar praten betekenen dubbel werk. Wat in het ene pakket staat, wordt met de hand in het andere gezet. Dat kost tijd, en bij elke keer overtypen kan er een fout insluipen.",
+      en: "Systems that do not talk to each other mean double work. What is in one package gets copied into the other by hand. That takes time, and every bit of retyping is a chance for a mistake.",
+    },
+    solution: {
+      nl: "Ik bouwde een systeem dat portalsites laat communiceren met WordPress, zodat gegevens vanzelf van het ene systeem naar het andere gaan. Portalsites zijn maar een voorbeeld: een CRM, een spreadsheet, een formulier, een webshop of een mailbox kun je op dezelfde manier aan WordPress koppelen. Zo ontstaan handige, snelle automatiseringen bovenop wat er al is.",
+      en: "I built a system that lets portal sites communicate with WordPress, so data moves from one system to the other by itself. Portal sites are just one example: a CRM, a spreadsheet, a form, a web shop or a mailbox can be connected to WordPress the same way. That gives handy, fast automations on top of what is already there.",
+    },
+    benefits: {
+      nl: [
+        "Geen gegevens meer met de hand van systeem A naar systeem B zetten.",
+        "Wat in het ene systeem verandert, staat snel ook in het andere.",
+        "WordPress blijft werken zoals je gewend bent.",
+        "Uit te breiden met andere systemen die je al gebruikt.",
+      ],
+      en: [
+        "No more moving data from system A to system B by hand.",
+        "What changes in one system soon shows up in the other.",
+        "WordPress keeps working the way you are used to.",
+        "Can be extended with other systems you already use.",
+      ],
+    },
+    craft: {
+      nl: [
+        "Systemen praten met elkaar via hun koppelingen (API's), zodat er niemand tussen hoeft te zitten.",
+        "De koppeling sluit aan op wat er al is: er hoeft geen nieuw systeem bij.",
+      ],
+      en: [
+        "Systems talk to each other through their interfaces (APIs), so nobody has to sit in between.",
+        "The link fits onto what is already there: no new system is needed.",
+      ],
+    },
+    challenge: { nl: "", en: "" },
+    stack: ["Python", "WordPress", "API-koppelingen"],
+    links: [],
+    status: { nl: "Gebouwd en werkend", en: "Built and working" },
+  },
+  {
+    slug: "strength-tracker",
+    name: "Strength Tracker",
+    featured: false,
+    kind: { nl: "Installeerbare web-app", en: "Installable web app" },
+    tagline: {
+      nl: "Mijn eigen trainingsapp: workouts loggen op telefoon en laptop, ook zonder bereik, met elke week een concreet advies.",
+      en: "My own training app: log workouts on phone and laptop, even without signal, with concrete advice every week.",
+    },
+    audience: {
+      nl: "Mijn trainingspartner en ik. Ik gebruik hem nog elke week.",
+      en: "My training partner and me. I still use it every week.",
+    },
+    problem: {
+      nl: "Trainingsapps zijn vaak Engelstalig, werken slecht zonder internet of laten je niet met twee mensen tegelijk loggen. Ik wilde één app die op telefoon en laptop hetzelfde laat zien, in de sportschool zonder bereik gewoon werkt en na elke week zegt welk gewicht ik de volgende keer pak.",
+      en: "Training apps are often English-only, work poorly without internet, or do not let two people log at the same time. I wanted one app that shows the same on phone and laptop, simply works in a gym without signal, and tells me after each week which weight to use next time.",
+    },
+    solution: {
+      nl: "Strength Tracker is een web-app die je installeert als een gewone app. Je logt sets, gewichten en herhalingen, alleen of samen met je trainingspartner. Alles staat eerst op je eigen toestel en gaat daarna vanzelf naar je andere apparaten. Er zit een bibliotheek van ruim honderd oefeningen in, een 3D-figuur die laat zien welke spieren je deze week trainde, en elke week een advies voor je volgende gewichten.",
+      en: "Strength Tracker is a web app you install like a regular app. You log sets, weights and reps, alone or together with your training partner. Everything is stored on your own device first and then syncs to your other devices by itself. It includes a library of over a hundred exercises, a 3D figure that shows which muscles you trained this week, and weekly advice for your next weights.",
+    },
+    benefits: {
+      nl: [
+        "Werkt offline in de sportschool en synchroniseert zodra er weer bereik is.",
+        "Samen trainen: meerdere profielen in één sessie.",
+        "Elke week een concreet gewichtsadvies op basis van de week ervoor.",
+        "Installeerbaar op telefoon en laptop, gewoon via de browser.",
+      ],
+      en: [
+        "Works offline in the gym and syncs as soon as there is signal again.",
+        "Train together: several profiles in one session.",
+        "Concrete weight advice every week, based on the week before.",
+        "Installable on phone and laptop, straight from the browser.",
+      ],
+    },
+    craft: {
+      nl: [
+        "Gegevens eerst lokaal, daarna realtime gesynchroniseerd tussen apparaten.",
+        "Een eigen service worker, zodat de app ook zonder internet opent.",
+        "In tien stappen omgebouwd tot een snelle app die alleen laadt wat je nodig hebt, met 110 automatische tests.",
+      ],
+      en: [
+        "Data stored locally first, then synced in real time between devices.",
+        "A custom service worker, so the app also opens without internet.",
+        "Rebuilt in ten steps into a fast app that only loads what you need, with 110 automated tests.",
+      ],
+    },
+    challenge: {
+      nl: "Op een nieuw apparaat bleef de app leeg, terwijl de gegevens wel binnenkwamen: het actieve profiel verwees naar een profiel dat alleen lokaal bestond. Nu kiest de app na het samenvoegen automatisch een geldig profiel, en laat een duidelijke melding zien als de synchronisatie ergens vastloopt.",
+      en: "On a new device the app stayed empty while the data did arrive: the active profile pointed to a profile that only existed locally. Now the app picks a valid profile automatically after merging, and shows a clear message when syncing gets stuck somewhere.",
+    },
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "Supabase", "Three.js"],
+    links: [
+      { label: { nl: "Open de app", en: "Open the app" }, href: "https://strengttracker.netlify.app" },
+      { label: { nl: "Broncode op GitHub", en: "Source on GitHub" }, href: "https://github.com/pimdaanbram-prog/strength-tracker" },
+    ],
+    status: { nl: "Live en in gebruik", en: "Live and in use" },
   },
   {
     slug: "belhulp",

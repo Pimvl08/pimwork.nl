@@ -26,6 +26,7 @@ export interface Fact {
 
 /** Shown on the about page. Facts with value null are hidden. */
 export const facts: Fact[] = [
+  { id: "name", label: { nl: "Naam", en: "Name" }, value: { nl: "Pim van Leeuwen", en: "Pim van Leeuwen" } },
   {
     id: "builds",
     label: { nl: "Bouwt", en: "Builds" },
@@ -81,6 +82,15 @@ export const services: Service[] = [
     proof: ["offerte-pdf-generator", "belhulp"],
   },
   {
+    id: "connect",
+    title: { nl: "Systemen aan elkaar koppelen", en: "Connecting systems" },
+    body: {
+      nl: "Pakketten die niet met elkaar praten, laat ik wel praten. Gegevens gaan vanzelf van systeem A naar systeem B, bijvoorbeeld van openbare bronnen naar je CRM, of van een portal naar WordPress. Geen overtypen meer, en geen fouten door overtypen.",
+      en: "Packages that do not talk to each other, I make talk. Data moves from system A to system B by itself, for example from public sources into your CRM, or from a portal into WordPress. No more retyping, and no mistakes from retyping.",
+    },
+    proof: ["exact-online", "wordpress-koppeling"],
+  },
+  {
     id: "ai",
     title: { nl: "AI waar het iets oplevert", en: "AI where it pays off" },
     body: {
@@ -90,6 +100,21 @@ export const services: Service[] = [
     proof: ["belhulp", "kdp-kleurboek"],
   },
 ];
+
+/** How client data is handled. Shown on the home page and the contact page. */
+export const privacy = {
+  title: { nl: "Jouw gegevens blijven van jou", en: "Your data stays yours" },
+  body: {
+    nl: [
+      "De gegevens waar ik mee werk zijn vaak bedrijfsgevoelig of vallen onder de AVG. Ik ga er zorgvuldig mee om: ze blijven binnen je bedrijf, gaan niet naar derden en ik gebruik ze nergens anders voor.",
+      "Een geheimhoudingsverklaring teken ik zonder discussie.",
+    ],
+    en: [
+      "The data I work with is often commercially sensitive or covered by the GDPR. I handle it with care: it stays inside your company, is not shared with third parties and I do not use it for anything else.",
+      "I sign a non-disclosure agreement without discussion.",
+    ],
+  },
+} satisfies { title: Bilingual<string>; body: Bilingual<string[]> };
 
 /** The about page: who Pim is and how he works. */
 export const about = {

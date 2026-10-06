@@ -468,6 +468,126 @@ function OffertePdf({ t }: { t: CopyOf<"offerte-pdf-generator"> }) {
   );
 }
 
+function ExactOnline({ t }: { t: CopyOf<"exact-online"> }) {
+  const sources = [92, 140, 188];
+  const rows = [134, 154, 174, 194, 214];
+  const fresh = 1;
+  return (
+    <>
+      <text x={40} y={78} className={s.small}>
+        {t.sources}
+      </text>
+      {sources.map((y, i) => (
+        <g key={y}>
+          <rect x={40} y={y} width={96} height={32} rx={2} className={s.node} />
+          <Words x0={50} y={y + 12} widths={[18, 30 - i * 6]} className={s.words} />
+          <Words x0={50} y={y + 22} widths={[26 - i * 4, 14]} className={s.words} />
+          <path className={s.mute} d={`M136 ${y + 16} C 166 ${y + 16}, 176 152, 202 152`} />
+        </g>
+      ))}
+      <Head x={202} y={152} angle={0} />
+      <circle cx={240} cy={152} r={35} className={s.inkNode} />
+      <text x={240} y={157} textAnchor="middle" className={s.inkText}>
+        {t.fetch}
+      </text>
+      <text x={240} y={208} textAnchor="middle" className={s.small}>
+        {t.sift}
+      </text>
+      <path className={s.ink} d="M275 152 H 306" />
+      <Head x={306} y={152} angle={0} ink />
+      <text x={316} y={84} className={s.mono}>
+        {t.exact}
+      </text>
+      <rect x={316} y={94} width={136} height={132} rx={2} className={s.node} />
+      <text x={326} y={116} className={s.small}>
+        {t.company}
+      </text>
+      <text x={398} y={116} className={s.small}>
+        {t.contact}
+      </text>
+      <path className={s.mute} d="M316 124 H 452" />
+      {rows.map((y, i) =>
+        i === fresh ? (
+          <path key={y} className={s.ink} d={`M326 ${y} H 386 M398 ${y} H 442`} />
+        ) : (
+          <path key={y} className={s.hair} d={`M326 ${y} H 386 M398 ${y} H 442`} />
+        ),
+      )}
+      <path className={s.inkThin} d={`M452 ${rows[fresh]} C 470 ${rows[fresh]}, 470 230, 452 238`} />
+      <text x={444} y={250} textAnchor="end" className={s.inkText}>
+        {t.opportunity}
+      </text>
+      <path className={s.ink} style={{ strokeWidth: 1.6 }} d="M40 286 H 230" />
+      <Head x={230} y={286} angle={0} ink />
+      <text x={242} y={290} className={s.inkText}>
+        {t.ready}
+      </text>
+    </>
+  );
+}
+
+function WordpressKoppeling({ t }: { t: CopyOf<"wordpress-koppeling"> }) {
+  const cx = 240;
+  const cy = 186;
+  const hub = 38;
+  const reach = 128;
+  const angles = [315, 0, 45, 90, 135];
+  const portalAngle = 250;
+  const label = (deg: number, x: number, y: number, text: string, className?: string) => {
+    const right = deg > 10 && deg < 170;
+    const left = deg > 190 && deg < 350;
+    const anchor = right ? "start" : left ? "end" : "middle";
+    const dx = right ? 12 : left ? -12 : 0;
+    const dy = deg === 0 ? -14 : 5;
+    return (
+      <text x={r2(x + dx)} y={r2(y + dy)} textAnchor={anchor} className={className}>
+        {text}
+      </text>
+    );
+  };
+  const [px, py] = polar(cx, cy, reach, portalAngle);
+  const [pIn1x, pIn1y] = polar(cx, cy, hub + 4, portalAngle - 6);
+  const [pIn2x, pIn2y] = polar(cx, cy, hub + 4, portalAngle + 6);
+  const [pOut1x, pOut1y] = polar(cx, cy, reach - 8, portalAngle - 3);
+  const [pOut2x, pOut2y] = polar(cx, cy, reach - 8, portalAngle + 3);
+  return (
+    <>
+      {angles.map((deg, i) => {
+        const [x, y] = polar(cx, cy, reach, deg);
+        const [ex, ey] = polar(cx, cy, hub + 4, deg);
+        return (
+          <g key={deg}>
+            <path className={`${s.mute} ${s.dash}`} d={`M${ex} ${ey} L ${r2(x)} ${r2(y)}`} />
+            <circle cx={r2(x)} cy={r2(y)} r={5} className={s.node} />
+            {label(deg, x, y, t.others[i], s.faintText)}
+          </g>
+        );
+      })}
+      <path className={s.ink} d={`M${pOut1x} ${pOut1y} L ${pIn1x} ${pIn1y}`} />
+      <path className={s.ink} d={`M${pIn2x} ${pIn2y} L ${pOut2x} ${pOut2y}`} />
+      <Head x={pIn1x} y={pIn1y} angle={portalAngle - 270} ink />
+      <Head x={pOut2x} y={pOut2y} angle={portalAngle - 90} ink />
+      <rect x={r2(px - 6)} y={r2(py - 6)} width={12} height={12} className={s.inkNode} />
+      {label(portalAngle, px, py, t.portal, s.inkText)}
+      <text x={r2(px - 12)} y={r2(py + 22)} textAnchor="end" className={s.small}>
+        {t.both}
+      </text>
+      <circle cx={cx} cy={cy} r={hub} className={s.inkNode} />
+      <text x={cx} y={cy + 5} textAnchor="middle" className={s.inkText}>
+        {t.hub}
+      </text>
+      <path className={s.ink} d="M40 330 H 72" />
+      <text x={80} y={334} className={s.small}>
+        {t.built}
+      </text>
+      <path className={`${s.mute} ${s.dash}`} d="M180 330 H 212" />
+      <text x={220} y={334} className={s.small}>
+        {t.could}
+      </text>
+    </>
+  );
+}
+
 function body(slug: DiagramSlug, lang: Locale): ReactNode {
   switch (slug) {
     case "teamsync":
@@ -482,6 +602,10 @@ function body(slug: DiagramSlug, lang: Locale): ReactNode {
       return <SolanaForensics t={diagramCopy["solana-forensics"][lang]} />;
     case "offerte-pdf-generator":
       return <OffertePdf t={diagramCopy["offerte-pdf-generator"][lang]} />;
+    case "exact-online":
+      return <ExactOnline t={diagramCopy["exact-online"][lang]} />;
+    case "wordpress-koppeling":
+      return <WordpressKoppeling t={diagramCopy["wordpress-koppeling"][lang]} />;
   }
 }
 

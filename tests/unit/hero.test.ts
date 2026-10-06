@@ -57,10 +57,10 @@ describe("phrase cycling", () => {
 
   it("builds the spoken sentence in the first person", () => {
     expect(introSentence(introPhrases[0], "nl")).toBe(
-      "Ik bouw software die werk uit handen neemt, zoals een trainingsapp die ik elke week gebruik.",
+      "Ik bouw software die werk uit handen neemt, zoals een tool die bedrijven als verkoopkans in Exact Online zet.",
     );
     expect(introSentence(introPhrases[0], "en")).toBe(
-      "I build software that takes work off your hands, like a training app I use every week.",
+      "I build software that takes work off your hands, like a tool that puts companies into Exact Online as sales opportunities.",
     );
   });
 

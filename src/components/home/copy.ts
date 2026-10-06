@@ -5,8 +5,8 @@ export const homeCopy = {
   services: {
     title: { nl: "Wat ik voor je kan bouwen", en: "What I can build for you" },
     lead: {
-      nl: "Ik begin bij het werk dat tijd kost en bouw daar iets voor dat het overneemt. Vier soorten software die ik al gemaakt heb:",
-      en: "I start from the work that costs time and build something that takes it over. Four kinds of software I have already made:",
+      nl: "Ik begin bij het werk dat tijd kost en bouw daar iets voor dat het overneemt. Vijf soorten software die ik al gemaakt heb:",
+      en: "I start from the work that costs time and build something that takes it over. Five kinds of software I have already made:",
     },
     proof: { nl: "Gebouwd:", en: "Built:" },
   },

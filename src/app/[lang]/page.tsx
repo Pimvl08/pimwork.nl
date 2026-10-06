@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
-import { AboutTeaser, ContactBand, Services } from "@/components/home/HomeSections";
+import { AboutTeaser, ContactBand, Privacy, Services } from "@/components/home/HomeSections";
 import { HeroPlate } from "@/components/plates/HeroPlate";
 import { FeaturedWork } from "@/components/work/FeaturedWork";
 import { isLocale } from "@/i18n/config";
@@ -20,6 +20,7 @@ export default async function HomePage({ params }: PageProps<"/[lang]">) {
       <HeroPlate lang={lang} />
       <FeaturedWork lang={lang} />
       <Services lang={lang} />
+      <Privacy lang={lang} />
       <AboutTeaser lang={lang} />
       <ContactBand lang={lang} />
     </main>

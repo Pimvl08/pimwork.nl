@@ -212,10 +212,12 @@ function Catalogue({ lang }: { lang: Lang }) {
           <Bullets items={project.benefits[lang]} marker={(n) => `${n + 1}.`} />
           <Text style={s.h3}>{t.craft}</Text>
           <Bullets items={project.craft[lang]} marker={(n) => `${String.fromCharCode(97 + n)}.`} />
-          <View wrap={false}>
-            <Text style={s.h3}>{t.challenge}</Text>
-            <Text>{project.challenge[lang]}</Text>
-          </View>
+          {project.challenge[lang] ? (
+            <View wrap={false}>
+              <Text style={s.h3}>{t.challenge}</Text>
+              <Text>{project.challenge[lang]}</Text>
+            </View>
+          ) : null}
           <View wrap={false}>
             <Text style={s.h3}>{t.stack}</Text>
             <Text style={[s.mono, { color: soft, lineHeight: 1.7 }]}>{project.stack.join("  ·  ")}</Text>

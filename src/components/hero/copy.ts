@@ -11,6 +11,10 @@ export interface IntroPhrase {
 
 export const introPhrases: IntroPhrase[] = [
   {
+    slug: "exact-online",
+    label: { nl: "een tool die bedrijven als verkoopkans in Exact Online zet", en: "a tool that puts companies into Exact Online as sales opportunities" },
+  },
+  {
     slug: "strength-tracker",
     label: { nl: "een trainingsapp die ik elke week gebruik", en: "a training app I use every week" },
   },
