@@ -1,6 +1,6 @@
 import { expect, gotoReady, test, walkPage } from "./fixtures";
 
-const PAGES = ["/nl", "/nl/werk", "/nl/over", "/nl/contact"];
+const PAGES = ["/nl", "/nl/werk", "/nl/diensten", "/nl/diensten/website-laten-maken", "/nl/over", "/nl/contact"];
 
 /** Every width on desktop; the phone project covers the two phone widths with touch emulation. */
 const WIDTHS: Record<string, number[]> = {

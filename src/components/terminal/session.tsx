@@ -5,7 +5,6 @@ import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useRef, useState, type ReactNode } from "react";
 import type { Locale } from "@/i18n/config";
 import { localizedPath } from "@/lib/locale";
-import { persistLocale } from "@/lib/prefs";
 import { uiStore, unlockEgg } from "@/lib/store";
 import { applyTheme } from "@/lib/theme";
 import { cn } from "@/lib/cn";
@@ -42,7 +41,6 @@ export function useActionRunner(lang: Locale) {
           break;
         }
         case "lang":
-          persistLocale(action.lang);
           router.push(localizedPath(pathname || `/${lang}`, action.lang));
           break;
         case "goto":

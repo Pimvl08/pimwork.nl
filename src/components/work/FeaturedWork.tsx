@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
-import { featuredProjects, projects } from "@/content/projects";
+import { featuredProjects, workProjects } from "@/content/projects";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { workCopy } from "./copy";
@@ -20,7 +20,7 @@ const LAYOUT = [styles.featureLead, styles.featureNarrow, styles.featureWide];
  */
 export function FeaturedWork({ lang }: { lang: Locale }) {
   const t = workCopy[lang];
-  const order = featuredFirst(projects);
+  const order = featuredFirst(workProjects);
   const titleId = "featured-work-title";
 
   return (

@@ -12,7 +12,7 @@ import { LangSwitch, ThemeToggle, useActivePage } from "./controls";
 import { chromeCopy } from "./copy";
 import { Sheet } from "./Sheet";
 
-const barPages = pages.filter((page) => page.inNav);
+const barPages = pages.filter((page) => page.inBar);
 
 function MenuGlyph() {
   return (

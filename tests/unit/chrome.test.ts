@@ -23,16 +23,17 @@ describe("shortcutFor", () => {
     expect(shortcutFor(key("Escape", { terminalOpen: true }))).toBeNull();
     expect(shortcutFor(key("Escape"))).toEqual({ type: "escape" });
   });
-  it("maps single keys to the sheet, theme, language and the five pages", () => {
+  it("maps single keys to the sheet, theme, language and the six pages", () => {
     expect(shortcutFor(key("?"))).toEqual({ type: "sheet" });
     expect(shortcutFor(key("t"))).toEqual({ type: "theme" });
     expect(shortcutFor(key("L"))).toEqual({ type: "lang" });
     expect(shortcutFor(key("0"))).toEqual({ type: "page", id: "home" });
     expect(shortcutFor(key("1"))).toEqual({ type: "page", id: "work" });
-    expect(shortcutFor(key("2"))).toEqual({ type: "page", id: "about" });
-    expect(shortcutFor(key("3"))).toEqual({ type: "page", id: "lab" });
-    expect(shortcutFor(key("4"))).toEqual({ type: "page", id: "contact" });
-    expect(shortcutFor(key("5"))).toBeNull();
+    expect(shortcutFor(key("2"))).toEqual({ type: "page", id: "services" });
+    expect(shortcutFor(key("3"))).toEqual({ type: "page", id: "about" });
+    expect(shortcutFor(key("4"))).toEqual({ type: "page", id: "lab" });
+    expect(shortcutFor(key("5"))).toEqual({ type: "page", id: "contact" });
+    expect(shortcutFor(key("6"))).toBeNull();
   });
   it("ignores single keys while typing, with modifiers, in a modal or while composing", () => {
     expect(shortcutFor(key("t", { typing: true }))).toBeNull();
@@ -75,7 +76,7 @@ describe("chrome copy", () => {
     expect(text).not.toMatch(/Claude|gebouwd met|built with/i);
   });
   it("has the footer line in both languages", () => {
-    expect(chromeCopy.footer.nl.line).toBe("Software die werk uit handen neemt.");
-    expect(chromeCopy.footer.en.line).toBe("Software that takes work off your hands.");
+    expect(chromeCopy.footer.nl.line).toBe("Software, automatisering en websites uit Aarle-Rixtel.");
+    expect(chromeCopy.footer.en.line).toBe("Software, automation and websites from Aarle-Rixtel.");
   });
 });

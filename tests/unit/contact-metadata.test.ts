@@ -3,8 +3,9 @@ import AppleIcon, { contentType, size } from "@/app/apple-icon";
 import manifest from "@/app/manifest";
 import robots from "@/app/robots";
 import sitemap from "@/app/sitemap";
-import { projects } from "@/content/projects";
+import { labProjects, projectHref, projects } from "@/content/projects";
 import { pages } from "@/content/sections";
+import { services } from "@/content/services";
 
 describe("site metadata routes", () => {
   it("robots allows the site, hides the API and the egg ledger, links the sitemap", () => {
@@ -15,24 +16,27 @@ describe("site metadata routes", () => {
     expect(out.sitemap).toMatch(/\/sitemap\.xml$/);
   });
 
-  it("sitemap lists every page and every project in both languages with alternates", () => {
+  it("sitemap lists every page, service and project in both languages with alternates", () => {
     const entries = sitemap();
-    expect(entries).toHaveLength((pages.length + projects.length) * 2);
+    expect(entries).toHaveLength((pages.length + services.length + projects.length) * 2);
     const urls = entries.map((entry) => entry.url);
     expect(urls.some((url) => url.endsWith("/nl"))).toBe(true);
     expect(urls.some((url) => url.endsWith("/en"))).toBe(true);
-    for (const path of ["/over", "/lab", "/contact", "/werk"]) {
+    for (const path of ["/over", "/lab", "/contact", "/werk", "/diensten", ...services.map((s) => `/diensten/${s.slug}`)]) {
       expect(urls.some((url) => url.endsWith(`/nl${path}`))).toBe(true);
       expect(urls.some((url) => url.endsWith(`/en${path}`))).toBe(true);
     }
     for (const project of projects) {
-      const nl = entries.find((entry) => entry.url.endsWith(`/nl/werk/${project.slug}`));
+      const path = projectHref("", project);
+      const nl = entries.find((entry) => entry.url.endsWith(`/nl${path.slice(1)}`));
       expect(nl?.alternates?.languages).toMatchObject({
-        "nl-NL": expect.stringContaining(`/nl/werk/${project.slug}`),
-        "en-GB": expect.stringContaining(`/en/werk/${project.slug}`),
-        "x-default": expect.stringContaining(`/nl/werk/${project.slug}`),
+        "nl-NL": expect.stringContaining(`/nl${path.slice(1)}`),
+        "en-GB": expect.stringContaining(`/en${path.slice(1)}`),
+        "x-default": expect.stringContaining(`/nl${path.slice(1)}`),
       });
     }
+    // Lab projects are listed under the lab, never under the work pages.
+    for (const project of labProjects) expect(urls.some((url) => url.endsWith(`/werk/${project.slug}`))).toBe(false);
   });
 
   it("manifest uses the graphite paper colours and the svg icon", () => {

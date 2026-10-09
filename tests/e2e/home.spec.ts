@@ -1,9 +1,13 @@
-import { SLUGS, expect, gotoReady, test, trackErrors } from "./fixtures";
+import { SERVICE_SLUGS, SLUGS, expect, gotoReady, test, trackErrors } from "./fixtures";
+
+const H1 = "Software, automatisering en websites voor bedrijven in Helmond en omgeving";
 
 test.describe("home", () => {
-  test("the hero shows the name and two actions", async ({ page }) => {
+  test("the hero shows the name, the descriptive h1 and two actions", async ({ page }) => {
     await gotoReady(page, "/nl");
-    await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeVisible();
+    await expect(page.locator("#cover").getByText("PimWork", { exact: true })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1, name: H1 })).toBeVisible();
+    await expect(page.getByRole("heading", { level: 1 })).toHaveCount(1);
     const cover = page.locator("#cover");
     await expect(cover.getByRole("link", { name: "Bekijk mijn werk" })).toHaveAttribute("href", "/nl/werk");
     await expect(cover.getByRole("link", { name: "Neem contact op" })).toHaveAttribute("href", "/nl/contact");
@@ -42,7 +46,7 @@ test.describe("home", () => {
     await expect(sheet).toBeVisible();
     await expect(sheet.getByRole("heading", { name: "Het probleem" })).toBeVisible();
     // The home page stays underneath.
-    await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeAttached();
+    await expect(page.getByRole("heading", { level: 1, name: H1 })).toBeAttached();
 
     await page.keyboard.press("Escape");
     await expect(sheet).toBeHidden();
@@ -76,7 +80,7 @@ test.describe("home", () => {
     await expect(page).toHaveURL(/\/nl$/);
   });
 
-  test("the services section links to real project pages", async ({ page }) => {
+  test("the services section links to real service and project pages", async ({ page }) => {
     await gotoReady(page, "/nl");
     const services = page.getByRole("region", { name: "Wat ik voor je kan bouwen" });
     const links = services.getByRole("link");
@@ -84,10 +88,11 @@ test.describe("home", () => {
     const hrefs = await links.evaluateAll((els) => els.map((el) => el.getAttribute("href") ?? ""));
     expect(hrefs.length).toBeGreaterThan(0);
     for (const href of hrefs) {
-      const slug = href.match(/^\/nl\/werk\/([^/]+)$/)?.[1];
+      const [, section, slug] = href.match(/^\/nl\/(werk|diensten)\/([^/]+)$/) ?? [];
       expect(slug, `service link ${href}`).toBeTruthy();
-      expect(SLUGS as readonly string[]).toContain(slug);
+      expect((section === "werk" ? SLUGS : SERVICE_SLUGS) as readonly string[]).toContain(slug);
     }
+    for (const slug of SERVICE_SLUGS) expect(hrefs).toContain(`/nl/diensten/${slug}`);
     await links.first().scrollIntoViewIfNeeded();
     await links.first().click();
     await expect(page).toHaveURL(new RegExp(`${hrefs[0]}$`));

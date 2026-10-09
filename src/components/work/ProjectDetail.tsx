@@ -1,42 +1,22 @@
 import Link from "next/link";
-import type { ReactNode } from "react";
 import { ProjectMedia } from "@/components/media/ProjectMedia";
 import { ArcCard } from "@/components/ui/ArcCard";
 import { ArchButton } from "@/components/ui/ArchButton";
 import { Icon } from "@/components/ui/Icon";
 import { PlateHeading } from "@/components/ui/PlateHeading";
 import { imagesFor, videoFor } from "@/content/media";
-import { projects, type Project } from "@/content/projects";
+import { labProjects, projectHref, workProjects, type Project } from "@/content/projects";
+import { getService } from "@/content/services";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { workCopy } from "./copy";
 import { featuredFirst, neighbours, numeralFor } from "./lib";
+import { FigureRule, Section } from "./parts";
 import { ProjectDiagram, diagramCaption } from "./ProjectDiagram";
 import { ProjectFigure } from "./ProjectFigure";
 import styles from "./work.module.css";
 
-const ARCH = "M0 23 Q500 1 1000 23";
 const LETTERS = "abcdefghijklmnopqrstuvwxyz";
-
-/** Slightly arched hairline above every numbered item. */
-function FigureRule() {
-  return (
-    <svg viewBox="0 0 1000 24" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-      <path d={ARCH} className={styles.rule} />
-    </svg>
-  );
-}
-
-function Section({ id, title, as: H, children }: { id: string; title: string; as: "h2" | "h3"; children: ReactNode }) {
-  return (
-    <section className={styles.section} aria-labelledby={id}>
-      <H id={id} className={styles.sectionTitle}>
-        {title}
-      </H>
-      <div className={styles.sectionBody}>{children}</div>
-    </section>
-  );
-}
 
 interface ProjectDetailProps {
   project: Project;
@@ -55,12 +35,15 @@ interface ProjectDetailProps {
  */
 export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailProps) {
   const t = workCopy[lang];
-  const order = featuredFirst(projects);
+  const inLab = project.section === "lab";
+  const order = featuredFirst(inLab ? labProjects : workProjects);
   const numeral = numeralFor(project.slug, order);
   const around = neighbours(project.slug, order);
   const sheet = mode === "sheet";
   const H = sheet ? "h3" : "h2";
-  const index = `/${lang}/werk`;
+  const index = `/${lang}/${inLab ? "lab" : "werk"}`;
+  const backLabel = inLab ? t.backLab : t.back;
+  const service = project.service ? getService(project.service.slug) : undefined;
   const id = (part: string) => `${titleId}-${part}`;
   const images = imagesFor(project.slug);
   const video = videoFor(project.slug);
@@ -73,7 +56,7 @@ export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailPro
         <div className={styles.topbar}>
           <Link href={index} className={styles.backLink}>
             <Icon name="arrowLeft" size={18} />
-            <span>{t.back}</span>
+            <span>{backLabel}</span>
           </Link>
         </div>
       )}
@@ -190,6 +173,17 @@ export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailPro
             </div>
           </Section>
         ) : null}
+
+        {service && project.service ? (
+          <Section id={id("service")} title={t.related} as={H}>
+            <p className={styles.prose}>{project.service.blurb[lang]}</p>
+            <div>
+              <ArchButton href={`/${lang}/diensten/${service.slug}`} variant="secondary" icon="arrowRight">
+                {service.name[lang]}
+              </ArchButton>
+            </div>
+          </Section>
+        ) : null}
       </div>
 
       {around ? (
@@ -197,7 +191,7 @@ export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailPro
           {(["prev", "next"] as const).map((dir) => {
             const target = around[dir];
             const linkProps = {
-              href: `/${lang}/werk/${target.slug}`,
+              href: projectHref(lang, target),
               className: cn(styles.pagerLink, dir === "next" && styles.pagerNext),
               "data-dir": dir,
             };
@@ -236,7 +230,7 @@ export function ProjectDetail({ project, lang, mode, titleId }: ProjectDetailPro
       {sheet ? null : (
         <div className={styles.backRow}>
           <ArchButton href={index} variant="secondary" icon="arrowLeft">
-            {t.back}
+            {backLabel}
           </ArchButton>
         </div>
       )}

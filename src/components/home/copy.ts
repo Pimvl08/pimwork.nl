@@ -5,10 +5,9 @@ export const homeCopy = {
   services: {
     title: { nl: "Wat ik voor je kan bouwen", en: "What I can build for you" },
     lead: {
-      nl: "Ik begin bij het werk dat tijd kost en bouw daar iets voor dat het overneemt. Vijf soorten software die ik al gemaakt heb:",
-      en: "I start from the work that costs time and build something that takes it over. Five kinds of software I have already made:",
+      nl: "Ik begin bij het werk dat tijd kost en bouw daar iets voor dat het overneemt. Hiermee kan ik je helpen:",
+      en: "I start with the work that eats up your time and build something that takes it over. This is what I can help you with:",
     },
-    proof: { nl: "Gebouwd:", en: "Built:" },
   },
   about: {
     title: { nl: "Over mij", en: "About me" },
@@ -18,7 +17,7 @@ export const homeCopy = {
     title: { nl: "Heb je werk dat elke keer terugkomt?", en: "Do you have work that keeps coming back?" },
     body: {
       nl: "Vertel me wat je tegenkomt. Dan denk ik mee over wat ik ervoor kan bouwen.",
-      en: "Tell me what you run into. I will think along about what I can build for it.",
+      en: "Tell me what you keep running into, and I'll help you work out what I could build for it.",
     },
     action: { nl: "Neem contact op", en: "Get in touch" },
   },

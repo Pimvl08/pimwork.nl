@@ -4,6 +4,7 @@ import type { Bilingual } from "@/i18n/config";
 export const workCopy: Bilingual<{
   title: string;
   lead: string;
+  metaTitle: string;
   metaDescription: string;
   listLabel: string;
   featuredTitle: string;
@@ -23,13 +24,16 @@ export const workCopy: Bilingual<{
   prev: string;
   next: string;
   back: string;
+  backLab: string;
+  related: string;
   close: string;
   fig: string;
 }> = {
   nl: {
     title: "Werk",
     lead: "Dit heb ik gebouwd, van een desktopapp voor een heel team tot een drukklaar kleurboek. Bij elk project lees je voor wie het is, welk probleem het oplost en hoe ik het heb aangepakt.",
-    metaDescription: "Projecten van PimWork: apps, tools en werkstromen die hij bouwde, met voor wie ze zijn, welk probleem ze oplossen en hoe ze werken.",
+    metaTitle: "Werk: voorbeelden van software op maat",
+    metaDescription: "Wat ik heb gebouwd, van een koppeling met Exact Online tot een offertetool voor aannemers. Per project: voor wie het is en welk probleem het oplost.",
     listLabel: "Projecten",
     featuredTitle: "Uitgelicht werk",
     featuredLead: "Drie projecten die laten zien wat ik bouw: voor een belteam, voor een team dat samen bestanden deelt en voor een vakman die snel een offerte wil sturen.",
@@ -48,13 +52,16 @@ export const workCopy: Bilingual<{
     prev: "Vorig project",
     next: "Volgend project",
     back: "Alle projecten",
+    backLab: "Terug naar het lab",
+    related: "Iets vergelijkbaars nodig?",
     close: "Sluiten",
     fig: "fig.",
   },
   en: {
     title: "Work",
     lead: "This is what I have built, from a desktop app for a whole team to a print-ready coloring book. For each project you can read who it is for, which problem it solves and how I approached it.",
-    metaDescription: "Projects by PimWork: apps, tools and workflows he built, with who they are for, which problem they solve and how they work.",
+    metaTitle: "Work: examples of custom software",
+    metaDescription: "What I have built, from an Exact Online integration to a quoting tool for contractors. For each project: who it is for and which problem it solves.",
     listLabel: "Projects",
     featuredTitle: "Selected work",
     featuredLead: "Three projects that show what I build: for a calling team, for a team that shares files and for a tradesperson who wants to send a quote fast.",
@@ -73,6 +80,8 @@ export const workCopy: Bilingual<{
     prev: "Previous project",
     next: "Next project",
     back: "All projects",
+    backLab: "Back to the lab",
+    related: "Need something similar?",
     close: "Close",
     fig: "fig.",
   },

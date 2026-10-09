@@ -1,11 +1,14 @@
 import { expect, gotoReady, isWide, test, waitForChrome } from "./fixtures";
 
 const NAV = [
-  { name: "Werk", path: "/nl/werk", key: "1" },
-  { name: "Over mij", path: "/nl/over", key: "2" },
-  { name: "Lab", path: "/nl/lab", key: "3" },
-  { name: "Contact", path: "/nl/contact", key: "4" },
+  { name: "Werk", path: "/nl/werk", key: "1", inBar: true },
+  { name: "Diensten", path: "/nl/diensten", key: "2", inBar: false },
+  { name: "Over mij", path: "/nl/over", key: "3", inBar: true },
+  { name: "Lab", path: "/nl/lab", key: "4", inBar: true },
+  { name: "Contact", path: "/nl/contact", key: "5", inBar: true },
 ] as const;
+
+const H1 = "Software, automatisering en websites voor bedrijven in Helmond en omgeving";
 
 const urlFor = (path: string) => new RegExp(`${path.replace(/\//g, "\\/")}$`);
 
@@ -35,7 +38,7 @@ test("the logo leads home and is current there", async ({ page }) => {
   await logo.click();
   await expect(page).toHaveURL(/\/nl$/);
   await expect(logo).toHaveAttribute("aria-current", "page");
-  await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeVisible();
+  await expect(page.getByRole("heading", { level: 1, name: H1 })).toBeVisible();
 });
 
 test.describe("keyboard shortcuts", () => {
@@ -65,7 +68,8 @@ test.describe("thumb bar and menu sheet (narrow screens)", () => {
     test.skip(isWide(page), "The thumb bar is only shown below 1024px.");
   });
 
-  for (const item of NAV) {
+  // The bar holds four links at 320 px; the other pages are in the menu sheet.
+  for (const item of NAV.filter((entry) => entry.inBar)) {
     test(`bar link "${item.name}" goes to ${item.path}`, async ({ page }) => {
       await gotoReady(page, "/nl");
       const bar = page.getByRole("navigation", { name: "Pagina's" });
@@ -86,7 +90,7 @@ test.describe("thumb bar and menu sheet (narrow screens)", () => {
     await expect(button).toHaveAttribute("aria-expanded", "true");
     await expect(sheet.getByRole("button", { name: "Sluiten" })).toBeFocused();
     // Every page, home included, is in the sheet.
-    for (const name of ["Home", "Werk", "Over mij", "Lab", "Contact"]) {
+    for (const name of ["Home", "Werk", "Diensten", "Over mij", "Lab", "Contact"]) {
       await expect(sheet.getByRole("link", { name, exact: true })).toBeVisible();
     }
     await page.keyboard.press("Escape");
@@ -111,7 +115,7 @@ test("the 404 page offers a way home", async ({ page }) => {
   const home = page.getByRole("main").getByRole("link", { name: /Naar de homepagina/ });
   await expect(home).toBeVisible();
   await home.click();
-  // The link goes to /, which picks the language from the cookie or the browser.
-  await expect(page).toHaveURL(/\/(nl|en)$/);
-  await expect(page.getByRole("heading", { level: 1, name: "PimWork" })).toBeVisible();
+  // The link goes to /, which redirects permanently to the Dutch home page.
+  await expect(page).toHaveURL(/\/nl$/);
+  await expect(page.getByRole("heading", { level: 1, name: H1 })).toBeVisible();
 });

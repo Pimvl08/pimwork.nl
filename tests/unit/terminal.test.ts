@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { projects } from "@/content/projects";
+import { labProjects, projects, workProjects } from "@/content/projects";
 import {
   complete,
   filterPalette,
@@ -50,7 +50,7 @@ describe("commands", () => {
       expect(commandHelp[c].nl.text.length).toBeGreaterThan(3);
       expect(commandHelp[c].en.text.length).toBeGreaterThan(3);
     }
-    expect(text(runCommand("help", ctx({ lang: "en" })).lines)).toContain("goto <work|about|lab|contact|home>");
+    expect(text(runCommand("help", ctx({ lang: "en" })).lines)).toContain("goto <work|services|about|lab|contact|home>");
   });
 
   it("knows nothing about asking an AI", () => {
@@ -83,7 +83,9 @@ describe("commands", () => {
     expect(runCommand("goto lab", ctx()).actions).toEqual([{ type: "goto", href: "/nl/lab" }]);
     expect(runCommand("goto contact", ctx()).actions).toEqual([{ type: "goto", href: "/nl/contact" }]);
     expect(runCommand("goto home", ctx()).actions).toEqual([{ type: "goto", href: "/nl" }]);
-    expect(runCommand("goto 4", ctx()).actions).toEqual([{ type: "goto", href: "/nl/contact" }]);
+    expect(runCommand("goto diensten", ctx()).actions).toEqual([{ type: "goto", href: "/nl/diensten" }]);
+    expect(runCommand("goto services", ctx({ lang: "en" })).actions).toEqual([{ type: "goto", href: "/en/diensten" }]);
+    expect(runCommand("goto 5", ctx()).actions).toEqual([{ type: "goto", href: "/nl/contact" }]);
     expect(runCommand("goto nergens", ctx()).actions).toEqual([]);
     expect(findPage("Over mij")?.id).toBe("about");
   });
@@ -115,9 +117,10 @@ describe("commands", () => {
 
   it("reads virtual files built from the content, without dates or costs", () => {
     const md = text(runCommand("cat projecten.md", ctx({ lang: "en" })).lines);
-    for (const p of projects) expect(md).toContain(p.name);
+    for (const p of workProjects) expect(md).toContain(p.name);
+    for (const p of labProjects) expect(md).not.toContain(p.name);
     expect(text(runCommand("cat over.txt", ctx()).lines)).toContain("Ik ben Pim");
-    expect(text(runCommand("cat diensten.md", ctx()).lines)).toContain("Web-apps die mensen echt gebruiken");
+    expect(text(runCommand("cat diensten.md", ctx()).lines)).toContain("Exact Online koppeling");
     expect(runCommand("cat nope.txt", ctx()).lines[0].kind).toBe("error");
     expect(text(runCommand("ls -a", ctx()).lines)).toContain(".geheim");
     for (const file of VIRTUAL_FILES) {

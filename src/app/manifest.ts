@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "PimWork",
     short_name: "PimWork",
-    description: "Software die werk uit handen neemt.",
+    description: "Software, automatisering en websites voor bedrijven in Helmond en omgeving.",
     start_url: "/nl",
     scope: "/",
     display: "standalone",

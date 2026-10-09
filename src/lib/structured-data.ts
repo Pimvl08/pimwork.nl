@@ -1,7 +1,8 @@
 import { areaServed, siteMeta } from "@/content/seo";
 import { facts, person } from "@/content/person";
-import type { Project } from "@/content/projects";
+import { projectHref, type Project } from "@/content/projects";
 import { pages } from "@/content/sections";
+import type { Service } from "@/content/services";
 import type { Locale } from "@/i18n/config";
 import { siteUrl } from "@/lib/site";
 
@@ -32,19 +33,51 @@ export function professionalService(lang: Locale): JsonLd {
   };
 }
 
-/** Home, Work, project: the trail above a project page. */
-export function projectBreadcrumbs(project: Project, lang: Locale): JsonLd {
-  const base = siteUrl();
-  const label = (id: string) => pages.find((page) => page.id === id)?.label[lang] ?? id;
-  const trail = [
-    { name: label("home"), url: `${base}/${lang}` },
-    { name: label("work"), url: `${base}/${lang}/werk` },
-    { name: project.name, url: `${base}/${lang}/werk/${project.slug}` },
-  ];
+function pageLabel(id: string, lang: Locale): string {
+  return pages.find((page) => page.id === id)?.label[lang] ?? id;
+}
+
+function breadcrumbs(trail: { name: string; url: string }[]): JsonLd {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: trail.map((item, i) => ({ "@type": "ListItem", position: i + 1, name: item.name, item: item.url })),
+  };
+}
+
+/** Home, Work (or Lab), project: the trail above a project page. */
+export function projectBreadcrumbs(project: Project, lang: Locale): JsonLd {
+  const base = siteUrl();
+  const lab = project.section === "lab";
+  return breadcrumbs([
+    { name: pageLabel("home", lang), url: `${base}/${lang}` },
+    { name: pageLabel(lab ? "lab" : "work", lang), url: `${base}/${lang}/${lab ? "lab" : "werk"}` },
+    { name: project.name, url: `${base}${projectHref(lang, project)}` },
+  ]);
+}
+
+/** Home, Services, service: the trail above a service page. */
+export function serviceBreadcrumbs(service: Service, lang: Locale): JsonLd {
+  const base = siteUrl();
+  return breadcrumbs([
+    { name: pageLabel("home", lang), url: `${base}/${lang}` },
+    { name: pageLabel("services", lang), url: `${base}/${lang}/diensten` },
+    { name: service.name[lang], url: `${base}/${lang}/diensten/${service.slug}` },
+  ]);
+}
+
+/** A service offered by the business on the home page, in the same area. */
+export function serviceData(service: Service, lang: Locale): JsonLd {
+  const base = siteUrl();
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    name: service.name[lang],
+    serviceType: service.name[lang],
+    description: service.meta.description[lang],
+    url: `${base}/${lang}/diensten/${service.slug}`,
+    provider: { "@id": `${base}/#business`, "@type": "ProfessionalService", name: person.brand, url: `${base}/${lang}` },
+    areaServed,
   };
 }
 

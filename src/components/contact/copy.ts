@@ -8,8 +8,12 @@ import type { ContactField, FieldErrorCode } from "@/lib/contact-schema";
 export const contactCopy = {
   title: { nl: "Contact", en: "Contact" },
   lead: {
-    nl: "Heb je een idee, een vraag of een probleem waar software bij kan helpen? Stuur me een bericht.",
-    en: "Do you have an idea, a question or a problem that software could help with? Send me a message.",
+    nl: "Heb je een idee, een vraag of een probleem waar software bij kan helpen? Stuur me een bericht. Ik bouw voor bedrijven in Helmond, Laarbeek, Eindhoven en omgeving.",
+    en: "Do you have an idea, a question or a problem that software could help with? Send me a message. I build for businesses in Helmond, Laarbeek, Eindhoven and the surrounding area.",
+  },
+  metaDescription: {
+    nl: "Neem contact op voor software op maat, een koppeling of een website. Ik bouw voor bedrijven in Helmond, Laarbeek, Eindhoven en omgeving. Bellen kan ook.",
+    en: "Get in touch about custom software, an integration or a website. I build for businesses in Helmond, Laarbeek, Eindhoven and nearby. Or just give me a call.",
   },
   alt: {
     heading: { nl: "Liever zonder formulier", en: "Rather without a form" },

@@ -39,7 +39,7 @@ Easings: `var(--ease-out-expo)` `var(--ease-paper)` `var(--ease-crease)`; durati
 - `@/lib/store`: `uiStore.get/set/subscribe`, `useUI(selector)`, `unlockEgg(id)`. State: `terminalOpen`, `terminalSeed` (command to run on open), `shortcutsOpen`, `soundOn`, `introState` ("idle"|"playing"|"done"), `theme`, `eggs` (string[]).
 - `@/lib/theme`: `applyTheme(theme, origin?)`, `toggleTheme(origin?)` (View Transition from the given point, cookie, store, `pim:theme` event), `readGlColor(name)`.
 - `@/lib/scroll`: `scrollToSection(id)`, `registerScroller(lenis)`, `lockScroll(bool)`.
-- `@/lib/locale`: `localizedPath(pathname, target)`. `@/lib/prefs`: `persistTheme`, `persistLocale`, `THEME_COOKIE`.
+- `@/lib/locale`: `localizedPath(pathname, target)`. `@/lib/prefs`: `persistTheme`, `THEME_COOKIE`.
 - `@/lib/hooks`: `useMediaQuery`, `useReducedMotion`, `useFinePointer`, `useMounted`, `useInView(ref, rootMargin?)`, `useVisible(ref)`.
 - `@/lib/crease`: `buildShell(params, rings?, segments?)` returns `{ positions, normals, flat, creaseDistance, indices, vertexCount }`; `creaseLine(params)`; `defaultCrease`; `creaseStates` (flat, curving, stable, buckled, reversed); `mixCrease(a, b, t)`; `foldPoint`. Disc lies in x/y, z is up.
 - `@/lib/rate-limit`: `createRateLimiter({ limit, windowMs })` returns `{ check(key) }` -> `{ ok, remaining, retryAfterMs }`.

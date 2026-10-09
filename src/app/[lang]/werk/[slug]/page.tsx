@@ -1,9 +1,9 @@
 import type { Metadata, ResolvingMetadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 import { connection } from "next/server";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { ProjectDetail } from "@/components/work/ProjectDetail";
-import { getProject, projects } from "@/content/projects";
+import { getProject, projectHref, workProjects } from "@/content/projects";
 import { isLocale, type Locale } from "@/i18n/config";
 import { projectBreadcrumbs } from "@/lib/structured-data";
 
@@ -12,21 +12,21 @@ interface ProjectRouteProps {
 }
 
 export function generateStaticParams() {
-  return projects.map((project) => ({ slug: project.slug }));
+  return workProjects.map((project) => ({ slug: project.slug }));
 }
 
 export async function generateMetadata({ params }: ProjectRouteProps, parent: ResolvingMetadata): Promise<Metadata> {
   const { lang, slug } = await params;
   const project = getProject(slug);
-  if (!project) return {};
+  if (!project || project.section === "lab") return {};
   const locale: Locale = isLocale(lang) ? lang : "nl";
   // Keep the site's Open Graph fields (image, locale, site name); only the
   // title, description and url belong to this project.
   const inherited = (await parent).openGraph ?? {};
   return {
-    title: project.name,
-    description: project.tagline[locale],
-    openGraph: { ...inherited, title: `${project.name} | PimWork`, description: project.tagline[locale], url: `/${locale}/werk/${slug}` },
+    title: project.seo.title[locale],
+    description: project.seo.description[locale],
+    openGraph: { ...inherited, title: `${project.seo.title[locale]} | PimWork`, description: project.seo.description[locale], url: `/${locale}/werk/${slug}` },
     alternates: {
       canonical: `/${locale}/werk/${slug}`,
       languages: { "nl-NL": `/nl/werk/${slug}`, "en-GB": `/en/werk/${slug}`, "x-default": `/nl/werk/${slug}` },
@@ -44,6 +44,8 @@ export default async function ProjectPage({ params }: ProjectRouteProps) {
   if (!isLocale(lang)) notFound();
   const project = getProject(slug);
   if (!project) notFound();
+  // Lab projects moved to /[lang]/lab/[slug]; old links keep working.
+  if (project.section === "lab") permanentRedirect(projectHref(lang, project));
   return (
     <main id="main" className="plate">
       <JsonLd data={projectBreadcrumbs(project, lang)} />

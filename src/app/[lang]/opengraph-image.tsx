@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 import { isLocale, type Locale } from "@/i18n/config";
 
-export const alt = "PimWork: software die werk uit handen neemt / software that takes work off your hands";
+export const alt = "PimWork: software, automatisering en websites in Helmond / software, automation and websites in Helmond";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -18,8 +18,8 @@ const RULE = "#34322e";
 const RULE_STRONG = "#4a4742";
 
 const copy: Record<Locale, { tagline: string; line: string }> = {
-  nl: { tagline: "Software die werk uit handen neemt", line: "Web-apps, desktopsoftware en slimme tools" },
-  en: { tagline: "Software that takes work off your hands", line: "Web apps, desktop software and smart tools" },
+  nl: { tagline: "Software, automatisering en websites", line: "Voor bedrijven in Helmond en omgeving" },
+  en: { tagline: "Software, automation and websites", line: "For businesses in and around Helmond" },
 };
 
 /** Site Open Graph image: graphite ground, the disc with one crease, the name. */

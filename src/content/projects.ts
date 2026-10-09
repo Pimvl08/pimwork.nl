@@ -37,6 +37,12 @@ export interface Project {
   links: ProjectLink[];
   /** Short status line, for example "Live en dagelijks in gebruik". */
   status: Bilingual<string>;
+  /** Page title (before " | PimWork") and meta description for search engines. */
+  seo: { title: Bilingual<string>; description: Bilingual<string> };
+  /** The service this project shows, with one sentence on who it is useful for. */
+  service?: { slug: string; blurb: Bilingual<string> };
+  /** "lab" projects live under /[lang]/lab instead of the work pages. */
+  section?: "work" | "lab";
 }
 
 export const projects: Project[] = [
@@ -89,6 +95,20 @@ export const projects: Project[] = [
     stack: ["Python", "Playwright", "Flask", "PyInstaller", "Exact Online"],
     links: [],
     status: { nl: "Gebouwd voor een belteam", en: "Built for a calling team" },
+    seo: {
+      title: { nl: "ExactTool: verkoopkansen automatisch in Exact Online", en: "ExactTool: sales opportunities into Exact Online" },
+      description: {
+        nl: "ExactTool zoekt bedrijven en contactpersonen op uit openbare bronnen en zet ze automatisch als verkoopkans in Exact Online, klaar om te bellen.",
+        en: "ExactTool looks up companies and contact persons from public sources and puts them into Exact Online as sales opportunities automatically, ready to call.",
+      },
+    },
+    service: {
+      slug: "exact-online-koppeling",
+      blurb: {
+        nl: "Handig voor elk bedrijf dat in Exact Online werkt en gegevens nu met de hand invoert.",
+        en: "Useful for any business that works in Exact Online and still enters data by hand.",
+      },
+    },
   },
   {
     slug: "teamsync",
@@ -146,6 +166,20 @@ export const projects: Project[] = [
     stack: ["Tauri 2", "Rust", "React", "TypeScript", "Supabase", "Yjs"],
     links: [],
     status: { nl: "Opgeleverd", en: "Delivered" },
+    seo: {
+      title: { nl: "TeamSync: bestanden delen op Mac en Windows", en: "TeamSync: file sharing on Mac and Windows" },
+      description: {
+        nl: "Een desktopapp voor Mac en Windows waarmee een klein team bestanden deelt. Bij een botsing blijven beide versies bewaard, dus niemand raakt werk kwijt.",
+        en: "A desktop app for Mac and Windows that lets a small team share files. When changes collide, both versions are kept, so nobody loses work.",
+      },
+    },
+    service: {
+      slug: "software-op-maat",
+      blurb: {
+        nl: "Handig voor kleine teams die samen aan bestanden werken, op Mac en Windows door elkaar.",
+        en: "Useful for small teams working on the same files, on a mix of Macs and Windows laptops.",
+      },
+    },
   },
   {
     slug: "offerte-pdf-generator",
@@ -203,6 +237,20 @@ export const projects: Project[] = [
     stack: ["React", "TypeScript", "Vite", "Tailwind CSS", "jsPDF"],
     links: [],
     status: { nl: "Klaar voor gebruik, zonder server", en: "Ready to use, no server needed" },
+    seo: {
+      title: { nl: "OfferteVlot: offertes maken voor aannemers", en: "OfferteVlot: quotes for contractors" },
+      description: {
+        nl: "Met OfferteVlot maakt een aannemer of vakman in een paar minuten een nette offerte als PDF, met eigen logo en de btw goed uitgerekend. Zonder account.",
+        en: "OfferteVlot lets a contractor or tradesperson make a professional PDF quote in minutes, with their own logo and the VAT worked out. No account needed.",
+      },
+    },
+    service: {
+      slug: "offertesoftware",
+      blurb: {
+        nl: "Handig voor aannemers en vakmensen die zelf hun offertes maken.",
+        en: "Useful for contractors and tradespeople who write their own quotes.",
+      },
+    },
   },
   {
     slug: "wordpress-koppeling",
@@ -253,6 +301,20 @@ export const projects: Project[] = [
     stack: ["Python", "WordPress", "API-koppelingen"],
     links: [],
     status: { nl: "Gebouwd en werkend", en: "Built and working" },
+    seo: {
+      title: { nl: "WordPress-koppeling: WordPress aan andere systemen", en: "WordPress integration: connecting other systems" },
+      description: {
+        nl: "Een koppeling die portalsites automatisch gegevens laat uitwisselen met WordPress. Op dezelfde manier hang je een CRM, webshop of formulier aan je site.",
+        en: "An integration that lets portal sites swap data with WordPress automatically. A CRM, web shop or form can be connected to your WordPress site the same way.",
+      },
+    },
+    service: {
+      slug: "systemen-koppelen",
+      blurb: {
+        nl: "Handig voor bedrijven met een WordPress-site die gegevens uit andere systemen nu overtypen.",
+        en: "Useful for businesses with a WordPress site that now retype data from other systems.",
+      },
+    },
   },
   {
     slug: "strength-tracker",
@@ -311,6 +373,20 @@ export const projects: Project[] = [
       { label: { nl: "Broncode op GitHub", en: "Source on GitHub" }, href: "https://github.com/pimdaanbram-prog/strength-tracker" },
     ],
     status: { nl: "Live en in gebruik", en: "Live and in use" },
+    seo: {
+      title: { nl: "Strength Tracker: trainingsapp die offline werkt", en: "Strength Tracker: a training app that works offline" },
+      description: {
+        nl: "Mijn eigen trainingsapp: workouts loggen op telefoon en laptop, ook zonder bereik in de sportschool, met elke week een concreet advies voor je gewichten.",
+        en: "My own training app: log workouts on phone and laptop, even without signal in the gym, with weekly advice on which weights to use next.",
+      },
+    },
+    service: {
+      slug: "software-op-maat",
+      blurb: {
+        nl: "Laat zien hoe ik een app bouw die op telefoon en laptop werkt, ook zonder internet.",
+        en: "Shows how I build an app that works on phone and laptop, even without internet.",
+      },
+    },
   },
   {
     slug: "belhulp",
@@ -366,6 +442,20 @@ export const projects: Project[] = [
     stack: ["Python", "faster-whisper", "Gemini", "Flask", "Swift", "Chrome-extensie"],
     links: [],
     status: { nl: "In gebruik bij belgesprekken", en: "In use during calls" },
+    seo: {
+      title: { nl: "Belhulp: belgesprekken live uitschrijven", en: "Belhulp: transcribing sales calls live" },
+      description: {
+        nl: "Belhulp luistert mee tijdens verkoopgesprekken op de Mac, schrijft het gesprek live uit en vult het belformulier vanzelf in, met toestemming van de klant.",
+        en: "Belhulp listens in on sales calls on the Mac, transcribes the conversation live and fills in the call form by itself. Nothing is recorded without consent.",
+      },
+    },
+    service: {
+      slug: "systemen-koppelen",
+      blurb: {
+        nl: "Handig voor wie veel belt en na elk gesprek notities en formulieren bijwerkt.",
+        en: "Useful for anyone who makes a lot of calls and updates notes and forms after each one.",
+      },
+    },
   },
   {
     slug: "kdp-kleurboek",
@@ -419,6 +509,13 @@ export const projects: Project[] = [
     stack: ["Python", "OpenCV", "scikit-image", "potrace", "PyMuPDF", "OpenAI Image API"],
     links: [],
     status: { nl: "Drukklaar", en: "Ready for print" },
+    seo: {
+      title: { nl: "Kleurboek: drukklaar kleurboek met eigen keuring", en: "Coloring book: print-ready, every plate inspected" },
+      description: {
+        nl: "Een drukklaar kleurboek van vijftig platen, met een eigen werkstroom die AI-tekeningen omzet naar strakke lijnen en elke plaat automatisch keurt.",
+        en: "A print-ready coloring book of fifty plates, with a custom workflow that turns AI drawings into clean lines and inspects every plate automatically.",
+      },
+    },
   },
   {
     slug: "solana-forensics",
@@ -472,10 +569,29 @@ export const projects: Project[] = [
     stack: ["Node.js", "Solana RPC", "WebSocket", "SVG"],
     links: [],
     status: { nl: "Werkende onderzoekstool", en: "Working research tool" },
+    seo: {
+      title: { nl: "Solana Forensics: onderzoek naar memecoin-launches", en: "Solana Forensics: researching meme-coin launches" },
+      description: {
+        nl: "Een onderzoekstool die reconstrueert wat er echt gebeurde bij een memecoin-launch op Solana, alleen lezend en met een bewijsniveau per conclusie.",
+        en: "A research tool that reconstructs what really happened in a meme-coin launch on Solana, read-only and with an evidence grade for every conclusion.",
+      },
+    },
+    section: "lab",
   },
 ];
 
-export const featuredProjects = projects.filter((project) => project.featured);
+/** The projects on the work pages; "lab" projects are shown in the lab instead. */
+export const workProjects = projects.filter((project) => project.section !== "lab");
+
+/** Research and side projects, shown under the lab experiments. */
+export const labProjects = projects.filter((project) => project.section === "lab");
+
+export const featuredProjects = workProjects.filter((project) => project.featured);
+
+/** Where a project's own page lives: /nl/werk/teamsync or /nl/lab/solana-forensics. */
+export function projectHref(lang: string, project: Pick<Project, "slug" | "section">): string {
+  return `/${lang}/${project.section === "lab" ? "lab" : "werk"}/${project.slug}`;
+}
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((project) => project.slug === slug);

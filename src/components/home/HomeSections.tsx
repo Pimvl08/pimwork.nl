@@ -1,18 +1,16 @@
-import Link from "next/link";
 import { ArcRule } from "@/components/ui/ArcRule";
 import { ArchButton } from "@/components/ui/ArchButton";
-import { Icon } from "@/components/ui/Icon";
-import { about, privacy, services } from "@/content/person";
-import { getProject } from "@/content/projects";
+import { ServiceList } from "@/components/services/ServiceList";
+import { about, privacy, visitLine } from "@/content/person";
 import type { Locale } from "@/i18n/config";
 import { cn } from "@/lib/cn";
 import { homeCopy } from "./copy";
 import styles from "./home.module.css";
 
 /**
- * "Wat ik voor je kan bouwen": the five kinds of software Pim builds, each
- * with the real projects that prove it. A sticky introduction on the left,
- * an editorial list on the right, every item lifted by a short arc.
+ * "Wat ik voor je kan bouwen": the five services, each linking to its own
+ * page and to the real projects that show it. A sticky introduction on the
+ * left, the editorial list on the right.
  */
 export function Services({ lang }: { lang: Locale }) {
   const t = homeCopy.services;
@@ -25,31 +23,7 @@ export function Services({ lang }: { lang: Locale }) {
           </h2>
           <p className={styles.lead}>{t.lead[lang]}</p>
         </div>
-        <ul className={styles.serviceList}>
-          {services.map((service) => {
-            const proof = service.proof.map((slug) => getProject(slug)).filter((project) => project !== undefined);
-            return (
-              <li key={service.id} className={styles.service}>
-                <svg className={styles.serviceArc} viewBox="0 0 72 12" preserveAspectRatio="none" aria-hidden="true" focusable="false">
-                  <path d="M0 12 Q 36 -2 72 12" vectorEffect="non-scaling-stroke" />
-                </svg>
-                <h3 className={styles.serviceTitle}>{service.title[lang]}</h3>
-                <p className={styles.serviceBody}>{service.body[lang]}</p>
-                {proof.length ? (
-                  <p className={styles.proof}>
-                    <span className={styles.proofLabel}>{t.proof[lang]}</span>
-                    {proof.map((project) => (
-                      <Link key={project.slug} href={`/${lang}/werk/${project.slug}`} className={styles.proofLink}>
-                        <span>{project.name}</span>
-                        <Icon name="arrowNE" size={16} />
-                      </Link>
-                    ))}
-                  </p>
-                ) : null}
-              </li>
-            );
-          })}
-        </ul>
+        <ServiceList lang={lang} headingLevel="h3" />
       </div>
     </section>
   );
@@ -105,7 +79,9 @@ export function ContactBand({ lang }: { lang: Locale }) {
         <h2 id="contact-band-title" className={styles.bandHeading}>
           {t.title[lang]}
         </h2>
-        <p className={styles.bandBody}>{t.body[lang]}</p>
+        <p className={styles.bandBody}>
+          {t.body[lang]} {visitLine[lang]}
+        </p>
         <ArchButton variant="primary" size="lg" icon="arrowNE" href={`/${lang}/contact`} className={styles.bandAction}>
           {t.action[lang]}
         </ArchButton>

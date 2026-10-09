@@ -8,6 +8,10 @@ const PAGES: { path: string; theme: "dark" | "light" }[] = [
   { path: "/nl/over", theme: "dark" },
   { path: "/nl/lab", theme: "dark" },
   { path: "/nl/contact", theme: "dark" },
+  { path: "/nl/diensten", theme: "dark" },
+  { path: "/nl/diensten/website-laten-maken", theme: "dark" },
+  { path: "/nl/lab/solana-forensics", theme: "dark" },
+  { path: "/nl/diensten/software-op-maat", theme: "light" },
   // Contrast must hold on cotton paper too.
   { path: "/nl", theme: "light" },
   { path: "/nl/werk/strength-tracker", theme: "light" },

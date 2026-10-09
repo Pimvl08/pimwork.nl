@@ -10,8 +10,10 @@
 import path from "node:path";
 import React from "react";
 import { Document, Font, Link, Page, Path, Circle, StyleSheet, Svg, Text, View, renderToFile, Defs, LinearGradient, Stop } from "@react-pdf/renderer";
-import { projects } from "../src/content/projects";
-import { about, facts, person, services } from "../src/content/person";
+// Lab projects (research tools) stay out of the portfolio.
+import { workProjects as projects } from "../src/content/projects";
+import { serviceSummary, services } from "../src/content/services";
+import { about, facts, person } from "../src/content/person";
 
 type Lang = "nl" | "en";
 
@@ -57,7 +59,7 @@ const s = StyleSheet.create({
 const copy = {
   nl: {
     title: "Portfolio",
-    subtitle: "Ik bouw software die werk uit handen neemt.",
+    subtitle: "Software, automatisering en websites voor bedrijven in Helmond en omgeving.",
     index: "Inhoud",
     aboutTitle: "Over mij",
     servicesTitle: "Wat ik voor je kan bouwen",
@@ -75,7 +77,7 @@ const copy = {
   },
   en: {
     title: "Portfolio",
-    subtitle: "I build software that takes work off your hands.",
+    subtitle: "Software, automation and websites for businesses in and around Helmond.",
     index: "Contents",
     aboutTitle: "About me",
     servicesTitle: "What I can build for you",
@@ -172,12 +174,14 @@ function Catalogue({ lang }: { lang: Lang }) {
         </View>
         <Text style={[s.h3, { marginTop: 28 }]}>{t.servicesTitle}</Text>
         {services.map((service) => (
-          <View key={service.id} style={{ marginBottom: 10 }} wrap={false}>
-            <Text style={{ fontSize: 12, color: ink }}>{service.title[lang]}</Text>
-            <Text>{service.body[lang]}</Text>
-            <Text style={{ fontSize: 9, color: mute }}>
-              {t.proof}: {service.proof.map((slug) => byslug.get(slug)).join(", ")}
-            </Text>
+          <View key={service.slug} style={{ marginBottom: 10 }} wrap={false}>
+            <Text style={{ fontSize: 12, color: ink }}>{service.name[lang]}</Text>
+            <Text>{serviceSummary(service, lang)}</Text>
+            {service.proof.length ? (
+              <Text style={{ fontSize: 9, color: mute }}>
+                {t.proof}: {service.proof.map((item) => byslug.get(item.slug)).join(", ")}
+              </Text>
+            ) : null}
           </View>
         ))}
         <Footer lang={lang} />

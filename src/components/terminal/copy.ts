@@ -33,8 +33,8 @@ export const commandHelp: Record<CommandName, Bilingual<CommandHelp>> = {
   projects: { nl: { usage: "projects", text: "Mijn projecten, genummerd." }, en: { usage: "projects", text: "My projects, numbered." } },
   open: { nl: { usage: "open <slug|nummer>", text: "Opent een project." }, en: { usage: "open <slug|number>", text: "Opens a project." } },
   goto: {
-    nl: { usage: "goto <werk|over|lab|contact|home>", text: "Gaat naar een pagina, bijvoorbeeld goto werk." },
-    en: { usage: "goto <work|about|lab|contact|home>", text: "Goes to a page, for example goto work." },
+    nl: { usage: "goto <werk|diensten|over|lab|contact|home>", text: "Gaat naar een pagina, bijvoorbeeld goto werk." },
+    en: { usage: "goto <work|services|about|lab|contact|home>", text: "Goes to a page, for example goto work." },
   },
   contact: { nl: { usage: "contact", text: "Hoe je me bereikt." }, en: { usage: "contact", text: "How to reach me." } },
   theme: { nl: { usage: "theme [dark|light|toggle]", text: "Donker of licht thema." }, en: { usage: "theme [dark|light|toggle]", text: "Dark or light theme." } },

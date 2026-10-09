@@ -1,16 +1,22 @@
 import type { MetadataRoute } from "next";
-import { projects } from "@/content/projects";
+import { projectHref, projects } from "@/content/projects";
 import { pages } from "@/content/sections";
+import { services } from "@/content/services";
 import { defaultLocale, htmlLang, locales } from "@/i18n/config";
 import { siteUrl } from "@/lib/site";
 
 /**
- * Every page and every project page, in both languages, each pointing at its
+ * Every page, every service page and every project page, in both languages, each pointing at its
  * twin. The language codes match the hreflang links on the pages themselves.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
   const base = siteUrl();
-  const paths = [...pages.map((page) => page.path), ...projects.map((project) => `/werk/${project.slug}`)];
+  const paths = [
+    ...pages.map((page) => page.path),
+    ...services.map((service) => `/diensten/${service.slug}`),
+    // projectHref gives /<lang>/werk/<slug> or /<lang>/lab/<slug>; the path is the part after the language.
+    ...projects.map((project) => projectHref("", project).slice(1)),
+  ];
 
   return paths.flatMap((path) => {
     const languages = {
@@ -20,7 +26,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     return locales.map((lang) => ({
       url: `${base}/${lang}${path}`,
       changeFrequency: "monthly" as const,
-      priority: path === "" ? 1 : path.startsWith("/werk/") ? 0.7 : 0.8,
+      priority: path === "" ? 1 : path.startsWith("/diensten") ? 0.9 : path.split("/").length > 2 ? 0.7 : 0.8,
       alternates: { languages },
     }));
   });
