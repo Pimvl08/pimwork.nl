@@ -56,7 +56,7 @@ Trade-offs, stated honestly:
 
 ## Privacy
 
-- No cookies except two first-party preference cookies without personal data: `pim-theme` (dark or light) and `pim-lang` (nl or en), both `SameSite=Lax` and `Secure` on HTTPS.
+- No cookies except one first-party preference cookie without personal data: `pim-theme` (dark or light), `SameSite=Lax` and `Secure` on HTTPS. The language lives in the URL.
 - Only cookieless, anonymous page view counts through Vercel Web Analytics and anonymous load-speed measurements through Speed Insights (no personal data, no cross-site tracking, no fingerprinting).
 - Project content was collected read-only from Pim's own folders. Client names, campaign names, e-mail addresses, phone numbers, wallet addresses, API keys and pen names are deliberately excluded. Screenshots were checked by eye for personal data before they were added.
 

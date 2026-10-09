@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: ContactRouteProps, parent: Re
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "nl";
   const title = contactCopy.title[locale];
-  const description = contactCopy.lead[locale];
+  const description = contactCopy.metaDescription[locale];
   const inherited = (await parent).openGraph ?? {};
   return {
     title,

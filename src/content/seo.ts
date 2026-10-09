@@ -3,12 +3,12 @@ import type { Bilingual } from "@/i18n/config";
 /** Title and description of the site as a whole, used by the root layout and the structured data. */
 export const siteMeta = {
   title: {
-    nl: "PimWork | Software die werk uit handen neemt",
-    en: "PimWork | Software that takes work off your hands",
+    nl: "PimWork | Software, automatisering en websites in Helmond",
+    en: "PimWork | Software, automation and websites in Helmond",
   },
   description: {
-    nl: "Ik bouw web-apps, desktopsoftware en slimme tools die werk uit handen nemen. Bekijk mijn werk en neem contact op.",
-    en: "I build web apps, desktop software and smart tools that take work off your hands. See my work and get in touch.",
+    nl: "Ik bouw software op maat, koppelingen en websites voor bedrijven in Helmond, Laarbeek, Eindhoven en omgeving. Bekijk mijn werk of neem contact op.",
+    en: "I build custom software, integrations and websites for businesses in Helmond, Laarbeek, Eindhoven and the surrounding area. See my work or get in touch.",
   },
 } satisfies { title: Bilingual<string>; description: Bilingual<string> };
 

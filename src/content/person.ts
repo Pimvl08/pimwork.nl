@@ -42,64 +42,18 @@ export const facts: Fact[] = [
   },
   { id: "study", label: { nl: "Opleiding", en: "Education" }, value: null },
   { id: "place", label: { nl: "Woonplaats", en: "Based in" }, value: { nl: "Aarle-Rixtel", en: "Aarle-Rixtel" } },
-];
-
-/** What Pim can build for others, each backed by a real project. */
-export interface Service {
-  id: string;
-  title: Bilingual<string>;
-  body: Bilingual<string>;
-  /** Project slugs that prove it. */
-  proof: string[];
-}
-
-export const services: Service[] = [
   {
-    id: "web-apps",
-    title: { nl: "Web-apps die mensen echt gebruiken", en: "Web apps people actually use" },
-    body: {
-      nl: "Een app die werkt op telefoon en laptop, ook zonder internet, en die je installeert als een gewone app. Snel, overzichtelijk en in het Nederlands.",
-      en: "An app that works on phone and laptop, even without internet, and installs like a regular app. Fast, clear and in your language.",
-    },
-    proof: ["strength-tracker"],
-  },
-  {
-    id: "desktop",
-    title: { nl: "Software voor teams", en: "Software for teams" },
-    body: {
-      nl: "Desktopsoftware voor Mac en Windows die samenwerken makkelijker maakt, met veilige opslag in de cloud en zonder dat iemand werk kwijtraakt.",
-      en: "Desktop software for Mac and Windows that makes working together easier, with secure cloud storage and without anyone losing work.",
-    },
-    proof: ["teamsync"],
-  },
-  {
-    id: "tools",
-    title: { nl: "Tools die saai werk overnemen", en: "Tools that take over boring work" },
-    body: {
-      nl: "Komt iets elke dag terug, zoals een offerte maken of een formulier invullen? Dan bouw ik er een tool voor die het in een fractie van de tijd doet.",
-      en: "Does something come back every day, like writing a quote or filling in a form? Then I build a tool that does it in a fraction of the time.",
-    },
-    proof: ["offerte-pdf-generator", "belhulp"],
-  },
-  {
-    id: "connect",
-    title: { nl: "Systemen aan elkaar koppelen", en: "Connecting systems" },
-    body: {
-      nl: "Pakketten die niet met elkaar praten, laat ik wel praten. Gegevens gaan vanzelf van systeem A naar systeem B, bijvoorbeeld van openbare bronnen naar je CRM, of van een portal naar WordPress. Geen overtypen meer, en geen fouten door overtypen.",
-      en: "Packages that do not talk to each other, I make talk. Data moves from system A to system B by itself, for example from public sources into your CRM, or from a portal into WordPress. No more retyping, and no mistakes from retyping.",
-    },
-    proof: ["exact-online", "wordpress-koppeling"],
-  },
-  {
-    id: "ai",
-    title: { nl: "AI waar het iets oplevert", en: "AI where it pays off" },
-    body: {
-      nl: "Geen chatbot om de chatbot, maar AI op de plek waar het tijd bespaart: gesprekken uitschrijven, gegevens invullen, beelden omzetten naar drukwerk. Met controles, zodat het klopt.",
-      en: "Not a chatbot for the sake of it, but AI where it saves time: transcribing calls, filling in data, turning images into print. With checks, so it is right.",
-    },
-    proof: ["belhulp", "kdp-kleurboek"],
+    id: "region",
+    label: { nl: "Regio", en: "Area" },
+    value: { nl: "Helmond, Laarbeek, Eindhoven en omgeving", en: "Helmond, Laarbeek, Eindhoven and nearby" },
   },
 ];
+
+/** Shown wherever the region is named: on home, contact and the service pages. */
+export const visitLine = {
+  nl: "Ik woon in Aarle-Rixtel, dus langskomen kan, in overleg.",
+  en: "I live in Aarle-Rixtel, so I can visit you in person, by appointment.",
+} satisfies Bilingual<string>;
 
 /** How client data is handled. Shown on the home page and the contact page. */
 export const privacy = {
@@ -120,11 +74,11 @@ export const privacy = {
 export const about = {
   intro: {
     nl: [
-      "Ik ben Pim. Ik bouw software die werk uit handen neemt: web-apps, desktopsoftware en tools voor taken die elke dag terugkomen.",
+      "Ik ben Pim en ik woon in Aarle-Rixtel. Ik bouw software die werk uit handen neemt, voor bedrijven in Helmond, Laarbeek, Eindhoven en omgeving: web-apps, koppelingen tussen systemen, websites en tools voor taken die elke dag terugkomen.",
       "Ik begin altijd bij een echt probleem, vaak mijn eigen. Een trainingsapp die ik zelf elke week gebruik, een desktopapp waarmee een team zijn bestanden deelt zonder werk kwijt te raken, een tool waarmee een aannemer in een paar minuten een offerte maakt.",
     ],
     en: [
-      "I'm Pim. I build software that takes work off your hands: web apps, desktop software and tools for tasks that come back every day.",
+      "I'm Pim and I live in Aarle-Rixtel, near Helmond. I build software that takes work off your hands for businesses in Helmond, Laarbeek, Eindhoven and the surrounding area: web apps, links between systems, websites and tools for tasks that come back every day.",
       "I always start from a real problem, often my own. A training app I still use every week, a desktop app that lets a team share files without losing work, a tool that lets a contractor write a quote in a few minutes.",
     ],
   },

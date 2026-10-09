@@ -17,8 +17,15 @@ export const labCopy = {
   title: { nl: "Lab", en: "Lab" } satisfies Bilingual<string>,
   lead: {
     nl: "Experimenten waarin ik uitprobeer wat er in een browser kan: deeltjes, 3D, natuurkunde, generatief ontwerp en typografie.",
-    en: "Experiments where I try out what a browser can do: particles, 3D, physics, generative design and typography.",
+    en: "Experiments where I try out what a browser can do: particles, 3D, physics, generative design and typography. Everything runs right here in your browser.",
   } satisfies Bilingual<string>,
+  more: {
+    title: { nl: "Ook in het lab", en: "Also in the lab" },
+    lead: {
+      nl: "Onderzoek en eigen projecten die geen klantwerk zijn, maar wel laten zien hoe ik een lastig probleem uitzoek.",
+      en: "Research and side projects that are not client work, but do show how I get to the bottom of a hard problem.",
+    },
+  } satisfies { title: Bilingual<string>; lead: Bilingual<string> },
   tablist: { nl: "Proeven", en: "Experiments" } satisfies Bilingual<string>,
   proef: { nl: "Proef", en: "Experiment" } satisfies Bilingual<string>,
   questionLabel: { nl: "De vraag", en: "The question" } satisfies Bilingual<string>,

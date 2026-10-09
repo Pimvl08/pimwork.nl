@@ -7,10 +7,10 @@ import type { Bilingual } from "@/i18n/config";
  */
 export const aboutCopy = {
   meta: {
-    title: { nl: "Over mij", en: "About me" },
+    title: { nl: "Over mij: softwareontwikkelaar uit Aarle-Rixtel", en: "About me: software developer from Aarle-Rixtel" },
     description: {
-      nl: "Wie ik ben, wat ik bouw en hoe ik werk.",
-      en: "Who I am, what I build and how I work.",
+      nl: "Ik ben Pim van Leeuwen uit Aarle-Rixtel. Ik bouw software, koppelingen en websites voor bedrijven in Helmond en omgeving. Lees wie ik ben en hoe ik werk.",
+      en: "I'm Pim van Leeuwen from Aarle-Rixtel. I build software, integrations and websites for businesses in and around Helmond. Read who I am and how I work.",
     },
   },
   title: { nl: "Over mij", en: "About me" },

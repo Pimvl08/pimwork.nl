@@ -1,7 +1,12 @@
-import { PAGES, SLUGS, expect, gotoReady, test, trackErrors, walkPage } from "./fixtures";
+import { LAB_SLUGS, PAGES, SERVICE_SLUGS, SLUGS, expect, gotoReady, test, trackErrors, walkPage } from "./fixtures";
 
 const LANGS = ["nl", "en"] as const;
-const ALL_PATHS = LANGS.flatMap((lang) => [...PAGES.map((p) => `/${lang}${p}`), ...SLUGS.map((slug) => `/${lang}/werk/${slug}`)]);
+const ALL_PATHS = LANGS.flatMap((lang) => [
+  ...PAGES.map((p) => `/${lang}${p}`),
+  ...SLUGS.map((slug) => `/${lang}/werk/${slug}`),
+  ...LAB_SLUGS.map((slug) => `/${lang}/lab/${slug}`),
+  ...SERVICE_SLUGS.map((slug) => `/${lang}/diensten/${slug}`),
+]);
 
 test.describe("smoke: routes", () => {
   for (const path of ALL_PATHS) {
@@ -9,6 +14,14 @@ test.describe("smoke: routes", () => {
       const response = await request.get(path, { maxRedirects: 0 });
       expect(response.status()).toBe(200);
       expect(response.headers()["content-type"]).toContain("text/html");
+    });
+  }
+
+  for (const slug of LAB_SLUGS) {
+    test(`/nl/werk/${slug} moved permanently to the lab`, async ({ request }) => {
+      const response = await request.get(`/nl/werk/${slug}`, { maxRedirects: 0 });
+      expect(response.status()).toBe(308);
+      expect(new URL(response.headers()["location"], "http://x").pathname).toBe(`/nl/lab/${slug}`);
     });
   }
 

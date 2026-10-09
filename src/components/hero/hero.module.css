@@ -65,6 +65,19 @@
   color: var(--ink);
 }
 
+/* The h1 under the name: one quiet line in the lead style, so the name stays the display. */
+.heading {
+  font-family: var(--font-serif);
+  font-variation-settings: "opsz" 10;
+  max-width: 34ch;
+  margin: 0;
+  font-weight: 400;
+  font-size: var(--step-1);
+  line-height: 1.35;
+  color: var(--ink-soft);
+  text-wrap: balance;
+}
+
 .intro {
   display: flex;
   flex-direction: column;

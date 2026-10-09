@@ -1,6 +1,4 @@
 import type { Theme } from "./store";
-import type { Locale } from "@/i18n/config";
-import { LOCALE_COOKIE } from "@/i18n/config";
 
 export const THEME_COOKIE = "pim-theme";
 const YEAR = 60 * 60 * 24 * 365;
@@ -13,10 +11,6 @@ function writeCookie(name: string, value: string) {
 
 export function persistTheme(theme: Theme) {
   writeCookie(THEME_COOKIE, theme);
-}
-
-export function persistLocale(locale: Locale) {
-  writeCookie(LOCALE_COOKIE, locale);
 }
 
 export function parseTheme(value: string | undefined): Theme {

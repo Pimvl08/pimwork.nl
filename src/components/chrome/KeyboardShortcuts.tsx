@@ -7,7 +7,6 @@ import { pageHref, pages } from "@/content/sections";
 import type { Locale } from "@/i18n/config";
 import { useCopy, useLang } from "@/i18n/LocaleProvider";
 import { localizedPath } from "@/lib/locale";
-import { persistLocale } from "@/lib/prefs";
 import { uiStore, useUI } from "@/lib/store";
 import { toggleTheme } from "@/lib/theme";
 import styles from "./chrome.module.css";
@@ -81,7 +80,6 @@ export function KeyboardShortcuts() {
         case "lang": {
           event.preventDefault();
           const target: Locale = current === "nl" ? "en" : "nl";
-          persistLocale(target);
           // eslint-disable-next-line @next/next/no-location-assign-relative-destination -- a full load is intended: the language lives in the root layout
           window.location.assign(`${localizedPath(path ?? `/${current}`, target)}${window.location.hash}`);
           return;
@@ -117,7 +115,7 @@ export function ShortcutsSheet({ open }: { open: boolean }) {
     { keys: [["?"]], text: t.sheet },
     { keys: [["T"]], text: t.theme },
     { keys: [["L"]], text: t.lang },
-    { keys: [["0"], ["4"]], text: t.pages },
+    { keys: [["0"], [pages[pages.length - 1].key]], text: t.pages },
     { keys: [["Esc"]], text: t.esc },
   ];
 

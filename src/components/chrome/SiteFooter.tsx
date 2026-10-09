@@ -7,13 +7,14 @@ import { Icon } from "@/components/ui/Icon";
 import { BrandName } from "@/components/ui/BrandName";
 import { person } from "@/content/person";
 import { pageHref, pages } from "@/content/sections";
+import { services } from "@/content/services";
 import { pick } from "@/i18n/config";
 import { useCopy, useLang } from "@/i18n/LocaleProvider";
 import styles from "./chrome.module.css";
 import { useActivePage } from "./controls";
 import { chromeCopy } from "./copy";
 
-/** The close of every page: who, what in one line, the pages, phone and email, the portfolio PDF and the year. */
+/** The close of every page: who, what in one line, the pages, the services, phone and email, the portfolio PDF and the year. */
 export function SiteFooter() {
   const lang = useLang();
   const active = useActivePage();
@@ -40,6 +41,15 @@ export function SiteFooter() {
               <li key={page.id}>
                 <Link href={pageHref(lang, page)} className={styles.footerLink} aria-current={active === page.id ? "page" : undefined}>
                   {pick(page.label, lang)}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <ul className={styles.footerLinks} aria-label={t.services}>
+            {services.map((service) => (
+              <li key={service.slug}>
+                <Link href={`/${lang}/diensten/${service.slug}`} className={styles.footerLink}>
+                  {pick(service.name, lang)}
                 </Link>
               </li>
             ))}

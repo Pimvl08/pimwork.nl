@@ -45,7 +45,7 @@ Copy that is part of the interface (button labels, headings) lives next to the c
 
 Almost all state is local to a component. The few things shared across the page live in a 20-line store (`src/lib/store.ts`) built on `useSyncExternalStore`: whether the command palette is open (and a command to run when it opens), whether the shortcut sheet is open, the theme, and which hidden extras a visitor found. Components subscribe through a selector so only what changes re-renders. No state library is needed.
 
-Preferences persist in two first-party cookies (`pim-theme`, `pim-lang`), so the server renders the right theme and language on the first byte.
+The theme persists in one first-party cookie (`pim-theme`), so the server renders the right theme on the first byte. The language lives in the URL.
 
 ## Theme
 

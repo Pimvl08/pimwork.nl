@@ -87,6 +87,20 @@
   line-height: 1.15;
   letter-spacing: -0.01em;
 }
+/* The service name links to its own page, underlined the same way as the project links. */
+.serviceTitleLink {
+  color: inherit;
+  text-decoration-line: underline;
+  text-decoration-color: var(--rule-strong);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--dur-2) var(--ease-paper);
+}
+@media (hover: hover) and (pointer: fine) {
+  .serviceTitleLink:hover {
+    text-decoration-color: currentColor;
+  }
+}
 .serviceBody {
   max-width: 58ch;
   margin: 0;

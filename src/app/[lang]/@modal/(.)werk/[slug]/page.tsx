@@ -15,7 +15,7 @@ export default async function ProjectModal({ params }: { params: Promise<{ lang:
   const { lang, slug } = await params;
   if (!isLocale(lang)) notFound();
   const project = getProject(slug);
-  if (!project) notFound();
+  if (!project || project.section === "lab") notFound();
   const titleId = `sheet-${project.slug}-title`;
   return (
     <ProjectSheet key={project.slug} titleId={titleId} closeLabel={workCopy[lang].close}>

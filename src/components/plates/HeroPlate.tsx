@@ -19,9 +19,9 @@ const COVER_ARC_NARROW = "M1010 40 A1300 1300 0 0 1 560 1010";
 const silhouette = shellSilhouette(STAGE_ASPECT);
 
 /**
- * The opening of the home page. "PimWork" is server rendered (the LCP element, no
- * JS needed to see it); the folding example and the live shell hydrate on
- * top of complete HTML.
+ * The opening of the home page. "PimWork" is server rendered (no JS needed to
+ * see it) as the logo, with the descriptive h1 directly under it; the folding
+ * example and the live shell hydrate on top of complete HTML.
  */
 export function HeroPlate({ lang }: { lang: Locale }) {
   const projectNames = Object.fromEntries(
@@ -37,8 +37,12 @@ export function HeroPlate({ lang }: { lang: Locale }) {
       </div>
       <div className={styles.grid}>
         <div className={styles.copy}>
-          <h1 id="cover-title" className={styles.name} data-depth="5">
+          {/* The name is the logo; the h1 says what Pim does and where. */}
+          <p className={styles.name} data-depth="5">
             <BrandName />
+          </p>
+          <h1 id="cover-title" className={styles.heading}>
+            {heroCopy.heading[lang]}
           </h1>
           <IntroLine lang={lang} projectNames={projectNames} />
           <div className={styles.actions}>

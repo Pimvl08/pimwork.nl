@@ -33,6 +33,10 @@ export const introPhrases: IntroPhrase[] = [
 ];
 
 export const heroCopy = {
+  heading: {
+    nl: "Software, automatisering en websites voor bedrijven in Helmond en omgeving",
+    en: "Software, automation and websites for businesses in Helmond and the surrounding area",
+  },
   lead: { nl: "Ik bouw software die werk uit handen neemt,", en: "I build software that takes work off your hands," },
   like: { nl: "zoals", en: "like" },
   phraseHint: {

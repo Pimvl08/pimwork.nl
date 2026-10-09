@@ -36,10 +36,16 @@ export function trackErrors(page: Page): string[] {
 }
 
 /** The six projects that belong on the site (CapCraft and PaletteForge are gone). */
-export const SLUGS = ["exact-online", "teamsync", "offerte-pdf-generator", "wordpress-koppeling", "strength-tracker", "belhulp", "kdp-kleurboek", "solana-forensics"] as const;
+export const SLUGS = ["exact-online", "teamsync", "offerte-pdf-generator", "wordpress-koppeling", "strength-tracker", "belhulp", "kdp-kleurboek"] as const;
+
+/** Research projects that live under /<lang>/lab instead of the work pages. */
+export const LAB_SLUGS = ["solana-forensics"] as const;
+
+/** The service pages under /<lang>/diensten. */
+export const SERVICE_SLUGS = ["software-op-maat", "exact-online-koppeling", "offertesoftware", "systemen-koppelen", "website-laten-maken"] as const;
 
 /** Every page path below /<lang> (home is the empty path). */
-export const PAGES = ["", "/werk", "/over", "/lab", "/contact"] as const;
+export const PAGES = ["", "/werk", "/diensten", "/over", "/lab", "/contact"] as const;
 
 /** The header navigation is shown from 64rem (1024px); below it the thumb bar takes over. */
 export function isWide(page: Page): boolean {

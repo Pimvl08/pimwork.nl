@@ -8,7 +8,6 @@ import { locales, type Locale } from "@/i18n/config";
 import { useCopy, useLang } from "@/i18n/LocaleProvider";
 import { cn } from "@/lib/cn";
 import { localizedPath } from "@/lib/locale";
-import { persistLocale } from "@/lib/prefs";
 import { useUI } from "@/lib/store";
 import { toggleTheme } from "@/lib/theme";
 import styles from "./chrome.module.css";
@@ -28,7 +27,6 @@ export function LangSwitch({ className, large = false }: { className?: string; l
   const label = useCopy(chromeCopy.language);
 
   const onClick = (event: React.MouseEvent<HTMLAnchorElement>, target: Locale, href: string) => {
-    persistLocale(target);
     if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || event.button !== 0) return;
     // A full page load: the language is part of the root layout, and a soft
     // navigation would let the project sheet route intercept /werk/<slug>.

@@ -6,7 +6,7 @@ import { featuredFirst, numeralFor } from "@/components/work/lib";
 import { ProjectFigure } from "@/components/work/ProjectFigure";
 import { WorkIndex, type WorkRow } from "@/components/work/WorkIndex";
 import styles from "@/components/work/work.module.css";
-import { projects } from "@/content/projects";
+import { workProjects } from "@/content/projects";
 import { isLocale, type Locale } from "@/i18n/config";
 
 interface WorkRouteProps {
@@ -19,9 +19,9 @@ export async function generateMetadata({ params }: WorkRouteProps, parent: Resol
   const t = workCopy[locale];
   const inherited = (await parent).openGraph ?? {};
   return {
-    title: t.title,
+    title: t.metaTitle,
     description: t.metaDescription,
-    openGraph: { ...inherited, title: `${t.title} | PimWork`, description: t.metaDescription, url: `/${locale}/werk` },
+    openGraph: { ...inherited, title: `${t.metaTitle} | PimWork`, description: t.metaDescription, url: `/${locale}/werk` },
     alternates: {
       canonical: `/${locale}/werk`,
       languages: { "nl-NL": "/nl/werk", "en-GB": "/en/werk", "x-default": "/nl/werk" },
@@ -38,7 +38,7 @@ export default async function WorkPage({ params }: WorkRouteProps) {
   const { lang } = await params;
   if (!isLocale(lang)) notFound();
   const t = workCopy[lang];
-  const order = featuredFirst(projects);
+  const order = featuredFirst(workProjects);
   const rows: WorkRow[] = order.map((project) => {
     const numeral = numeralFor(project.slug, order);
     return {

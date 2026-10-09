@@ -5,8 +5,10 @@
  * actions (theme, language, navigation).
  */
 import type { Locale } from "@/i18n/config";
-import { about, facts, person, services } from "@/content/person";
-import { projects } from "@/content/projects";
+import { about, facts, person } from "@/content/person";
+// The terminal lists the work projects only; lab projects live under the lab page.
+import { workProjects as projects } from "@/content/projects";
+import { serviceSummary, services } from "@/content/services";
 import { pageHref, pages, type PageDef } from "@/content/sections";
 import { COMMANDS, commandHelp, termCopy, type CommandName } from "./copy";
 
@@ -121,6 +123,7 @@ export function findProject(arg: string) {
 const PAGE_ALIASES: Record<PageDef["id"], string[]> = {
   home: ["home", "start", "/"],
   work: ["werk", "work", "projecten", "projects"],
+  services: ["diensten", "services", "dienst", "service"],
   about: ["over", "about", "overmij", "me"],
   lab: ["lab", "experimenten", "experiments"],
   contact: ["contact", "mail"],
@@ -157,7 +160,7 @@ function virtualFile(file: string, lang: Locale): string[] | null {
     return [`# ${t.files.projects}`, "", ...projects.map((p, i) => `${pad(i + 1)}. ${p.name}: ${p.tagline[lang]}`)];
   }
   if (file === "diensten.md") {
-    return [`# ${t.files.services}`, "", ...services.flatMap((s) => [`## ${s.title[lang]}`, s.body[lang], ""])].slice(0, -1);
+    return [`# ${t.files.services}`, "", ...services.flatMap((s) => [`## ${s.name[lang]}`, serviceSummary(s, lang), ""])].slice(0, -1);
   }
   return null;
 }
