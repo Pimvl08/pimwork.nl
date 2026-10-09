@@ -2,9 +2,9 @@ import { expect, gotoReady, isWide, test, waitForChrome } from "./fixtures";
 
 const NAV = [
   { name: "Werk", path: "/nl/werk", key: "1", inBar: true },
-  { name: "Diensten", path: "/nl/diensten", key: "2", inBar: false },
+  { name: "Diensten", path: "/nl/diensten", key: "2", inBar: true },
   { name: "Over mij", path: "/nl/over", key: "3", inBar: true },
-  { name: "Lab", path: "/nl/lab", key: "4", inBar: true },
+  { name: "Lab", path: "/nl/lab", key: "4", inBar: false },
   { name: "Contact", path: "/nl/contact", key: "5", inBar: true },
 ] as const;
 
