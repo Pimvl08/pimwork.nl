@@ -5,6 +5,7 @@ import { Bodoni_Moda, Fragment_Mono, Hanken_Grotesk } from "next/font/google";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
 import { SiteChrome } from "@/components/chrome/SiteChrome";
+import { siteMeta } from "@/content/seo";
 import { LocaleProvider } from "@/i18n/LocaleProvider";
 import { htmlLang, isLocale, locales, type Locale } from "@/i18n/config";
 import { parseTheme, THEME_COOKIE } from "@/lib/prefs";
@@ -34,19 +35,6 @@ const fragment = Fragment_Mono({
   preload: false,
 });
 
-const meta = {
-  nl: {
-    title: "PimWork | Software die werk uit handen neemt",
-    description:
-      "Ik bouw web-apps, desktopsoftware en slimme tools die werk uit handen nemen. Bekijk mijn werk en neem contact op.",
-  },
-  en: {
-    title: "PimWork | Software that takes work off your hands",
-    description:
-      "I build web apps, desktop software and smart tools that take work off your hands. See my work and get in touch.",
-  },
-} satisfies Record<Locale, { title: string; description: string }>;
-
 export function generateStaticParams() {
   return locales.map((lang) => ({ lang }));
 }
@@ -54,7 +42,7 @@ export function generateStaticParams() {
 export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Promise<Metadata> {
   const { lang } = await params;
   const locale: Locale = isLocale(lang) ? lang : "nl";
-  const t = meta[locale];
+  const t = { title: siteMeta.title[locale], description: siteMeta.description[locale] };
   return {
     metadataBase: new URL(siteUrl()),
     title: { default: t.title, template: "%s | PimWork" },
@@ -70,6 +58,7 @@ export async function generateMetadata({ params }: LayoutProps<"/[lang]">): Prom
       siteName: "PimWork",
       title: t.title,
       description: t.description,
+      url: `/${locale}`,
       locale: htmlLang[locale].replace("-", "_"),
       alternateLocale: locale === "nl" ? ["en_GB"] : ["nl_NL"],
     },

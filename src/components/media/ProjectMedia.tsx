@@ -58,9 +58,10 @@ export function ProjectMedia({ lang, name, images, video }: ProjectMediaProps) {
                   aria-label={t.enlarge(caption)}
                   onClick={() => setOpen(i)}
                 >
+                  {/* The button's label names the action; the alt describes the image (also for image search). */}
                   <Image
                     src={image.src}
-                    alt=""
+                    alt={image.alt[lang]}
                     fill
                     sizes="(min-width: 64rem) 36rem, (min-width: 40rem) 60vw, 100vw"
                     placeholder={image.blurDataURL ? "blur" : "empty"}

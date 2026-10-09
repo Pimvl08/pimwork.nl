@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import Image, { getImageProps } from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Icon } from "@/components/ui/Icon";
 import type { VideoAsset } from "@/content/media";
@@ -19,6 +19,20 @@ type WebkitDocument = Document & { webkitFullscreenElement?: Element | null; web
 type WebkitElement = HTMLElement & { webkitRequestFullscreen?: () => void };
 
 const SEEK = 5;
+
+/** The player is at most about 830 px wide, so the poster goes through the image optimiser at that width. */
+const POSTER_WIDTH = 828;
+
+function optimisedPoster(video: VideoAsset): string {
+  const { props } = getImageProps({
+    src: video.poster,
+    alt: "",
+    width: POSTER_WIDTH,
+    height: Math.round((POSTER_WIDTH * video.height) / video.width),
+  });
+  // The first srcSet candidate is the 1x size; src would be the 2x one.
+  return props.srcSet?.split(" ")[0] ?? props.src;
+}
 
 /**
  * Custom player for the silent screen recordings: arched play button, a real
@@ -170,7 +184,7 @@ export function VideoPlayer({ lang, video }: VideoPlayerProps) {
       <video
         ref={videoRef}
         className={styles.video}
-        poster={video.poster}
+        poster={optimisedPoster(video)}
         width={video.width}
         height={video.height}
         preload="metadata"

@@ -24,16 +24,16 @@ test.describe("smoke: routes", () => {
     expect(response.status()).toBe(404);
   });
 
-  test("/ redirects to /nl by default", async ({ request }) => {
+  test("/ redirects permanently to /nl", async ({ request }) => {
     const response = await request.get("/", { maxRedirects: 0, headers: { "accept-language": "nl-NL,nl;q=0.9" } });
-    expect([307, 308]).toContain(response.status());
+    expect(response.status()).toBe(308);
     expect(new URL(response.headers()["location"], "http://x").pathname).toBe("/nl");
   });
 
-  test("/ redirects to /en for an English browser", async ({ request }) => {
+  test("/ redirects to /nl for an English browser too, so the redirect can be cached", async ({ request }) => {
     const response = await request.get("/", { maxRedirects: 0, headers: { "accept-language": "en-GB,en;q=0.9" } });
-    expect([307, 308]).toContain(response.status());
-    expect(new URL(response.headers()["location"], "http://x").pathname).toBe("/en");
+    expect(response.status()).toBe(308);
+    expect(new URL(response.headers()["location"], "http://x").pathname).toBe("/nl");
   });
 
   test("/api/ask no longer exists (404)", async ({ request }) => {
