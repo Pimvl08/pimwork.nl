@@ -11,7 +11,7 @@ import path from "node:path";
 import React from "react";
 import { Document, Font, Link, Page, Path, Circle, StyleSheet, Svg, Text, View, renderToFile, Defs, LinearGradient, Stop } from "@react-pdf/renderer";
 import { projects } from "../src/content/projects";
-import { about, facts, services } from "../src/content/person";
+import { about, facts, person, services } from "../src/content/person";
 
 type Lang = "nl" | "en";
 
@@ -71,7 +71,7 @@ const copy = {
     stack: "Gebouwd met",
     links: "Links",
     page: (n: number, t: number) => `pagina ${n} van ${t}`,
-    contact: "pimwork.nl, pvanleeuwen08@icloud.com, 06 15 91 37 13",
+    contact: `${person.domain}, ${person.email}, ${person.phone.display}`,
   },
   en: {
     title: "Portfolio",
@@ -89,7 +89,7 @@ const copy = {
     stack: "Built with",
     links: "Links",
     page: (n: number, t: number) => `page ${n} of ${t}`,
-    contact: "pimwork.nl, pvanleeuwen08@icloud.com, 06 15 91 37 13",
+    contact: `${person.domain}, ${person.email}, ${person.phone.display}`,
   },
 } as const;
 

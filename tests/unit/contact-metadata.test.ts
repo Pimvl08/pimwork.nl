@@ -27,7 +27,11 @@ describe("site metadata routes", () => {
     }
     for (const project of projects) {
       const nl = entries.find((entry) => entry.url.endsWith(`/nl/werk/${project.slug}`));
-      expect(nl?.alternates?.languages).toMatchObject({ en: expect.stringContaining(`/en/werk/${project.slug}`) });
+      expect(nl?.alternates?.languages).toMatchObject({
+        "nl-NL": expect.stringContaining(`/nl/werk/${project.slug}`),
+        "en-GB": expect.stringContaining(`/en/werk/${project.slug}`),
+        "x-default": expect.stringContaining(`/nl/werk/${project.slug}`),
+      });
     }
   });
 

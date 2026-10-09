@@ -11,19 +11,23 @@ interface PlateHeadingProps {
   lead?: ReactNode;
 }
 
+/** The heading face from globals.css, for the row that holds the numeral and the heading. */
+const headingFace = { fontFamily: "var(--font-serif)", fontVariationSettings: '"opsz" 18', fontWeight: 500 } as const;
+
 /**
- * Plate heading: the plate numeral sits inside the heading as part of its
- * name, the way a geometer numbers figures. The optional lead follows below.
+ * Plate heading: the plate numeral sits in front of the heading, the way a
+ * geometer numbers figures. It stays outside the heading element, so the
+ * heading text is only the name. The optional lead follows below.
  */
 export function PlateHeading({ numeral, children, id, as: Tag = "h2", className, lead }: PlateHeadingProps) {
   return (
     <div className={cn("flex flex-col gap-5", className)}>
-      <Tag id={id} className="flex items-baseline gap-[0.35em] text-[length:var(--step-4)]">
+      <div className="flex items-baseline gap-[0.35em] text-[length:var(--step-4)]" style={headingFace}>
         <span className="numeral text-[0.38em] text-ink-mute" aria-hidden="true">
           {numeral}
         </span>
-        <span>{children}</span>
-      </Tag>
+        <Tag id={id}>{children}</Tag>
+      </div>
       {lead ? <p className="measure font-serif text-[length:var(--step-1)] leading-snug text-ink-soft">{lead}</p> : null}
     </div>
   );

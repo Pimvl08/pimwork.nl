@@ -4,7 +4,7 @@ import Link from "next/link";
 import { Fragment, useCallback, useEffect, useId, useLayoutEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Icon } from "@/components/ui/Icon";
 import type { Locale } from "@/i18n/config";
-import { useReducedMotion, useVisible } from "@/lib/hooks";
+import { useMounted, useReducedMotion, useVisible } from "@/lib/hooks";
 import { heroCopy, introPhrases, introSentence } from "./copy";
 import { nextIndex } from "./logic";
 import styles from "./hero.module.css";
@@ -20,10 +20,14 @@ const wordsOf = (face: HTMLElement | null) => (face ? Array.from(face.querySelec
  * the next real project, word by word. It also turns slowly on its own while visible,
  * paused on hover and focus, never under reduced motion. Invisible copies of
  * every example reserve the height of the longest, so nothing below jumps.
+ * Those copies are added only in the browser, so the server HTML (what search
+ * engines read) holds the sentence once. The first example is the longest
+ * (tests/unit/hero.test.ts), so the height is already right before hydration.
  * Screen readers hear the change only on user action.
  */
 export function IntroLine({ lang, projectNames }: { lang: Locale; projectNames: Record<string, string> }) {
   const reduce = useReducedMotion();
+  const mounted = useMounted();
   const rootRef = useRef<HTMLDivElement>(null);
   const faceRef = useRef<HTMLSpanElement>(null);
   const visible = useVisible(rootRef);
@@ -131,11 +135,13 @@ export function IntroLine({ lang, projectNames }: { lang: Locale; projectNames: 
       }}
     >
       <p className={styles.introLine}>
-        {introPhrases.map((p) => (
-          <span key={p.slug} className={styles.ghost} aria-hidden="true">
-            {heroCopy.lead[lang]} {heroCopy.like[lang]} <span className={styles.ghostPhrase}>{p.label[lang]}</span>.
-          </span>
-        ))}
+        {mounted
+          ? introPhrases.map((p) => (
+              <span key={p.slug} className={styles.ghost} aria-hidden="true">
+                {heroCopy.lead[lang]} {heroCopy.like[lang]} <span className={styles.ghostPhrase}>{p.label[lang]}</span>.
+              </span>
+            ))
+          : null}
         <span>
           <span className={styles.introLead}>{heroCopy.lead[lang]}</span> {heroCopy.like[lang]}{" "}
           {/* An inline span (not a <button>) so the example wraps like the rest of the sentence. */}

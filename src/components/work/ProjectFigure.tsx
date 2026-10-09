@@ -19,7 +19,7 @@ interface ProjectFigureProps {
   decorative?: boolean;
   /** Wrap the frame in the shared ViewTransition (project page and modal). */
   transition?: boolean;
-  /** Load the photo eagerly (above the fold on the project page). */
+  /** Load the photo eagerly and at high priority (above the fold on the project page). */
   preload?: boolean;
   sizes?: string;
   className?: string;
@@ -52,8 +52,9 @@ export function ProjectFigure({
           alt={decorative ? "" : image.alt[lang]}
           fill
           sizes={sizes}
-          preload={preload}
-          loading={preload ? undefined : "lazy"}
+          // The LCP image of the project page: fetched first, at high priority.
+          loading={preload ? "eager" : "lazy"}
+          fetchPriority={preload ? "high" : undefined}
           placeholder={image.blurDataURL ? "blur" : "empty"}
           blurDataURL={image.blurDataURL}
           className="object-cover"

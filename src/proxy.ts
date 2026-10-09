@@ -1,10 +1,11 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { LOCALE_COOKIE, isLocale, negotiateLocale } from "@/i18n/config";
+import { defaultLocale, isLocale } from "@/i18n/config";
 
 /**
  * Runs before every page request.
- * 1. Sends visitors without a language prefix to /nl or /en (cookie first,
- *    then Accept-Language, Dutch as default).
+ * 1. Sends visitors without a language prefix permanently (308) to the Dutch
+ *    version. The target never depends on the visitor, so search engines and
+ *    browsers may cache it; switching language is done with the toggle.
  * 2. Generates a fresh nonce and a strict Content-Security-Policy. Next.js
  *    reads the nonce from the request header and attaches it to its own
  *    scripts and styles, so no inline script runs without it.
@@ -14,13 +15,9 @@ export function proxy(request: NextRequest) {
   const firstSegment = pathname.split("/")[1];
 
   if (!isLocale(firstSegment)) {
-    const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
-    const locale = isLocale(cookieLocale)
-      ? cookieLocale
-      : negotiateLocale(request.headers.get("accept-language"));
     const url = request.nextUrl.clone();
-    url.pathname = `/${locale}${pathname === "/" ? "" : pathname}`;
-    return NextResponse.redirect(url, 307);
+    url.pathname = `/${defaultLocale}${pathname === "/" ? "" : pathname}`;
+    return NextResponse.redirect(url, 308);
   }
 
   const nonce = btoa(crypto.randomUUID());

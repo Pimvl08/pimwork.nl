@@ -1,9 +1,11 @@
 import type { Metadata, ResolvingMetadata } from "next";
 import { notFound } from "next/navigation";
 import { connection } from "next/server";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ProjectDetail } from "@/components/work/ProjectDetail";
 import { getProject, projects } from "@/content/projects";
 import { isLocale, type Locale } from "@/i18n/config";
+import { projectBreadcrumbs } from "@/lib/structured-data";
 
 interface ProjectRouteProps {
   params: Promise<{ lang: string; slug: string }>;
@@ -44,6 +46,7 @@ export default async function ProjectPage({ params }: ProjectRouteProps) {
   if (!project) notFound();
   return (
     <main id="main" className="plate">
+      <JsonLd data={projectBreadcrumbs(project, lang)} />
       <ProjectDetail project={project} lang={lang} mode="page" titleId="project-title" />
     </main>
   );

@@ -6,7 +6,7 @@ A Next.js 16 App Router site with one root layout per language (`src/app/[lang]/
 
 Every request first passes `src/proxy.ts`:
 
-1. Paths without a language prefix are redirected to `/nl` or `/en` (cookie `pim-lang` first, then `Accept-Language`, Dutch as default).
+1. Paths without a language prefix are redirected permanently (308) to the Dutch version, `/` to `/nl`. The target never depends on the visitor, so the redirect can be cached; the language switch takes visitors to `/en`.
 2. A fresh nonce is generated and a strict Content-Security-Policy is set. Next.js reads the nonce from the request header and attaches it to its own scripts. Because of the nonce, pages render per request (`await connection()`).
 
 ## Pages and routing

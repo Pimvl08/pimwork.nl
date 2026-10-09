@@ -64,6 +64,13 @@ describe("phrase cycling", () => {
     );
   });
 
+  it("puts the longest example first, so the server HTML already has the full height", () => {
+    for (const lang of ["nl", "en"] as const) {
+      const first = introPhrases[0].label[lang].length;
+      for (const phrase of introPhrases) expect(phrase.label[lang].length).toBeLessThanOrEqual(first);
+    }
+  });
+
   it("starts every example with an article, so each sentence stays grammatical", () => {
     for (const phrase of introPhrases) {
       expect(phrase.label.nl).toMatch(/^een /);

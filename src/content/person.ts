@@ -12,7 +12,7 @@ export const person = {
   /** Pim himself, used where the text is about the person. */
   name: "Pim",
   domain: "pimwork.nl",
-  email: "pvanleeuwen08@icloud.com",
+  email: "contact@pimwork.nl",
   phone: { display: "06 15 91 37 13", href: "tel:+31615913713" },
   github: { handle: "pimdaanbram-prog", href: "https://github.com/pimdaanbram-prog" },
   portrait: null as null | { src: string; width: number; height: number; alt: Bilingual<string> },
@@ -41,7 +41,7 @@ export const facts: Fact[] = [
     value: { nl: "Mac, Windows, telefoon en browser", en: "Mac, Windows, phone and browser" },
   },
   { id: "study", label: { nl: "Opleiding", en: "Education" }, value: null },
-  { id: "place", label: { nl: "Woonplaats", en: "Based in" }, value: null },
+  { id: "place", label: { nl: "Woonplaats", en: "Based in" }, value: { nl: "Aarle-Rixtel", en: "Aarle-Rixtel" } },
 ];
 
 /** What Pim can build for others, each backed by a real project. */
