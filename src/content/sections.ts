@@ -21,9 +21,9 @@ export interface PageDef {
 export const pages: PageDef[] = [
   { id: "home", path: "", label: { nl: "Home", en: "Home" }, key: "0", inNav: false, inBar: false },
   { id: "work", path: "/werk", label: { nl: "Werk", en: "Work" }, key: "1", inNav: true, inBar: true },
-  { id: "services", path: "/diensten", label: { nl: "Diensten", en: "Services" }, key: "2", inNav: true, inBar: false },
+  { id: "services", path: "/diensten", label: { nl: "Diensten", en: "Services" }, key: "2", inNav: true, inBar: true },
   { id: "about", path: "/over", label: { nl: "Over mij", en: "About" }, key: "3", inNav: true, inBar: true },
-  { id: "lab", path: "/lab", label: { nl: "Lab", en: "Lab" }, key: "4", inNav: true, inBar: true },
+  { id: "lab", path: "/lab", label: { nl: "Lab", en: "Lab" }, key: "4", inNav: true, inBar: false },
   { id: "contact", path: "/contact", label: { nl: "Contact", en: "Contact" }, key: "5", inNav: true, inBar: true },
 ];
 
